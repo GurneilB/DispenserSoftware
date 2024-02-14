@@ -12,4 +12,4 @@ def write_preference(name, reservoir, rnum, tip, tnum,
 
 def home(name):
     with open("%s.gcode" % name, "a") as file:
-        file.write("G28 ;home")
+        file.write("G28 ;home\n")
