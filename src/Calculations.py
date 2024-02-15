@@ -19,7 +19,7 @@ def rows_identical(arr):
     :return: TRUE if all elements are identical, FALSE otherwise
     """
 
-    if np.all(np.all(arr == arr[0], axis=1)):
+    if all(row == arr[0] for row in arr):
         return True
     return False
 
@@ -39,3 +39,21 @@ def calculate_tip(vol_array):
         return 4
     else:
         return 1
+
+
+def required_vol(vol_array):
+
+    """
+    Calculates total volume needed per tip for entire procedure
+
+    :param vol_array: array with well volumes
+    :return: Total volume needed per tip
+    """
+
+    if calculate_tip(vol_array) == 4:
+
+        return (np.sum(vol_array, axis=0)[0]
+                + np.sum(vol_array, axis=0)[1])
+
+    else:
+        return np.sum(vol_array)
