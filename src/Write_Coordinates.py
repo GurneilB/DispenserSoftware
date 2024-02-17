@@ -29,10 +29,10 @@ def linear_z_pos(rel, name, speed, abs_pos=0, rel_pos=0):
     if rel:
 
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 Z%.3f F%.3f \n" % (rel_pos, speed))
+            file.write("G1 Z%.3f F%.3f \n" % (rel_pos, speed))
     else:
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 Z%.3f F%.3f \n" % (abs_pos, speed))
+            file.write("G1 Z%.3f F%.3f \n" % (abs_pos, speed))
 
 
 def rapid_e_pos(rel, name, abs_pos=0, rel_pos=0):
@@ -66,10 +66,10 @@ def linear_e_pos(rel, name, speed, abs_pos=0, rel_pos=0):
     if rel:
 
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 E%.3f F%.3f \n" % (rel_pos, speed))
+            file.write("G1 E%.3f F%.3f \n" % (rel_pos, speed))
     else:
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 E%.3f F%.3f \n" % (abs_pos, speed))
+            file.write("G1 E%.3f F%.3f \n" % (abs_pos, speed))
 
 
 def rapid_xy_pos(rel, name, abs_pos=None, rel_pos=None):
@@ -103,7 +103,7 @@ def linear_xy_pos(rel, name, speed, abs_pos=None, rel_pos=None):
     if rel:
 
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 X%.3f Y%.3f F%.3f \n" % (rel_pos[1], rel_pos[2], speed))
+            file.write("G1 X%.3f Y%.3f F%.3f \n" % (rel_pos[1], rel_pos[2], speed))
     else:
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 X%.3f Y%.3f F%.3f \n" % (abs_pos[1], abs_pos[2], speed))
+            file.write("G1 X%.3f Y%.3f F%.3f \n" % (abs_pos[1], abs_pos[2], speed))
