@@ -86,6 +86,50 @@ def set_mm(name):
                    )
 
 
+def set_equip(name):
+    """
+    Writes tip equipping comment to file
+
+    :param name: name of file to write to
+    """
+    with open("%s.gcode" % name, "a") as file:
+        file.write(";Begin Tip Equipping\n"
+                   )
+
+
+def set_asp(name):
+    """
+    Writes aspiration comment to file
+
+    :param name: name of file to write to
+    """
+    with open("%s.gcode" % name, "a") as file:
+        file.write(";Begin Aspiration\n"
+                   )
+
+
+def set_disp(name):
+    """
+    Writes dispensing comment to file
+
+    :param name: name of file to write to
+    """
+    with open("%s.gcode" % name, "a") as file:
+        file.write(";Begin Dispensing\n"
+                   )
+
+
+def set_eject(name):
+    """
+    Writes tip ejection comment to file
+
+    :param name: name of file to write to
+    """
+    with open("%s.gcode" % name, "a") as file:
+        file.write(";Begin tip ejection\n"
+                   )
+
+
 def initialization(name, reservoir, rnum, tip, tnum,
                    plate, insert):
     """
