@@ -19,9 +19,12 @@ def rows_identical(arr):
     :return: TRUE if all elements are identical, FALSE otherwise
     """
 
-    if all(row == arr[0] for row in arr):
-        return True
-    return False
+    for i in range(12):
+        for j in range(8):
+            if arr[i,j] != arr[i,0]:
+                return False
+
+    return True
 
 
 def calculate_tip(vol_array):
@@ -33,16 +36,13 @@ def calculate_tip(vol_array):
     :return: Number of tips required for dispensing
     """
 
-    num_wells = vol_array.size
-
-    if num_wells != 96 or rows_identical(vol_array):
+    if vol_array.size != 96 or rows_identical(vol_array):
         return 4
     else:
         return 1
 
 
-def required_vol(vol_array):
-
+def required_vol_per_tip(vol_array):
     """
     Calculates total volume needed per tip for entire procedure
 
