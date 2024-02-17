@@ -92,7 +92,7 @@ def rapid_xy_pos(rel, name, abs_pos=None, rel_pos=None):
 
 def linear_xy_pos(rel, name, speed, abs_pos=None, rel_pos=None):
     """
-        Writes a rapid XY command to file
+        Writes a linear XY command to file
 
         :param rel: TRUE if using relative coordinates, FALSE if using absolute coordinates
         :param name: name of file to write to
