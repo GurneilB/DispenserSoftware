@@ -1,3 +1,6 @@
+x = 1
+y = 2
+
 def rapid_z_pos(rel, name, abs_pos=0, rel_pos=0):
     """
     Writes a rapid Z command to file
@@ -84,10 +87,10 @@ def rapid_xy_pos(rel, name, abs_pos=None, rel_pos=None):
     if rel:
 
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 X%.3f Y%.3f \n" % (rel_pos[1], rel_pos[2]))
+            file.write("G0 X%.3f Y%.3f \n" % (rel_pos[x], rel_pos[y]))
     else:
         with open("%s.gcode" % name, "a") as file:
-            file.write("G0 X%.3f Y%.3f \n" % (abs_pos[1], abs_pos[2]))
+            file.write("G0 X%.3f Y%.3f \n" % (abs_pos[x], abs_pos[y]))
 
 
 def linear_xy_pos(rel, name, speed, abs_pos=None, rel_pos=None):
@@ -103,7 +106,7 @@ def linear_xy_pos(rel, name, speed, abs_pos=None, rel_pos=None):
     if rel:
 
         with open("%s.gcode" % name, "a") as file:
-            file.write("G1 X%.3f Y%.3f F%.3f \n" % (rel_pos[1], rel_pos[2], speed))
+            file.write("G1 X%.3f Y%.3f F%.3f \n" % (rel_pos[x], rel_pos[y], speed))
     else:
         with open("%s.gcode" % name, "a") as file:
-            file.write("G1 X%.3f Y%.3f F%.3f \n" % (abs_pos[1], abs_pos[2], speed))
+            file.write("G1 X%.3f Y%.3f F%.3f \n" % (abs_pos[x], abs_pos[y], speed))

@@ -1,3 +1,6 @@
+tube_5mL = 5000.000
+tube_1500uL = 1500.000
+
 def get_procedure_name():
     """
     Prompts user for procedure name
@@ -17,9 +20,9 @@ def get_reservoir_type():
     tube = input("Which reservoir are you using? (Type A for 5mL tube, "
                  "B for 1.5mL PCR tube): ")
     if tube == "A":
-        return 5000.000
+        return tube_5mL
     else:
-        return 1500.000
+        return tube_1500uL
 
 
 def get_tip_type():
