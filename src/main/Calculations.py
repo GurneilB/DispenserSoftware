@@ -1,11 +1,12 @@
 import numpy as np
 
-dims_96 = (8,12)
+dims_96 = (8, 12)
 plate_96 = 96
 tip1 = 1
 tip4 = 4
 rnum4 = 4
 rnum8 = 8
+
 
 def all_identical(arr):
     """
@@ -107,3 +108,13 @@ def num_reservoir(vol_array, reservoir):
         rnum = total_required_vol_(vol_array) / reservoir
 
         return rnum
+
+
+def convert_vol(vol):
+    """
+    Converts volume to relative extrusion (dispensing) distance
+
+    :param vol:
+    :return: (float) relative extrusion distance
+    """
+    return vol * vol

@@ -1,5 +1,8 @@
+import csv
+
 tube_5mL = 5000.000
 tube_1500uL = 1500.000
+
 
 def get_procedure_name():
     """
@@ -56,3 +59,24 @@ def get_insert_type():
         return "EZ-Seed"
     else:
         return "3-in-1"
+
+
+def get_design():
+    """
+    Prompts user for CSV file of experimental design
+    :return: array of volumes per well
+    """
+    file = input("Enter the name of the CSV file: ")
+
+    while True:
+
+        try:
+            with open(file, newline='') as csvfile:
+                reader = csv.reader(csvfile)
+                vol_array = [row for row in reader]
+                break
+        except FileNotFoundError:
+            print("Error: File not found.")
+            file = input("Enter the name of the CSV file: ")
+
+    return vol_array
