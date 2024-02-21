@@ -31,19 +31,23 @@ def home(name):
         file.write("G28 ;home\n")  # G28 is the Home command
 
 
-def pick_tool(name, insert):
+def pick_tool(name, insert, tool_=True):
     """
-    Writes the tool select command to file (picks between EZ-Seed and 3-in-1)
+    Writes the tool select command to file
 
     :param name: name of file
     :param insert: type of insert
-    :return:
+    :param tool_: True if tool 0 is desired, False for tool 1
     """
 
     if insert == "EZ-Seed":
-        tool = 0
+
+        if tool_ == True:
+            tool = 0
+        elif tool_ == False:
+            tool = 1
     else:
-        tool = 1
+        tool = 2
 
     with open("%s.gcode" % name, "a") as file:
         file.write("T%d ;select %s tool \n"

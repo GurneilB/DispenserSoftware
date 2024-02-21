@@ -2,7 +2,10 @@ import csv
 
 tube_5mL = 5000.000
 tube_1500uL = 1500.000
-
+# No. of wells in 96-well plate
+plate_96 = 96
+# No. of wells in 6-well plate
+plate_6 = 6
 
 def get_procedure_name():
     """
@@ -45,17 +48,17 @@ def get_plate_type():
     :return: (Int) size of culture plate
     """
     plate = int(input("What size culture plate are you using? (Type # of wells): "))
+    #  ***Value error exception and only accept 96 and 6 as inputs***
     return plate
 
 
-def get_insert_type():
+def get_insert_type(plate):
     """
     Prompts user for culture plate insert type
 
     :return: (String) name of culture plate insert
     """
-    insert = input("Which insert are you using? (Type A for EZ-Seed, B for 3-in-1): ")
-    if insert == "A":
+    if plate == plate_96:
         return "EZ-Seed"
     else:
         return "3-in-1"
