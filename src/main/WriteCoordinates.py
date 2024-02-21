@@ -1,112 +1,75 @@
 x = 1
 y = 2
 
-def rapid_z_pos(rel, name, abs_pos=0, rel_pos=0):
+
+def rapid_z_pos(name, pos):
     """
     Writes a rapid Z command to file
 
-    :param rel: TRUE if using relative coordinates, FALSE if using absolute coordinates
     :param name: name of file to write to
-    :param abs_pos: absolute coordinate to move to (default = 0)
-    :param rel_pos: relative coordinate to move to (default = 0)
+    :param pos: Z coordinate (absolute or relative) to move to
     """
-    if rel:
 
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G0 Z%.3f \n" % rel_pos)
-    else:
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G0 Z%.3f \n" % abs_pos)
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G0 Z%.3f \n" % pos)
 
 
-def linear_z_pos(rel, name, speed, abs_pos=0, rel_pos=0):
+def linear_z_pos(name, pos, speed):
     """
     Writes a linear Z command to file
 
-    :param rel: TRUE if using relative coordinates, FALSE if using absolute coordinates
     :param name: name of file to write to
+    :param pos: Z coordinate (absolute or relative) to move to
     :param speed: speed of motor movement
-    :param abs_pos: absolute coordinate to move to (default = 0)
-    :param rel_pos: relative coordinate to move to (default = 0)
     """
-    if rel:
-
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G1 Z%.3f F%.3f \n" % (rel_pos, speed))
-    else:
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G1 Z%.3f F%.3f \n" % (abs_pos, speed))
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G1 Z%.3f F%.3f \n" % (pos, speed))
 
 
-def rapid_e_pos(rel, name, abs_pos=0, rel_pos=0):
+def rapid_e_pos(name, pos):
     """
-        Writes a rapid E command to file
+    Writes a rapid E command to file
 
-        :param rel: TRUE if using relative coordinates, FALSE if using absolute coordinates
-        :param name: name of file to write to
-        :param abs_pos: absolute coordinate to move to (default = 0)
-        :param rel_pos: relative coordinate to move to (default = 0)
-        """
-    if rel:
-
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G0 E%.3f \n" % rel_pos)
-    else:
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G0 E%.3f \n" % abs_pos)
-
-
-def linear_e_pos(rel, name, speed, abs_pos=0, rel_pos=0):
+    :param name: name of file to write to
+    :param pos: E coordinate (absolute or relative) to move to
     """
-        Writes a linear E command to file
 
-        :param rel: TRUE if using relative coordinates, FALSE if using absolute coordinates
-        :param name: name of file to write to
-        :param speed: speed of motor movement
-        :param abs_pos: absolute coordinate to move to (default = 0)
-        :param rel_pos: relative coordinate to move to (default = 0)
-        """
-    if rel:
-
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G1 E%.3f F%.3f \n" % (rel_pos, speed))
-    else:
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G1 E%.3f F%.3f \n" % (abs_pos, speed))
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G0 E%.3f \n" % pos)
 
 
-def rapid_xy_pos(rel, name, abs_pos=None, rel_pos=None):
+def linear_e_pos(name, pos, speed):
     """
-        Writes a rapid XY command to file
+    Writes a linear E command to file
 
-        :param rel: TRUE if using relative coordinates, FALSE if using absolute coordinates
-        :param name: name of file to write to
-        :param abs_pos: list of X,Y absolute coordinates to move to (default = None)
-        :param rel_pos: list of X,Y relative coordinates to move to (default = None)
-        """
-    if rel:
-
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G0 X%.3f Y%.3f \n" % (rel_pos[x], rel_pos[y]))
-    else:
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G0 X%.3f Y%.3f \n" % (abs_pos[x], abs_pos[y]))
-
-
-def linear_xy_pos(rel, name, speed, abs_pos=None, rel_pos=None):
+    :param name: name of file to write to
+    :param pos: E coordinate (absolute or relative) to move to
+    :param speed: speed of motor movement
     """
-        Writes a linear XY command to file
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G1 E%.3f F%.3f \n" % (pos, speed))
 
-        :param rel: TRUE if using relative coordinates, FALSE if using absolute coordinates
-        :param name: name of file to write to
-        :param speed: speed of motor movement
-        :param abs_pos: list of X,Y absolute coordinates to move to (default = None)
-        :param rel_pos: list of X,Y relative coordinates to move to (default = None)
-        """
-    if rel:
 
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G1 X%.3f Y%.3f F%.3f \n" % (rel_pos[x], rel_pos[y], speed))
-    else:
-        with open("%s.gcode" % name, "a") as file:
-            file.write("G1 X%.3f Y%.3f F%.3f \n" % (abs_pos[x], abs_pos[y], speed))
+def rapid_xy_pos(name, pos):
+    """
+    Writes a rapid XY command to file
+
+    :param name: name of file to write to
+    :param pos: list of X,Y (absolute or relative) coordinates to move to
+    """
+
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G0 X%.3f Y%.3f \n" % (pos[x], pos[y]))
+
+
+def linear_xy_pos(name, pos, speed):
+    """
+    Writes a linear XY command to file
+
+    :param name: name of file to write to
+    :param pos: list of X,Y (absolute or relative) coordinates to move to
+    :param speed: speed of motor movement
+    """
+
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G1 X%.3f Y%.3f F%.3f \n" % (pos[x], pos[y], speed))
