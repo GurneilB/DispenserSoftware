@@ -1,8 +1,8 @@
-x = 1
-y = 2
+x = 0
+y = 1
 
 
-def rapid_z_pos(name, pos):
+def rapid_z_pos(name: str, pos: float):
     """
     Writes a rapid Z command to file
 
@@ -14,7 +14,7 @@ def rapid_z_pos(name, pos):
         file.write("G0 Z%.3f \n" % pos)
 
 
-def linear_z_pos(name, pos, speed):
+def linear_z_pos(name: str, pos: float, speed: float):
     """
     Writes a linear Z command to file
 
@@ -26,7 +26,7 @@ def linear_z_pos(name, pos, speed):
         file.write("G1 Z%.3f F%.3f \n" % (pos, speed))
 
 
-def rapid_e_pos(name, pos):
+def rapid_e_pos(name: str, pos: float):
     """
     Writes a rapid E command to file
 
@@ -38,7 +38,7 @@ def rapid_e_pos(name, pos):
         file.write("G0 E%.3f \n" % pos)
 
 
-def linear_e_pos(name, pos, speed):
+def linear_e_pos(name: str, pos: float, speed: float):
     """
     Writes a linear E command to file
 
@@ -50,7 +50,7 @@ def linear_e_pos(name, pos, speed):
         file.write("G1 E%.3f F%.3f \n" % (pos, speed))
 
 
-def rapid_xy_pos(name, pos):
+def rapid_xy_pos(name: str, pos: float):
     """
     Writes a rapid XY command to file
 
@@ -62,7 +62,7 @@ def rapid_xy_pos(name, pos):
         file.write("G0 X%.3f Y%.3f \n" % (pos[x], pos[y]))
 
 
-def linear_xy_pos(name, pos, speed):
+def linear_xy_pos(name: str, pos: float, speed: float):
     """
     Writes a linear XY command to file
 

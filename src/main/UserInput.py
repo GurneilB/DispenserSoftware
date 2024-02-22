@@ -1,11 +1,8 @@
 import csv
+import Calculations as CALC
 
 tube_5mL = 5000.000
 tube_1500uL = 1500.000
-# No. of wells in 96-well plate
-plate_96 = 96
-# No. of wells in 6-well plate
-plate_6 = 6
 
 def get_procedure_name():
     """
@@ -52,13 +49,13 @@ def get_plate_type():
     return plate
 
 
-def get_insert_type(plate):
+def get_insert_type(plate: int):
     """
     Prompts user for culture plate insert type
 
     :return: (String) name of culture plate insert
     """
-    if plate == plate_96:
+    if plate == CALC.plate_96:
         return "EZ-Seed"
     else:
         return "3-in-1"

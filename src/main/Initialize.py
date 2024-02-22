@@ -15,7 +15,7 @@ def write_preference(name, reservoir, rnum, tip, tnum,
         file.write(";FLAVOR: Repetier\n")
         file.write(";RESERVOIR TYPE: %s\n" % reservoir)
         file.write(";NUMBER: %d\n" % rnum)
-        file.write(";TIP TYPE: %s\n" % tip)
+        file.write(";TIP TYPE: %duL\n" % tip)
         file.write(";NUMBER: %d\n" % tnum)
         file.write(";PLATE TYPE: %s\n" % plate)
         file.write(";INSERT TYPE: %s\n" % insert)
@@ -31,20 +31,20 @@ def home(name):
         file.write("G28 ;home\n")  # G28 is the Home command
 
 
-def pick_tool(name, insert, tool_=True):
+def pick_tool(name: str, insert: str, tool_: int):
     """
     Writes the tool select command to file
 
     :param name: name of file
     :param insert: type of insert
-    :param tool_: True if tool 0 is desired, False for tool 1
+    :param tool_: 0 if tool 0 is desired, 1 for tool 1
     """
 
     if insert == "EZ-Seed":
 
-        if tool_ == True:
+        if tool_ == 0:
             tool = 0
-        elif tool_ == False:
+        else:
             tool = 1
     else:
         tool = 2
@@ -54,7 +54,7 @@ def pick_tool(name, insert, tool_=True):
                    % (tool, insert))  # T is the select tool command
 
 
-def set_absolute(name):
+def set_absolute(name: str):
     """
     Writes absolute positioning command to file
 
@@ -66,7 +66,7 @@ def set_absolute(name):
                    )
 
 
-def set_relative(name):
+def set_relative(name: str):
     """
     Writes relative positioning command to file
 
@@ -78,7 +78,7 @@ def set_relative(name):
                    )
 
 
-def set_mm(name):
+def set_mm(name: str):
     """
     Writes command to set units to mm to file
 
@@ -90,7 +90,7 @@ def set_mm(name):
                    )
 
 
-def set_equip(name):
+def set_equip(name: str):
     """
     Writes tip equipping comment to file
 
@@ -101,7 +101,7 @@ def set_equip(name):
                    )
 
 
-def set_asp(name):
+def set_asp(name: str):
     """
     Writes aspiration comment to file
 
@@ -112,7 +112,7 @@ def set_asp(name):
                    )
 
 
-def set_disp(name):
+def set_disp(name: str):
     """
     Writes dispensing comment to file
 
@@ -123,7 +123,7 @@ def set_disp(name):
                    )
 
 
-def set_eject(name):
+def set_eject(name: str):
     """
     Writes tip ejection comment to file
 
@@ -134,8 +134,8 @@ def set_eject(name):
                    )
 
 
-def initialization(name, reservoir, rnum, tip, tnum,
-                   plate, insert):
+def initialization(name: str, reservoir: float, rnum: int, tip: float, tnum: int,
+                   plate: int, insert: str):
     """
     Full initialization of G-code file including writing preferences,
     selecting tools, and setting to absolute positioning

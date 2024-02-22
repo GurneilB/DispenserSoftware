@@ -93,7 +93,7 @@ def total_required_vol_(vol_array):
     return np.sum(vol_array)
 
 
-def vol_per_res(vol_array, reservoir):
+def vol_per_res(vol_array, reservoir: float):
     """
     Calculates total volume per reservoir for entire procedure
 
@@ -118,7 +118,7 @@ def vol_per_res(vol_array, reservoir):
         return [total / rnum]*4
 
 
-def num_reservoir(vol_array, reservoir):
+def num_reservoir(vol_array, reservoir: float):
     """
     Calculates number of reservoirs needed for entire procedure
 
@@ -137,7 +137,7 @@ def num_reservoir(vol_array, reservoir):
         return rnum
 
 
-def convert_vol(vol):
+def convert_vol(vol: float):
     """
     Converts volume to relative extrusion (dispensing) distance
 
