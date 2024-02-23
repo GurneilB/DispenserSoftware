@@ -69,17 +69,18 @@ def required_vol_per_tip(vol_array):
     if get_protocol(vol_array) == 0:
         # Return set of tip volumes for protocol 0
         return [(np.sum(vol_array, axis=0)[0]
-                + np.sum(vol_array, axis=0)[1]),]*4
+                 + np.sum(vol_array, axis=0)[1]), ] * 4
     elif get_protocol(vol_array) == 1:
         # Return set of tip volumes for protocol 1
         return [(np.sum(vol_array, axis=0)[0]
-                + np.sum(vol_array, axis=0)[1]), (np.sum(vol_array, axis=0)[0]
-                + np.sum(vol_array, axis=0)[1]), (np.sum(vol_array, axis=0)[-2]
-                + np.sum(vol_array, axis=0)[-1]), (np.sum(vol_array, axis=0)[-2]
-                + np.sum(vol_array, axis=0)[-1])]
+                 + np.sum(vol_array, axis=0)[1]), (np.sum(vol_array, axis=0)[0]
+                                                   + np.sum(vol_array, axis=0)[1]), (np.sum(vol_array, axis=0)[-2]
+                                                                                     + np.sum(vol_array, axis=0)[-1]),
+                (np.sum(vol_array, axis=0)[-2]
+                 + np.sum(vol_array, axis=0)[-1])]
     else:
         # Return total volume for protocol 2
-        return [np.sum(vol_array)]*4
+        return [np.sum(vol_array)] * 4
 
 
 def total_required_vol_(vol_array):
@@ -110,12 +111,12 @@ def vol_per_res(vol_array, reservoir: float):
     if get_protocol(vol_array) == 1:
 
         # Return list of volumes per reservoir
-        return [total_required_vol_(vol_array[:,[0,1,2,3]])/(rnum)/2,
-                total_required_vol_(vol_array[:,[4,5,6,7]])/(rnum)/2]
+        return [total_required_vol_(vol_array[:, [0, 1, 2, 3]]) / (rnum) / 2,
+                total_required_vol_(vol_array[:, [4, 5, 6, 7]]) / (rnum) / 2]
     elif get_protocol(vol_array) == 0:
-        return [total / rnum]*2
+        return [total / rnum] * 2
     else:
-        return [total / rnum]*4
+        return [total / rnum] * 4
 
 
 def num_reservoir(vol_array, reservoir: float):
@@ -148,18 +149,18 @@ def convert_vol(vol: float):
 
 
 def get_protocol(vol_array):
-
     protocol_0 = 0
     protocol_1 = 1
     protocol_2 = 2
 
-    section_1 = vol_array[:,[0, 1]]
-    section_2 = vol_array[:,[2, 3]]
-    section_3 = vol_array[:,[4, 5]]
-    section_4 = vol_array[:,[6, 7]]
+    section_1 = vol_array[:, [0, 1]]
+    section_2 = vol_array[:, [2, 3]]
+    section_3 = vol_array[:, [4, 5]]
+    section_4 = vol_array[:, [6, 7]]
 
     # Checks equality of 2x12 sections of array, returns appropriate protocol
-    if np.array_equal(section_1, section_2) & (np.array_equal(section_1, section_3) & (np.array_equal(section_1, section_4))):
+    if np.array_equal(section_1, section_2) & (
+            np.array_equal(section_1, section_3) & (np.array_equal(section_1, section_4))):
         # protocol 0 is 1x4 dispensing
         return protocol_0
     elif np.array_equal(section_1, section_2) & np.array_equal(section_3, section_4):

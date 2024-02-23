@@ -31,7 +31,7 @@ def home(name):
         file.write("G28 ;home\n")  # G28 is the Home command
 
 
-def pick_tool(name: str, insert: str, tool_: int):
+def pick_tool(name: str, insert: str, tool_=0):
     """
     Writes the tool select command to file
 

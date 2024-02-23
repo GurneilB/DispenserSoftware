@@ -1,8 +1,10 @@
 import csv
 import Calculations as CALC
+import numpy as np
 
 tube_5mL = 5000.000
 tube_1500uL = 1500.000
+
 
 def get_procedure_name():
     """
@@ -73,7 +75,7 @@ def get_design():
         try:
             with open(file, newline='') as csvfile:
                 reader = csv.reader(csvfile)
-                vol_array = [row for row in reader]
+                vol_array = np.array([row for row in reader])
                 break
         except FileNotFoundError:
             print("Error: File not found.")
