@@ -111,9 +111,9 @@ def vol_per_res(vol_array, reservoir: float):
 
         # Return list of volumes per reservoir
         return [total_required_vol_(vol_array[:,[0,1,2,3]])/(rnum)/2,
-                total_required_vol_(vol_array[:,[0,1,2,3]])/(rnum)/2,
-                total_required_vol_(vol_array[:,[4,5,6,7]])/(rnum)/2,
                 total_required_vol_(vol_array[:,[4,5,6,7]])/(rnum)/2]
+    elif get_protocol(vol_array) == 0:
+        return [total / rnum]*2
     else:
         return [total / rnum]*4
 

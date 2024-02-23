@@ -73,3 +73,8 @@ def linear_xy_pos(name: str, pos: list[float], speed: float):
 
     with open("%s.gcode" % name, "a") as file:
         file.write("G1 X%.3f Y%.3f F%.3f \n" % (pos[x], pos[y], speed))
+
+
+def dwell(name: str, time: int):
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G4 S%d ; Dwell\n" % time)

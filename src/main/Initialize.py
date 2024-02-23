@@ -154,18 +154,3 @@ def initialization(name: str, reservoir: float, rnum: int, tip: float, tnum: int
     set_absolute(name)
     set_mm(name)
     home(name)
-
-
-# Sample 2D array
-array_2d = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-]
-
-# Iterate backwards through the 2D array
-for i in range(len(array_2d) - 1, -1, -1):  # Iterate through rows in reverse order
-    for j in range(len(array_2d[i]) - 1, -1, -1):  # Iterate through columns in reverse order
-        print(array_2d[i][j], end=" ")
-    print()  # Print new line after each row
-
