@@ -2,13 +2,14 @@ import UserInput as inp
 import Initialize as init
 import Calculations as calc
 import BuildProcedure as bp
+import Exceptions as E
 
-name = inp.get_procedure_name()
-plate = inp.get_plate_type()
+name = E.Exception_name()
+plate = E.Exception_plate()
 insert = inp.get_insert_type(plate)
-res_type = inp.get_reservoir_type()
-tip_type = inp.get_tip_type()
-design = inp.get_design()
+res_type = E.Exception_reservoir()
+tip_type = E.Exception_tip()
+design = E.Exception_design() #I'm working on testing this
 rnum = calc.num_reservoir(design, res_type)
 tnum = calc.num_tip(design)
 
