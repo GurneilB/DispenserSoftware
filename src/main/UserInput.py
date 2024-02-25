@@ -87,7 +87,8 @@ def get_design():
         try:
             with open(file, newline='') as csvfile:
                 reader = csv.reader(csvfile)
-                vol_array = np.array([row for row in reader])
+                for row in reader:
+                    vol_array = [float(value.strip()) for value in row]
                 break
         except FileNotFoundError:
             print("Error: File not found.")
