@@ -11,8 +11,14 @@ def get_procedure_name():
 
     :return: (String) procedure name
     """
-    name = input("Please type in your procedure name: \n")
-    return name
+    while True:
+        try:
+            name = input("Please type in your procedure name: \n")
+            if name == "":
+                raise TypeError("The procedure name cannot be empty. Please try again")
+            return name
+        except TypeError as e:
+            print(e)
 
 
 def get_reservoir_type():
@@ -21,9 +27,15 @@ def get_reservoir_type():
 
     :return: (Float) size of reservoir in uL
     """
-    tube = input("Which reservoir are you using? (Type A for 5mL tube, "
+    while True:
+        try:
+            tube = input("Which reservoir are you using? (Type A for 5mL tube, "
                  "B for 1.5mL PCR tube): ")
-    return tube
+            if tube not in {"A", "B"}:
+                raise ValueError("Please choose either A or B.")
+            return tube
+        except ValueError as e:
+            print(e)
 
 
 def get_tip_type():
@@ -31,8 +43,12 @@ def get_tip_type():
     Prompts user for nozzle tip type
     :return: (Int) size of tip in uL
     """
-    tip = int(input("Which size nozzle tip are you using? (Type volume in uL): "))
-    return tip
+    while True:
+        try:
+            tip = int(input("Which size nozzle tip are you using? (Type volume in uL): "))
+            return tip
+        except ValueError:
+            print("Volume should be an integer. Please enter a number.")
 
 
 def get_plate_type():
@@ -40,8 +56,14 @@ def get_plate_type():
     Prompts user for culture plate type
     :return: (Int) size of culture plate
     """
-    plate = int(input("What size culture plate are you using? (Type # of wells): "))
-    return plate
+    while True:
+        try:
+            plate = int(input("What size culture plate are you using? (Type # of wells): "))
+            if plate not in {6, 96}:
+                raise ValueError("Plate type must be either 6 or 96. Please try again")
+            return plate
+        except ValueError as e:
+            print(e)
 
 def get_insert_type(plate: int):
     """
@@ -71,5 +93,11 @@ def get_design():
             print("Error: File not found.")
             file = input("Enter the name of the CSV file: ")
 
-    return vol_array
+        except ValueError:
+            print("Error: The file contains non-numeric values.")
+            continue
 
+        if vol_array.shape != (8, 12):
+            print("Incorrect size. Include all volumes for culture plate.")
+        else:
+            return vol_array
