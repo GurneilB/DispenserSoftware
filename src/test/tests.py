@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import mock_open, patch
 import src.main.Exceptions as E
-
+import src.main.UserInput as UI
 class TestName(unittest.TestCase):
     @patch("builtins.open")
     def test_name_exception(self, mock_open):
-        name = E.Exception_name()
+        name = UI.get_procedure_name()
         self.assertIsInstance(name, str)
 
     @patch("builtins.open")
@@ -22,6 +22,7 @@ class TestName(unittest.TestCase):
     def test_tip_exception(self, mock_open):
         tip = E.Exception_tip()
         self.assertIsInstance(tip, int)
+
 
 if __name__ == '__main__':
     unittest.main()

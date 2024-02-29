@@ -11,9 +11,12 @@ def get_procedure_name():
 
     :return: (String) procedure name
     """
-    name = input("Please type in your procedure name: \n")
-    return name
-
+    while True:
+        name = input("Please type in your procedure name: \n")
+        if name != "":
+            return name
+        else:
+            print("The procedure name cannot be empty. Please try again")
 
 def get_reservoir_type():
     """
@@ -21,9 +24,13 @@ def get_reservoir_type():
 
     :return: (Float) size of reservoir in uL
     """
-    tube = input("Which reservoir are you using? (Type A for 5mL tube, "
+    while True:
+        tube = input("Which reservoir are you using? (Type A for 5mL tube, "
                  "B for 1.5mL PCR tube): ")
-    return tube
+        if tube not in {"A", "B"}:
+            print("Please choose either A or B.")
+        else:
+            return tube
 
 
 def get_tip_type():
@@ -31,8 +38,12 @@ def get_tip_type():
     Prompts user for nozzle tip type
     :return: (Int) size of tip in uL
     """
-    tip = int(input("Which size nozzle tip are you using? (Type volume in uL): "))
-    return tip
+    while True:
+        try:
+            tip = int(input("Which size nozzle tip are you using? (Type volume in uL): "))
+            return tip
+        except ValueError:
+            print("Volume should be an integer. Please enter a number.")
 
 
 def get_plate_type():
@@ -40,8 +51,17 @@ def get_plate_type():
     Prompts user for culture plate type
     :return: (Int) size of culture plate
     """
-    plate = int(input("What size culture plate are you using? (Type # of wells): "))
-    return plate
+    while True:
+        try:
+            plate = input("What size culture plate are you using? (Type # of wells): ")
+            if not plate.isdigit():
+                raise ValueError("Input cannot be string. Please enter a number.")
+            plate = int(plate)
+            if plate not in {6, 96}:
+                raise ValueError("Plate type must be either 6 or 96. Please try again")
+            return plate
+        except ValueError as e:
+            print(e)
 
 def get_insert_type(plate: int):
     """
