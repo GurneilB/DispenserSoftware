@@ -1,5 +1,4 @@
-x = 0
-y = 1
+import Value as val
 
 
 def rapid_z_pos(name: str, pos: float):
@@ -35,7 +34,7 @@ def rapid_e_pos(name: str, pos: float):
     """
 
     with open("%s.gcode" % name, "a") as file:
-        file.write("G0 E%.3f \n" % pos)
+        file.write("G0 E%s \n" % pos)
 
 
 def linear_e_pos(name: str, pos: float, speed: float):
@@ -59,7 +58,7 @@ def rapid_xy_pos(name: str, pos: list[float]):
     """
 
     with open("%s.gcode" % name, "a") as file:
-        file.write("G0 X%.3f Y%.3f \n" % (pos[x], pos[y]))
+        file.write("G0 X%.3f Y%.3f \n" % (pos[val.x], pos[val.y]))
 
 
 def linear_xy_pos(name: str, pos: list[float], speed: float):
@@ -72,7 +71,7 @@ def linear_xy_pos(name: str, pos: list[float], speed: float):
     """
 
     with open("%s.gcode" % name, "a") as file:
-        file.write("G1 X%.3f Y%.3f F%.3f \n" % (pos[x], pos[y], speed))
+        file.write("G1 X%.3f Y%.3f F%.3f \n" % (pos[val.x], pos[val.y], speed))
 
 
 def dwell(name: str, time: int):

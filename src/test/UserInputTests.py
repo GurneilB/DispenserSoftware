@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import mock_open, patch
 import src.main.UserInput as UI
+
+
 class TestName(unittest.TestCase):
     @patch("builtins.open")
     def test_name_exception(self, mock_open):
@@ -15,7 +17,7 @@ class TestName(unittest.TestCase):
     @patch("builtins.open")
     def test_reservoir_exception(self, mock_open):
         tube = UI.get_reservoir_type()
-        self.assertIn(tube, {"A","B"})
+        self.assertIn(tube, {"A", "B"})
 
     @patch("builtins.open")
     def test_tip_exception(self, mock_open):
@@ -25,4 +27,3 @@ class TestName(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

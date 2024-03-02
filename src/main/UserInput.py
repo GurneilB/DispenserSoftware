@@ -1,9 +1,6 @@
 import csv
 import numpy as np
-
-tube_5mL = 5000.000
-tube_1500uL = 1500.000
-
+import Value as val
 
 def get_procedure_name():
     """
@@ -21,34 +18,42 @@ def get_procedure_name():
             print(e)
 
 
-def get_reservoir_type():
+def get_reservoir_type(default=True):
     """
     Prompts user for reservoir type
 
     :return: (Float) size of reservoir in uL
     """
+    if default:
+        return val.res_25mL
     while True:
         try:
-            tube = input("Which reservoir are you using? (Type A for 5mL tube, "
-                 "B for 1.5mL PCR tube): ")
+            tube = input("Which reservoir are you using? (Type A for 25mL reservoir, "
+                         "B for 1.5mL tube): ")
             if tube not in {"A", "B"}:
-                raise ValueError("Please choose either A or B.")
-            return tube
+                raise ValueError("Invalid Input\n Please select A or B.")
+            elif tube == "A":
+                return val.res_25mL
+            else:
+                return val.tube_5mL
         except ValueError as e:
             print(e)
 
 
-def get_tip_type():
+def get_tip_type(default=True):
     """
     Prompts user for nozzle tip type
     :return: (Int) size of tip in uL
     """
-    while True:
-        try:
-            tip = int(input("Which size nozzle tip are you using? (Type volume in uL): "))
-            return tip
-        except ValueError:
-            print("Volume should be an integer. Please enter a number.")
+    if default:
+        return val.tip_250
+    else:
+        while True:
+            try:
+                tip = int(input("Which size nozzle tip are you using? (Type volume in uL): "))
+                return tip
+            except ValueError:
+                print("Volume should be an integer. Please enter a number.")
 
 
 def get_plate_type():
@@ -65,15 +70,17 @@ def get_plate_type():
         except ValueError as e:
             print(e)
 
+
 def get_insert_type(plate: int):
     """
     Prompts user for culture plate insert type
     :return: (String) name of culture plate insert
     """
-    if plate == 96:
+    if plate == val.zone_96:
         return "EZ-Seed"
     else:
         return "3-in-1"
+
 
 def get_design():
     """

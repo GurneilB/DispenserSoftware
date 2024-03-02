@@ -1,16 +1,5 @@
 import numpy as np
-
-# 96-well plate volume array dimensions
-dims_96 = (8, 12)
-# No. of dispensing zones in 96-well plate
-plate_96 = 96
-# No. of tips for 1 tip dispensing
-tip1 = 1
-# No. of tips for 4 tip dispensing
-tip4 = 4
-# No. of reservoirs
-rnum4 = 4
-rnum8 = 8
+import Value as val
 
 
 def all_identical(arr):
@@ -32,9 +21,9 @@ def rows_identical(arr):
     :return: TRUE if all elements are identical, FALSE otherwise
     """
     # Loops through each row
-    for i in range(dims_96[1]):
+    for i in range(val.dims_96[1]):
         # Loops through each element in a row
-        for j in range(dims_96[0]):
+        for j in range(val.dims_96[0]):
             # Checks if element is not identical to first element in the row
             if arr[i, j] != arr[i, 0]:
                 return False
@@ -42,7 +31,7 @@ def rows_identical(arr):
     return True
 
 
-def num_tip(vol_array):
+def num_tip(vol_array: np.array):
     """
     Calculates the max number for tips for user's procedure
 
@@ -51,10 +40,10 @@ def num_tip(vol_array):
     :return: Number of tips required for dispensing
     """
     # Checks for appropriate protocol
-    if get_protocol(vol_array) == 0 or get_protocol(vol_array) == 1:
-        return tip4
+    if get_protocol(vol_array) in {0, 1}:
+        return val.tip4
     else:
-        return tip1
+        return val.tip2
 
 
 def required_vol_per_tip(vol_array):
@@ -107,6 +96,9 @@ def vol_per_res(vol_array, reservoir: float):
     # get number of reservoirs needed
     rnum = num_reservoir(vol_array, reservoir)
 
+    if reservoir == val.res_25mL:
+        return [total]
+    # Code below has not been updated or debugged
     # Check for protocol 1
     if get_protocol(vol_array) == 1:
 
@@ -114,12 +106,12 @@ def vol_per_res(vol_array, reservoir: float):
         return [total_required_vol_(vol_array[:, [0, 1, 2, 3]]) / (rnum) / 2,
                 total_required_vol_(vol_array[:, [4, 5, 6, 7]]) / (rnum) / 2]
     elif get_protocol(vol_array) == 0:
-        return [total / rnum] * 2
+        return [total]
     else:
         return [total / rnum] * 4
 
 
-def num_reservoir(vol_array, reservoir: float):
+def num_reservoir(vol_array: np.array, reservoir: float):
     """
     Calculates number of reservoirs needed for entire procedure
 
@@ -127,15 +119,13 @@ def num_reservoir(vol_array, reservoir: float):
     :param reservoir: size of reagent reservoir used
     :return: # of reservoirs needed
     """
-    if num_tip(vol_array) == tip4:
-        if total_required_vol_(vol_array) >= reservoir * tip4:
-            return rnum8
+    if reservoir == val.res_25mL:
+        return val.rnum1
+    elif reservoir == val.tube_1500uL:
+        if total_required_vol_(vol_array) >= reservoir * val.rnum4:
+            return val.rnum8
         else:
-            return rnum4
-    else:
-        rnum = total_required_vol_(vol_array) / reservoir
-
-        return rnum
+            return val.rnum4
 
 
 def convert_vol(vol: float):
@@ -145,10 +135,10 @@ def convert_vol(vol: float):
     :param vol:
     :return: (float) relative extrusion distance
     """
-    return vol * vol
+    return vol*2
 
 
-def get_protocol(vol_array):
+def get_protocol(vol_array: np.array):
     protocol_0 = 0
     protocol_1 = 1
     protocol_2 = 2
@@ -167,5 +157,5 @@ def get_protocol(vol_array):
         # protocol 1 is 2x2 dispensing
         return protocol_1
     else:
-        # protocol 2 is 1x1 dispensing
+        # protocol 2 is 2x1 dispensing
         return protocol_2

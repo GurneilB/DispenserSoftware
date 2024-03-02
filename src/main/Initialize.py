@@ -11,7 +11,7 @@ def write_preference(name, reservoir, rnum, tip, tnum,
     :param plate: Type of culture plate
     :param insert: Type of custom insert (EZ-Seed or 3-in-1)
     """
-    with open("%s.gcode" % "w") as file:
+    with open("%s.gcode" % name, "w") as file:
         file.write(";FLAVOR: Repetier\n")
         file.write(";RESERVOIR TYPE: %s\n" % reservoir)
         file.write(";NUMBER: %d\n" % rnum)
