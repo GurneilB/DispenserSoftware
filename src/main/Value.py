@@ -37,10 +37,12 @@ x = 0
 y = 1
 
 # Calibration and Testing Coordinates
-beaker = [0, 0]
-beaker_asp_height = 0
-tubes = [[0, 0], [0,0], [0,0], [0,0]]
-tubes_disp_height = 0
-cal_movement_height = 0
+beaker = [22.5, 61]
+beaker_asp_height = 60
+tubes8 = [[9, 104], [27,104], [45,104], [72,104], [0,117], [18,117], [36,117], [54,117]]
+tubes4 = [[9, 104], [45,104], [0,117], [36,117]]
+tubes_disp_height = 45
+cal_movement_height = 10
+dispense_move_height = 40
 zero_height = 0
 

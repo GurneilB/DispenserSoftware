@@ -3,7 +3,7 @@ import BuildProcedure as bp
 import Value as val
 import Initialize as init
 
-displacement = float(input("Enter the displacement: "))
+displacement = float(input("Enter the displacement in mm: "))
 file_name = "Calibration"
 
 with open("%s.gcode" % file_name, "w") as file:
@@ -14,7 +14,7 @@ init.set_absolute(file_name)
 init.pick_tool(file_name, "EZ-Seed")
 wc.rapid_e_pos(file_name, val.zero_height)
 
-for i in range(4):
+for i in range(8):
     init.set_absolute(file_name)
 
     # Move to beaker
@@ -29,7 +29,7 @@ for i in range(4):
     # Move to tubes
     init.set_absolute(file_name)
     wc.rapid_z_pos(file_name, val.cal_movement_height)
-    wc.rapid_xy_pos(file_name, val.tubes[i])
+    wc.rapid_xy_pos(file_name, val.tubes8[i])
 
     # Dispense
     wc.rapid_z_pos(file_name, val.tubes_disp_height)

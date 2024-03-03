@@ -3,7 +3,7 @@ import BuildProcedure as bp
 import Value as val
 import Initialize as init
 
-volume = float(input("Enter the volume you want to dispense (up to 50uL): "))
+volume = float(input("Enter the volume you want to dispense in uL (up to 50uL): "))
 factor = float(input("Enter the model factor: "))
 file_name = "Validation"
 
@@ -24,11 +24,11 @@ wc.rapid_z_pos(file_name, val.beaker_asp_height)
 init.set_relative(file_name)
 wc.rapid_e_pos(file_name, volume*factor*4)
 
-for i in range(4):
+for i in range(8):
     # Move to tubes
     init.set_absolute(file_name)
-    wc.rapid_z_pos(file_name, val.cal_movement_height)
-    wc.rapid_xy_pos(file_name, val.tubes[i])
+    wc.rapid_z_pos(file_name, val.dispense_move_height)
+    wc.rapid_xy_pos(file_name, val.tubes8[i])
 
     # Dispense
     wc.rapid_z_pos(file_name, val.tubes_disp_height)
