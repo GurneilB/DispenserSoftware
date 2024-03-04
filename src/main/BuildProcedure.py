@@ -69,6 +69,8 @@ def protocol0_dispense(name: str, r_vol: list, insert: str, tip: int, vol_array:
     wc.rapid_xy_pos(name, val.plate_96)
     # Dispense every volume
     for i in range(len(snake)):
+        if snake[i] == 0:
+            continue
         init.set_absolute(name)
         # Move to dispense height
         wc.rapid_z_pos(name, val.dispense_height_EZ)

@@ -92,11 +92,8 @@ def get_design():
     while True:
 
         try:
-            with open(file, newline='') as csvfile:
-                reader = csv.reader(csvfile)
-                for row in reader:
-                    vol_array = [float(value.strip()) for value in row]
-                break
+            vol_array = np.loadtxt(file, delimiter=',', dtype=float)
+
         except FileNotFoundError:
             print("Error: File not found.")
             file = input("Enter the name of the CSV file: ")
@@ -104,8 +101,9 @@ def get_design():
         except ValueError:
             print("Error: The file contains non-numeric values.")
             continue
-
-        if vol_array.shape != (8, 12):
-            print("Incorrect size. Include all volumes for culture plate.")
+        # This does not work
+        #if vol_array.shape != (8, 12):
+            #print("Incorrect size. Include all volumes for culture plate.")
         else:
             return vol_array
+

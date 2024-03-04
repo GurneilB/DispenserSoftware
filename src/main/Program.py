@@ -9,7 +9,7 @@ plate = inp.get_plate_type()
 insert = inp.get_insert_type(plate)
 res_type = inp.get_reservoir_type()
 tip_type = inp.get_tip_type()
-design = np.ones((12,8)) #inp.get_design()
+design = inp.get_design()
 rnum = calc.num_reservoir(design, res_type)
 tnum = calc.num_tip(design)
 
