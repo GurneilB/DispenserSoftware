@@ -25,9 +25,9 @@ def aspirate(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None):
     # Set to absolute positioning
     init.set_absolute(name)
     # Write XYZ pos of reservoirs
-    wc.rapid_z_pos(name, val.movement_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL)
     wc.rapid_xy_pos(name, val.pos_reservoir_25ml)
-    wc.rapid_z_pos(name, val.aspirate_height)
+    wc.rapid_z_pos(name, val.aspirate_height_25ml)
     # Set to relative positioning
     init.set_relative(name)
 
@@ -55,7 +55,7 @@ def aspirate(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None):
     # Set to absolute positioning
     init.set_absolute(name)
     # Move to dispensing position
-    wc.rapid_z_pos(name, val.movement_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL)
     wc.rapid_xy_pos(name, val.plate_96)
 
 
@@ -92,7 +92,7 @@ def protocol0_dispense(name: str, r_vol: list, insert: str, tip: int, vol_array:
 
         else:
             init.set_absolute(name)
-            wc.rapid_z_pos(name, val.plate_movement_height)
+            wc.rapid_z_pos(name, val.plate96_movement_height)
             init.set_relative(name)
             if i < 12:
                 wc.rapid_xy_pos(name, [0, 9])
@@ -141,21 +141,21 @@ def build_snake(array):
 def equip(name):
     init.set_equip(name)
     init.set_absolute(name)
-    wc.rapid_z_pos(name, val.movement_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL)
     wc.rapid_xy_pos(name, val.tip_tray_8)
     wc.rapid_z_pos(name, val.equip_height)
     wc.dwell(name, 2)
-    wc.rapid_z_pos(name, val.movement_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL)
 
 
 def eject(name):
     init.set_eject(name)
     init.set_absolute(name)
-    wc.rapid_z_pos(name, val.movement_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL)
     wc.rapid_xy_pos(name, val.eject_bowl)
     wc.rapid_z_pos(name, val.eject_height)
     wc.rapid_e_pos(name, 0)
-    wc.rapid_z_pos(name, val.movement_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL)
 
 
 def present(name):

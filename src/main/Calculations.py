@@ -135,7 +135,7 @@ def convert_vol(vol: float):
     :param vol:
     :return: (float) relative extrusion distance
     """
-    return vol*2
+    return vol*val.model_factor
 
 
 def get_protocol(vol_array: np.array):

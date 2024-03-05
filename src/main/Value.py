@@ -5,19 +5,23 @@ res_25mL = 25000.000
 tip_250 = 250
 
 # Coordinate Bank
+plate_96 = [124.5, 23]
+dispense_height_EZ = 35
+plate96_movement_height = 0
+
+pos_reservoir_25ml = [3, 61]
+aspirate_height_25ml = 45
+
+movement_height_25mL = 22
+eject_bowl = [0, 0]
+eject_height = 0
 present = [0, 0]
 present_height = 0
+
 tip_tray_8 = [0, 0]
-pos_reservoir_25ml = [3, 61]
-plate_96 = [124.5, 23]
-eject_bowl = [0, 0]
 equip_height = 0
-dispense_height_EZ = 35
 dispense_height_3in1 = 0
-eject_height = 0
-aspirate_height = 45
-movement_height = 22
-plate_movement_height = 0
+
 
 # 96-well plate volume array dimensions
 dims_96 = (8, 12)
@@ -45,4 +49,7 @@ tubes_disp_height = 45
 cal_movement_height = 10
 dispense_move_height = 40
 zero_height = 0
+
+# Calibration model dispensing factor
+model_factor = 0.18
 
