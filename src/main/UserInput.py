@@ -1,6 +1,6 @@
 import csv
 import numpy as np
-import Value as val
+import src.main.Value as val
 
 def get_procedure_name():
     """
@@ -101,7 +101,8 @@ def get_design():
         except ValueError:
             print("Error: The file contains non-numeric values.")
             continue
-        # This does not work
+
+        # ***This does not work****
         #if vol_array.shape != (8, 12):
             #print("Incorrect size. Include all volumes for culture plate.")
         else:

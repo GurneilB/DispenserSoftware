@@ -51,5 +51,5 @@ dispense_move_height = 40
 zero_height = 0
 
 # Calibration model dispensing factor
-model_factor = 0.18
+model_factor = 1
 

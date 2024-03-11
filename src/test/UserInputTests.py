@@ -1,9 +1,10 @@
 import unittest
 from unittest.mock import mock_open, patch
 import src.main.UserInput as UI
+import src.main.Value as val
 
 
-class TestName(unittest.TestCase):
+class DynamicUserInput(unittest.TestCase):
     @patch("builtins.open")
     def test_name_exception(self, mock_open):
         name = UI.get_procedure_name()

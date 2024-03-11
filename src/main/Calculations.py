@@ -1,5 +1,5 @@
 import numpy as np
-import Value as val
+import src.main.Value as val
 
 
 def all_identical(arr):
@@ -22,8 +22,10 @@ def rows_identical(arr):
     """
     # Loops through each row
     for i in range(val.dims_96[1]):
+
         # Loops through each element in a row
         for j in range(val.dims_96[0]):
+
             # Checks if element is not identical to first element in the row
             if arr[i, j] != arr[i, 0]:
                 return False
@@ -56,10 +58,12 @@ def required_vol_per_tip(vol_array):
 
     # Checks for appropriate protocol
     if get_protocol(vol_array) == 0:
+
         # Return set of tip volumes for protocol 0
         return [(np.sum(vol_array, axis=0)[0]
                  + np.sum(vol_array, axis=0)[1]), ] * 4
     elif get_protocol(vol_array) == 1:
+
         # Return set of tip volumes for protocol 1
         return [(np.sum(vol_array, axis=0)[0]
                  + np.sum(vol_array, axis=0)[1]), (np.sum(vol_array, axis=0)[0]
@@ -68,6 +72,7 @@ def required_vol_per_tip(vol_array):
                 (np.sum(vol_array, axis=0)[-2]
                  + np.sum(vol_array, axis=0)[-1])]
     else:
+
         # Return total volume for protocol 2
         return [np.sum(vol_array)] * 4
 
@@ -93,12 +98,14 @@ def vol_per_res(vol_array, reservoir: float):
     """
     # Get total volume
     total = total_required_vol_(vol_array)
+
     # get number of reservoirs needed
     rnum = num_reservoir(vol_array, reservoir)
 
     if reservoir == val.res_25mL:
         return [total]
-    # Code below has not been updated or debugged
+
+    # ****Code below has not been updated or debugged****
     # Check for protocol 1
     if get_protocol(vol_array) == 1:
 
@@ -151,11 +158,14 @@ def get_protocol(vol_array: np.array):
     # Checks equality of 2x12 sections of array, returns appropriate protocol
     if np.array_equal(section_1, section_2) & (
             np.array_equal(section_1, section_3) & (np.array_equal(section_1, section_4))):
+
         # protocol 0 is 1x4 dispensing
         return protocol_0
     elif np.array_equal(section_1, section_2) & np.array_equal(section_3, section_4):
+
         # protocol 1 is 2x2 dispensing
         return protocol_1
     else:
+
         # protocol 2 is 2x1 dispensing
         return protocol_2
