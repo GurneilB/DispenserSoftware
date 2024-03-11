@@ -5,17 +5,17 @@ res_25mL = 25000.000
 tip_250 = 250
 
 # Coordinate Bank
-plate_96 = [124.5, 23]
-dispense_height_EZ = 35
-plate96_movement_height = 0
+plate_96 = [125, 20]
+dispense_height_EZ = 53
+plate96_movement_height = 49
 
-pos_reservoir_25ml = [3, 61]
-aspirate_height_25ml = 45
+pos_reservoir_25ml = [3, 58]
+aspirate_height_25ml = 56
 
-movement_height_25mL = 22
-eject_bowl = [0, 0]
-eject_height = 0
-present = [0, 0]
+movement_height_25mL = 36
+eject_bowl = [5, 108]
+eject_height = 66
+present = [65, 0]
 present_height = 0
 
 tip_tray_8 = [0, 0]

@@ -94,12 +94,13 @@ def protocol0_dispense(name: str, r_vol: list, insert: str, tip: int, vol_array:
             init.set_absolute(name)
             wc.rapid_z_pos(name, val.plate96_movement_height)
             init.set_relative(name)
-            if i < 12:
+            if i < 11:
                 wc.rapid_xy_pos(name, [0, 9])
-            elif i > 12:
+            elif i > 11:
                 wc.rapid_xy_pos(name, [0, -9])
             else:
-                wc.rapid_xy_pos(name, [-9, 0])
+                wc.rapid_xy_pos(name, [9, 0])
+
 
 
 def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, t_vol=None):

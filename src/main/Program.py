@@ -15,8 +15,10 @@ tnum = calc.num_tip(design)
 
 init.initialization(name, res_type, rnum, tip_type, tnum, plate, insert)
 r_vol = calc.vol_per_res(design,res_type)
-bp.equip(name)
+# bp.equip(name)
 bp.aspirate(name, r_vol, insert, tip_type)
 bp.build_procedure(name,r_vol,insert,tip_type, design)
 bp.eject(name)
 bp.present(name)
+
+print("File successfully generated!")
