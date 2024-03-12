@@ -45,6 +45,7 @@ def aspirate(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, d
 
         # When reservoir volume is greater than total tip volume, aspirate total tip volume
         if r_vol[0] >= tip * 4:
+            init.set_absolute(name)
             wc.rapid_e_pos(name, calc.convert_vol(tip))
 
             # Update t_vol
@@ -121,6 +122,7 @@ def protocol0_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
         for j in range(2):
             init.pick_tool(name, insert, j)
             wc.rapid_e_pos(name, calc.convert_vol(-snake[i]))
+            t_vol[j] = t_vol[j] - snake[i]
 
         # End procedure at the final well
         if i == 23:
@@ -133,17 +135,22 @@ def protocol0_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
                 k = k
                 break
 
-        # Aspirate more reagent if current tip volume is too low for next non-zero well
+        # Aspirate more reagent if current tip volume is too low for next non-zero well, move to next well
         if snake[k] > t_vol[0]:
-            aspirate(name, r_vol, insert, tip, t_vol)
+            if k < 12:
+                pos = [val.plate_96[val.x], val.plate_96[val.y] + (k * 9)]
+            else:
+                pos = [val.plate_96[val.x] + 9, val.plate_96[val.y] + ((-k + 23) * 9)]
+            aspirate(name, r_vol, insert, tip, t_vol, disp_pos=pos)
             init.set_disp(name)
+            init.set_absolute(name)
 
         # Move to next unfilled non-zero well
-        init.set_absolute(name)
-        wc.rapid_z_pos(name, val.plate96_movement_height)
-        if k < 12:
+        elif k < 12:
+            wc.rapid_z_pos(name, val.plate96_movement_height)
             wc.rapid_xy_pos(name, [val.plate_96[val.x], val.plate_96[val.y] + (k * 9)])
         else:
+            wc.rapid_z_pos(name, val.plate96_movement_height)
             wc.rapid_xy_pos(name, [val.plate_96[val.x] + 9, val.plate_96[val.y] + ((-k + 23) * 9)])
 
 
