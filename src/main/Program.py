@@ -14,10 +14,10 @@ rnum = calc.num_reservoir(design, res_type)
 tnum = calc.num_tip(design)
 
 init.initialization(name, res_type, rnum, tip_type, tnum, plate, insert)
-r_vol = calc.vol_per_res(design,res_type)
+r_vol = calc.vol_per_res(design, res_type)
 # bp.equip(name)
 t_vol = bp.aspirate(name, r_vol, insert, tip_type)
-bp.build_procedure(name,r_vol,insert,tip_type, design, t_vol)
+bp.build_procedure(name, r_vol, insert, tip_type, design, t_vol)
 bp.eject(name)
 bp.present(name)
 
