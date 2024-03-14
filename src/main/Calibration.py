@@ -14,7 +14,7 @@ init.set_absolute(file_name)
 init.pick_tool(file_name, "EZ-Seed")
 wc.rapid_e_pos(file_name, val.zero_height)
 
-for i in range(8):
+for i in range(4):
     init.set_absolute(file_name)
 
     # Move to beaker
@@ -29,7 +29,7 @@ for i in range(8):
     # Move to tubes
     init.set_absolute(file_name)
     wc.rapid_z_pos(file_name, val.cal_movement_height)
-    wc.rapid_xy_pos(file_name, val.tubes8[i])
+    wc.rapid_xy_pos(file_name, val.tubes4[i])
 
     # Dispense
     wc.rapid_z_pos(file_name, val.tubes_disp_height)

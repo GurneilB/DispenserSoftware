@@ -48,7 +48,7 @@ tubes4 = [[9, 104], [45,104], [0,117], [36,117]]
 tubes_disp_height = 45
 cal_movement_height = 10
 dispense_move_height = 40
-zero_height = 0
+zero_height = 0 # Find height, set manually with G92 E
 
 # Calibration model dispensing factor
 model_factor = 1
