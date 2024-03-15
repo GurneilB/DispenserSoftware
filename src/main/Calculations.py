@@ -142,7 +142,7 @@ def convert_vol(vol: float):
     :param vol:
     :return: (float) relative extrusion distance
     """
-    return vol*val.model_factor
+    return vol * val.model_factor
 
 
 def get_protocol(vol_array: np.array):
@@ -169,3 +169,29 @@ def get_protocol(vol_array: np.array):
 
         # protocol 2 is 2x1 dispensing
         return protocol_2
+
+
+def build_snake(array):
+    """
+    Creates list of values in snake order, starting from top right of array
+    moving column-wise towards the left.
+
+    :param array: numpy array of values
+    :return: list of values in snake order
+    """
+    snake = []
+    num_rows = len(array)
+    num_cols = len(array[0])
+
+    for j in range(num_cols - 1, -1, -1):
+
+        # Iterate through columns backwards
+        if j % 2 != 0:
+            for i in range(num_rows):
+                # If the column index is odd, iterate down the column
+                snake.append(array[i][j])
+        else:
+            for i in range(num_rows - 1, -1, -1):
+                # If the column index is even, iterate up the column
+                snake.append(array[i][j])
+    return snake
