@@ -84,7 +84,7 @@ def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
 def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, insert="EZ-Seed"):
     return None
 
-# *** FROM LINE 222 - UPDATE TO SNAKE 4 COLUMNS ****
+# *** FROM LINE 112 - UPDATE TO SNAKE 4 COLUMNS ****
 # *** NOT YET COMPATIBLE WITH ASPIRATE FUNCTION (Aspirate acts like there are 4 tips) ***
 def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, insert="EZ-Seed"):
     """

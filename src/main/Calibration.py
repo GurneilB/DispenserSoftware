@@ -29,7 +29,7 @@ for i in range(4):
     # Move to tubes
     init.set_absolute(file_name)
     wc.rapid_z_pos(file_name, val.cal_movement_height)
-    wc.rapid_xy_pos(file_name, val.tubes4[i])
+    wc.rapid_xy_pos(file_name, val.cal_tubes4[i])
 
     # Dispense
     wc.rapid_z_pos(file_name, val.tubes_disp_height)
