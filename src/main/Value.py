@@ -59,10 +59,9 @@ zone_96 = 96
 # Size of 6-well plate
 zone_6 = 6
 
-# No. of tips for 2 tip dispensing
+# No. of tips for dispensing
+tip1 = 1
 tip2 = 2
-
-# No. of tips for 4 tip dispensing
 tip4 = 4
 
 # No. of reservoirs

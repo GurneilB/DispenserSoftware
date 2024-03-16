@@ -42,12 +42,15 @@ def num_tip(vol_array: np.array):
     :return: Number of tips required for dispensing
     """
     # Checks for appropriate protocol
-    if get_protocol(vol_array) in {0, 1}:
+    if get_protocol(vol_array) == val.tip4_96:
         return val.tip4
-    else:
+    elif get_protocol(vol_array) in {val.tip2_96, val.tip2_6}:
         return val.tip2
+    elif get_protocol(vol_array) == val.tip1_6:
+        return val.tip1
 
 
+# UPDATE THIS FUNCTION
 def required_vol_per_tip(vol_array):
     """
     Calculates total volume needed per tip for entire procedure
@@ -88,6 +91,7 @@ def total_required_vol_(vol_array):
     return np.sum(vol_array)
 
 
+# UPDATE THIS FUNCTION
 def vol_per_res(vol_array, reservoir: float):
     """
     Calculates total volume per reservoir for entire procedure
@@ -118,6 +122,7 @@ def vol_per_res(vol_array, reservoir: float):
         return [total / rnum] * 4
 
 
+# UPDATE THIS FUNCTION
 def num_reservoir(vol_array: np.array, reservoir: float):
     """
     Calculates number of reservoirs needed for entire procedure
@@ -146,7 +151,6 @@ def convert_vol(vol: float):
 
 
 def get_protocol(vol_array: np.array):
-
     # 96 Well Plate Protocols
     if np.shape(vol_array) == (12, 8):
         section_1 = vol_array[:, [0, 1]]
@@ -165,7 +169,7 @@ def get_protocol(vol_array: np.array):
             return val.tip2_96
 
     # 6 Well Plate Protocols
-    elif np.shape(vol_array) == (3,2):
+    elif np.shape(vol_array) == (3, 2):
         if all_identical(vol_array):
 
             # Protocol 2 is 2 Tip Dispensing
