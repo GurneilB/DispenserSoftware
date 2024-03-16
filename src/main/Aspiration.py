@@ -238,6 +238,7 @@ def asp_4tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=N
     return t_vol
 
 
+# ***NEED TO UPDATE TO REFLECT PHYSICAL BOUNDS OF 2-TIP RESERVOIR REACH (CAN ONLY REACH 4 TOTAL 1.5ML TUBES)***
 def asp_2tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
     """
     Writes 2 tip, 1.5mL reservoir Aspiration-related commands to G-code file
@@ -324,6 +325,18 @@ def asp_2tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=N
 
 
 def asp_4tip(name: str, r_vol: list[float], insert: str, tip: int, restype, t_vol=None, disp_pos=val.plate_96):
+    """
+    Finds 4-Tip Aspiration function for appropriate reservoir in use
+
+    :param name: name of file to write to
+    :param r_vol: volume remaining in reservoir
+    :param insert: type of insert used for procedure
+    :param tip: max volume of tip
+    :param t_vol: Current volume of reagent in tip
+    :param disp_pos: Next XY dispensing position
+    :return t_vol: Updated volume of reagent in tip
+    """
+
     if restype == val.res_25mL:
         return asp_4tip_25ml(name, r_vol, insert, tip, t_vol, disp_pos)
     else:
@@ -331,6 +344,18 @@ def asp_4tip(name: str, r_vol: list[float], insert: str, tip: int, restype, t_vo
 
 
 def asp_2tip(name: str, r_vol: list[float], insert: str, tip: int, restype, t_vol=None, disp_pos=val.plate_96):
+    """
+    Finds 2-Tip Aspiration function for appropriate reservoir in use
+
+    :param name: name of file to write to
+    :param r_vol: volume remaining in reservoir
+    :param insert: type of insert used for procedure
+    :param tip: max volume of tip
+    :param t_vol: Current volume of reagent in tip
+    :param disp_pos: Next XY dispensing position
+    :return t_vol: Updated volume of reagent in tip
+    """
+
     if restype == val.res_25mL:
         return asp_2tip_25ml(name, r_vol, insert, tip, t_vol, disp_pos)
     else:
