@@ -1,3 +1,13 @@
+# Protocol Identifiers
+tip4_96 = 0
+tip2_96 = 1
+tip1_6 = 2
+tip2_6 = 3
+
+# Insert Types
+ez_seed = "EZ-SEED"
+three_in_one = "3-IN-1"
+
 # Tip and Reservoir volumes
 tube_5mL = 5000.000
 tube_1500uL = 1500.000
@@ -40,11 +50,14 @@ tip_tray_8 = []
 equip_height = None
 
 
-# 96-well plate volume array dimensions
+# 96-well plate dimensions
 dims_96 = (8, 12)
 
-# No. of dispensing zones in 96-well plate
+# Size of 96-well plate
 zone_96 = 96
+
+# Size of 6-well plate
+zone_6 = 6
 
 # No. of tips for 2 tip dispensing
 tip2 = 2
@@ -57,7 +70,7 @@ rnum1 = 1
 rnum4 = 4
 rnum8 = 8
 
-# Indexes
+# XY Indices
 x = 0
 y = 1
 

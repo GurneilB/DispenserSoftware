@@ -146,29 +146,34 @@ def convert_vol(vol: float):
 
 
 def get_protocol(vol_array: np.array):
-    protocol_0 = 0
-    protocol_1 = 1
-    protocol_2 = 2
 
-    section_1 = vol_array[:, [0, 1]]
-    section_2 = vol_array[:, [2, 3]]
-    section_3 = vol_array[:, [4, 5]]
-    section_4 = vol_array[:, [6, 7]]
+    # 96 Well Plate Protocols
+    if np.shape(vol_array) == (12, 8):
+        section_1 = vol_array[:, [0, 1]]
+        section_2 = vol_array[:, [2, 3]]
+        section_3 = vol_array[:, [4, 5]]
+        section_4 = vol_array[:, [6, 7]]
 
-    # Checks equality of 2x12 sections of array, returns appropriate protocol
-    if np.array_equal(section_1, section_2) & (
-            np.array_equal(section_1, section_3) & (np.array_equal(section_1, section_4))):
+        # Checks equality of 2x12 sections of array, returns appropriate protocol
+        if np.array_equal(section_1, section_2) & np.array_equal(section_3, section_4):
 
-        # protocol 0 is 1x4 dispensing
-        return protocol_0
-    elif np.array_equal(section_1, section_2) & np.array_equal(section_3, section_4):
+            # protocol 0 is 4 Tip dispensing
+            return val.tip4_96
+        else:
 
-        # protocol 1 is 2x2 dispensing
-        return protocol_1
-    else:
+            # protocol 1 is 2 Tip dispensing
+            return val.tip2_96
 
-        # protocol 2 is 2x1 dispensing
-        return protocol_2
+    # 6 Well Plate Protocols
+    elif np.shape(vol_array) == (3,2):
+        if all_identical(vol_array):
+
+            # Protocol 2 is 2 Tip Dispensing
+            return val.tip2_6
+        else:
+
+            # Protocol 3 is 1 Tip Dispensing
+            return val.tip1_6
 
 
 def build_snake(array):
