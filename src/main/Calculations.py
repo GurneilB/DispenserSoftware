@@ -170,7 +170,7 @@ def get_protocol(vol_array: np.array):
 
     # 6 Well Plate Protocols
     elif np.shape(vol_array) == (3, 2):
-        if all_identical(vol_array):
+        if rows_identical(vol_array):
 
             # Protocol 2 is 2 Tip Dispensing
             return val.tip2_6
