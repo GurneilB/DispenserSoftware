@@ -49,7 +49,6 @@ present_height = 0
 tip_tray_8 = []
 equip_height = None
 
-
 # 96-well plate dimensions
 dims_96 = (8, 12)
 
@@ -74,15 +73,16 @@ x = 0
 y = 1
 
 # Calibration and Testing Coordinates
-beaker = [22.5, 61]
-beaker_asp_height = 60
-cal_tubes8 = [[9, 104], [27, 104], [45, 104], [72, 104], [0, 117], [18, 117], [36, 117], [54, 117]]
-cal_tubes4 = [[9, 104], [45, 104], [0, 117], [36, 117]]
-tubes_disp_height = 45
-cal_movement_height = 10
-dispense_move_height = 40
-zero_height = 0 # Find height, set manually with G92 E
+beaker = [27.5, 61]
+beaker_asp_height = 50
+cal_tubes8 = [[9, 104], [27, 104], [45, 104], [72, 104],
+              [0, 117], [18, 117], [36, 117], [54, 117]]  # Coordinates for 1-Tip dispensing
+cal_tubes4 = [[11, 104], [47, 104], [2, 117], [38, 117]]  # Coordinates for 2-Tip dispensing
+cal_tubes2 = [[]]  # Coordinates for 4-Tip dispensing
+tubes_disp_height = 81
+cal_movement_height = 17
+dispense_move_height = 41
+zero_height = 0  # Find height, set manually with G92 E
 
 # Calibration model dispensing factor
 model_factor = 1
-

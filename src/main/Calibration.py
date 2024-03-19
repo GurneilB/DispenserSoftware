@@ -2,6 +2,7 @@ import WriteCoordinates as wc
 import BuildProcedure as bp
 import Value as val
 import Initialize as init
+import MiscOperations as mc
 
 displacement = float(input("Enter the displacement in mm: "))
 file_name = "Calibration"
@@ -39,4 +40,4 @@ for i in range(4):
 
 init.set_absolute(file_name)
 wc.rapid_e_pos(file_name, val.zero_height)
-bp.present(file_name)
+mc.present(file_name)

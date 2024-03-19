@@ -261,29 +261,17 @@ def asp_2tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=N
     init.set_absolute(name)
 
     # Travel to XYZ pos of reservoirs
-    if r_vol[0] != 0:
+    if r_vol[1] != 0:
         wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes2tips[0])
-        wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
-        k = 0
-
-    elif r_vol[1] != 0:
-        wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes4tips[1])
+        wc.rapid_xy_pos(name, val.tubes4tips[0])
         wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
         k = 1
 
-    elif r_vol[4] != 0:
-        wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes4tips[4])
-        wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
-        k = 4
-
     else:
         wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes4tips[5])
+        wc.rapid_xy_pos(name, val.tubes4tips[1])
         wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
-        k = 6
+        k = 5
 
     # Run aspiration for both motors
     for i in range(2):
