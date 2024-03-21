@@ -1,3 +1,5 @@
+import Value as val
+
 def write_preference(name, reservoir, rnum, tip, tnum,
                      plate, insert):
     """
@@ -40,7 +42,7 @@ def pick_tool(name: str, insert: str, tool_=0):
     :param tool_: 0 if tool 0 is desired, 1 for tool 1
     """
 
-    if insert == "EZ-Seed":
+    if insert == val.ez_seed:
 
         if tool_ == 0:
             tool = 0
