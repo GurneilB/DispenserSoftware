@@ -19,7 +19,7 @@ tnum = calc.num_tip(design)
 
 init.initialization(name, res_type, rnum, tip_type, tnum, plate, insert)
 r_vol = calc.vol_per_res(design, res_type)
-mo.equip(name)
+# mo.equip(name)
 bp.build_procedure(name, r_vol, insert, tip_type, design, res_type)
 
 for i in range(2):

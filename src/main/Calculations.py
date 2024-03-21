@@ -43,14 +43,16 @@ def num_tip(vol_array: np.array):
     """
     # Checks for appropriate protocol
     if get_protocol(vol_array) == val.tip4_96:
+        # Returns "4" for 4-tip dispensing
         return val.tip4
     elif get_protocol(vol_array) in {val.tip2_96, val.tip2_6}:
+        # Returns "2" for 2-tip dispensing
         return val.tip2
     elif get_protocol(vol_array) == val.tip1_6:
+        # Returns "1" for 1-tip dispensing
         return val.tip1
 
 
-# UPDATE THIS FUNCTION
 def required_vol_per_tip(vol_array):
     """
     Calculates total volume needed per tip for entire procedure
@@ -59,30 +61,31 @@ def required_vol_per_tip(vol_array):
     :return: (List) Total volume needed per tip
     """
 
-    # Checks for appropriate protocol
-    if get_protocol(vol_array) == 0:
+    # 96 Well Plate Protocols
+    if np.shape(vol_array) == (12, 8):
+        section_1 = vol_array[:, [0, 1]]
+        section_2 = vol_array[:, [2, 3]]
+        section_3 = vol_array[:, [4, 5]]
+        section_4 = vol_array[:, [6, 7]]
 
-        # Return set of tip volumes for protocol 0
-        return [(np.sum(vol_array, axis=0)[0]
-                 + np.sum(vol_array, axis=0)[1]), ] * 4
-    elif get_protocol(vol_array) == 1:
+        if get_protocol(vol_array) == val.tip4_96:
 
-        # Return set of tip volumes for protocol 1
-        return [(np.sum(vol_array, axis=0)[0]
-                 + np.sum(vol_array, axis=0)[1]), (np.sum(vol_array, axis=0)[0]
-                                                   + np.sum(vol_array, axis=0)[1]), (np.sum(vol_array, axis=0)[-2]
-                                                                                     + np.sum(vol_array, axis=0)[-1]),
-                (np.sum(vol_array, axis=0)[-2]
-                 + np.sum(vol_array, axis=0)[-1])]
+            # Return set of tip volumes for 96-well 4-tip Dispensing
+            return [total_vol(section_4), total_vol(section_3), total_vol(section_2), total_vol(section_1)]
+
+        elif get_protocol(vol_array) == val.tip2_96:
+
+            # Return set of tip volumes for 96-well 2-tip Dispensing
+            return [total_vol(section_4) + total_vol(section_3), total_vol(section_2) + total_vol(section_1)]
+
+    # 6-well plate volumes
     else:
-
-        # Return total volume for protocol 2
-        return [np.sum(vol_array)] * 4
+        pass
 
 
-def total_required_vol_(vol_array):
+def total_vol(vol_array):
     """
-    Calculates total volume needed for entire procedure (w/out error)
+    Calculates total volume needed for plate design (w/out error)
 
     :param vol_array: array with well volumes
     :return: total volume needed for entire procedure
@@ -91,7 +94,6 @@ def total_required_vol_(vol_array):
     return np.sum(vol_array)
 
 
-# UPDATE THIS FUNCTION
 def vol_per_res(vol_array, reservoir: float):
     """
     Calculates total volume per reservoir for entire procedure
@@ -100,29 +102,70 @@ def vol_per_res(vol_array, reservoir: float):
     :param reservoir: size of reagent reservoir used
     :return: (List) volume per reservoir needed
     """
-    # Get total volume
-    total = total_required_vol_(vol_array)
 
-    # get number of reservoirs needed
-    rnum = num_reservoir(vol_array, reservoir)
+    double_tubes = False
 
+    # Get total tip volumes
+    total_vols = required_vol_per_tip(vol_array)
+
+    # For 25ml Reservoir
     if reservoir == val.res_25mL:
-        return [total]
 
-    # ****Code below has not been updated or debugged****
-    # Check for protocol 1
-    if get_protocol(vol_array) == 1:
+        # For 4 tips
+        if num_tip(vol_array) == val.tip4:
 
-        # Return list of volumes per reservoir
-        return [total_required_vol_(vol_array[:, [0, 1, 2, 3]]) / (rnum) / 2,
-                total_required_vol_(vol_array[:, [4, 5, 6, 7]]) / (rnum) / 2]
-    elif get_protocol(vol_array) == 0:
-        return [total]
-    else:
-        return [total / rnum] * 4
+            # Return reservoir volume needed for both motors, 4-tip dispensing
+            return [total_vols[0] + total_vols[1], total_vols[2] + total_vols[3]]
+
+        # For 2 tips
+        elif num_tip(vol_array) == val.tip2:
+
+            # Return reservoir volume needed for both motors, 2-tip dispensing
+            return [total_vols[0], total_vols[1]]
+
+    # For 1.5mL Reservoir
+    elif reservoir == val.tube_1500uL:
+
+        # For 4 tips
+        if num_tip(vol_array) == val.tip4:
+
+            # Check if any tip needs more than 1500uL
+            for i in range(4):
+                if total_vols[i] > val.tube_1500uL:
+                    double_tubes = True
+
+            if double_tubes:
+
+                # Return reservoir volume needed for both motors, 4-tip dispensing, 8 tubes
+                return [total_vols[0] / 2, total_vols[1] / 2, total_vols[2] / 2, total_vols[3] / 2,
+                        total_vols[0] / 2, total_vols[1] / 2, total_vols[2] / 2, total_vols[3] / 2]
+            else:
+
+                # Return reservoir volume needed for both motors, 4-tip dispensing, 4 tubes
+                return [total_vols[0] / 2, total_vols[1] / 2, total_vols[2] / 2, total_vols[3] / 2,
+                        0, 0, 0, 0]
+
+        # For 2 tips
+        elif num_tip(vol_array) == val.tip2:
+
+            # Check if any tip needs more than 1500uL
+            for i in range(2):
+                if total_vols[i] > val.tube_1500uL:
+                    double_tubes = True
+
+            if double_tubes:
+
+                # Return reservoir volume needed for both motors, 2-tip dispensing, 4 tubes
+                return [0, total_vols[0] / 2, 0, total_vols[1] / 2,
+                        0, total_vols[0] / 2, 0, total_vols[1] / 2]
+
+            else:
+
+                # Return reservoir volume needed for both motors, 2-tip dispensing, 2 tubes
+                return [0, total_vols[0] / 2, 0, total_vols[1] / 2,
+                        0, 0, 0, 0]
 
 
-# UPDATE THIS FUNCTION
 def num_reservoir(vol_array: np.array, reservoir: float):
     """
     Calculates number of reservoirs needed for entire procedure
@@ -132,12 +175,15 @@ def num_reservoir(vol_array: np.array, reservoir: float):
     :return: # of reservoirs needed
     """
     if reservoir == val.res_25mL:
+
+        # Returns "1" for 25mL reservoir
         return val.rnum1
-    elif reservoir == val.tube_1500uL:
-        if total_required_vol_(vol_array) >= reservoir * val.rnum4:
-            return val.rnum8
-        else:
-            return val.rnum4
+
+    else:
+
+        # Return # of non-zero elements in reservoir volume list
+        non_zero_count = sum(1 for x in vol_per_res(vol_array, reservoir) if x != 0)
+        return non_zero_count
 
 
 def convert_vol(vol: float):

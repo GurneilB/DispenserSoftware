@@ -77,9 +77,9 @@ def get_insert_type(plate: int):
     :return: (String) name of culture plate insert
     """
     if plate == val.zone_96:
-        return "EZ-Seed"
+        return val.ez_seed
     else:
-        return "3-in-1"
+        return val.three_in_one
 
 
 def get_design():

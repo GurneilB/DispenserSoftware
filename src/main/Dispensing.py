@@ -66,7 +66,7 @@ def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
                 break
 
         # Aspirate more reagent if current tip volume is too low for next non-zero well, move to next well
-        if snake[min(k, m)] > t_vol[0]:
+        if min(snake[0][k], snake[1][m]) > t_vol[0]:
             if min(k, m) < 12:
                 pos = [val.plate_96[val.x], val.plate_96[val.y] + (min(k, m) * 9)]
             else:
@@ -143,7 +143,7 @@ def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
                 break
 
         # Aspirate more reagent if current tip volume is too low for next non-zero well, move to next well
-        if snake[min(k, m)] > t_vol[0]:
+        if min(snake[0][k], snake[1][m]) > t_vol[0]:
             if min(k, m) < 12:
                 pos = [val.plate_96[val.x], val.plate_96[val.y] + (min(k, m) * 9)]
             else:
@@ -223,7 +223,7 @@ def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
                 break
 
         # Aspirate more reagent if current tip volume is too low for next non-zero well, move to next well
-        if snake[min(k, m)] > t_vol[0]:
+        if min(snake[0][k], snake[1][m]) > t_vol[0]:
             if min(k, m) < 12:
                 pos = [val.plate_96[val.x] - (2*9), val.plate_96[val.y] + (min(k, m) * 9)]
             elif 12 <= min(k,m) < 24:
@@ -313,7 +313,7 @@ def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
                 break
 
         # Aspirate more reagent if current tip volume is too low for next non-zero well, move to next well
-        if snake[min(k, m)] > t_vol[0]:
+        if min(snake[0][k], snake[1][m]) > t_vol[0]:
             if min(k, m) < 12:
                 pos = [val.plate_96[val.x] - (2 * 9), val.plate_96[val.y] + (min(k, m) * 9)]
             elif 12 <= min(k, m) < 24:

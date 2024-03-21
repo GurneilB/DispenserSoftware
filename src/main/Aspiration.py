@@ -39,40 +39,30 @@ def asp_4tip_25ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=No
 
         # Write aspiration command, change remaining reservoir volume
 
-        # When reservoir volume is greater than total tip volume, aspirate total tip volume
-        if r_vol[0] >= tip * val.tip4:
+        # When reservoir volume is greater than remaining tip volume, fill tip to max
+        if r_vol[i] >= (tip - t_vol[i]) * val.tip2:
             init.set_absolute(name)
             wc.rapid_e_pos(name, calc.convert_vol(tip))
 
+            # Update r_vol
+            r_vol[i] = r_vol[i] - ((tip - t_vol[i]) * val.tip2)
+
             # Update t_vol
             t_vol[i] = tip
-            # Update r_vol
-            r_vol[0] = r_vol[0] - (t_vol[i] * 2)
 
-        # When reservoir volume is less than total tip volume, aspirate remaining reagent
+        # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             # Set to relative positioning
             init.set_relative(name)
 
-            # Aspiration for second motor
-            if i == 1:
-                wc.rapid_e_pos(name, calc.convert_vol(r_vol[0]) / 2)
+            # Aspirate Remaining Reagent
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]) / 2)
 
-                # Update t_vol
-                t_vol[i] = r_vol[0] / 2
+            # Update t_vol
+            t_vol[i] = t_vol[i] + r_vol[i] / 2
 
-                # Update r_vol
-                r_vol[0] = r_vol[0] - r_vol[0]
-
-            # Aspiration for first motor
-            else:
-                wc.rapid_e_pos(name, calc.convert_vol(r_vol[0] / 4))
-
-                # Update t_vol
-                t_vol[i] = r_vol[0] / 4
-
-                # Update r_vol
-                r_vol[0] = r_vol[0] - t_vol[i] * 2
+            # Update r_vol
+            r_vol[i] = r_vol[i] - r_vol[i]
 
     # Set to absolute positioning
     init.set_absolute(name)
@@ -118,40 +108,30 @@ def asp_2tip_25ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=No
 
         # Write aspiration command, change remaining reservoir volume
 
-        # When reservoir volume is greater than total tip volume, aspirate total tip volume
-        if r_vol[0] >= tip * val.tip2:
+        # When reservoir volume is greater than remaining tip volume, fill tip to max
+        if r_vol[i] >= (tip - t_vol[i]):
             init.set_absolute(name)
             wc.rapid_e_pos(name, calc.convert_vol(tip))
 
+            # Update r_vol
+            r_vol[i] = r_vol[i] - (tip - t_vol[i])
+
             # Update t_vol
             t_vol[i] = tip
-            # Update r_vol
-            r_vol[0] = r_vol[0] - (t_vol[i])
 
-        # When reservoir volume is less than total tip volume, aspirate remaining reagent
+        # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             # Set to relative positioning
             init.set_relative(name)
 
-            # Aspiration for second motor
-            if i == 1:
-                wc.rapid_e_pos(name, calc.convert_vol(r_vol[0]))
+            # Aspirate Remaining Reagent
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]))
 
-                # Update t_vol
-                t_vol[i] = r_vol[0] / 2
+            # Update t_vol
+            t_vol[i] = t_vol[i] + r_vol[i]
 
-                # Update r_vol
-                r_vol[0] = r_vol[0] - r_vol[0]
-
-            # Aspiration for first motor
-            else:
-                wc.rapid_e_pos(name, calc.convert_vol(r_vol[0] / 2))
-
-                # Update t_vol
-                t_vol[i] = r_vol[0] / 2
-
-                # Update r_vol
-                r_vol[0] = r_vol[0] - t_vol[i]
+            # Update r_vol
+            r_vol[i] = r_vol[i] - r_vol[i]
 
     # Set to absolute positioning
     init.set_absolute(name)
@@ -205,24 +185,25 @@ def asp_4tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=N
 
         # Write aspiration command, change remaining reservoir volume
 
-        # When reservoir volume is greater than total tip volume, aspirate total tip volume
-        if r_vol[k + (i * 2)] >= tip:
+        # When reservoir volume is greater than remaining tip volume, fill tip to max
+        if r_vol[k + (i * 2)] >= (tip - t_vol[i]):
             init.set_absolute(name)
             wc.rapid_e_pos(name, calc.convert_vol(tip))
 
+            # Update r_vol
+            r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - (tip - t_vol[i])
+            r_vol[k + 1 + (i * 2)] = r_vol[k + 1 + (i * 2)] - (tip - t_vol[i])
+
             # Update t_vol
             t_vol[i] = tip
-            # Update r_vol
-            r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - (t_vol[i])
-            r_vol[k + 1 + (i * 2)] = r_vol[k + 1 + (i * 2)] - (t_vol[i])
 
-        # When reservoir volume is less than total tip volume, aspirate remaining reagent
+        # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             init.set_relative(name)
             wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]))
 
             # Update t_vol
-            t_vol[i] = r_vol[k + (i * 2)]
+            t_vol[i] = t_vol[i] + r_vol[k + (i * 2)]
 
             # Update r_vol
             r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - r_vol[k + (i * 2)]
@@ -238,7 +219,6 @@ def asp_4tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=N
     return t_vol
 
 
-# ***NEED TO UPDATE TO REFLECT PHYSICAL BOUNDS OF 2-TIP RESERVOIR REACH (CAN ONLY REACH 4 TOTAL 1.5ML TUBES)***
 def asp_2tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
     """
     Writes 2 tip, 1.5mL reservoir Aspiration-related commands to G-code file
@@ -281,23 +261,24 @@ def asp_2tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=N
 
         # Write aspiration command, change remaining reservoir volume
 
-        # When reservoir volume is greater than total tip volume, aspirate total tip volume
-        if r_vol[k + (i * 2)] >= tip:
+        # When reservoir volume is greater than remaining tip volume, fill tip to max
+        if r_vol[k + (i * 2)] >= tip - t_vol[i]:
             init.set_absolute(name)
             wc.rapid_e_pos(name, calc.convert_vol(tip))
 
+            # Update r_vol
+            r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - tip - t_vol[i]
+
             # Update t_vol
             t_vol[i] = tip
-            # Update r_vol
-            r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - (t_vol[i])
 
-        # When reservoir volume is less than total tip volume, aspirate remaining reagent
+        # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             init.set_relative(name)
             wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]))
 
             # Update t_vol
-            t_vol[i] = r_vol[k + (i * 2)]
+            t_vol[i] = t_vol[i] + r_vol[k + (i * 2)]
 
             # Update r_vol
             r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - r_vol[k + (i * 2)]
