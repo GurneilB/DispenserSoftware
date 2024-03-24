@@ -80,7 +80,18 @@ def required_vol_per_tip(vol_array):
 
     # 6-well plate volumes
     else:
-        pass
+        section_1 = vol_array[:, [0]]
+        section_2 = vol_array[:, [1]]
+
+        if get_protocol(vol_array) == val.tip2_96:
+
+            # Return set of tip volumes for 6-well 2-tip Dispensing
+            return [total_vol(section_2) * 4, total_vol(section_1) * 4]
+
+        elif get_protocol(vol_array) == val.tip1_6:
+
+            # Return set of tip volumes for 6-well 1-tip Dispensing
+            return [total_vol(vol_array)]
 
 
 def total_vol(vol_array):
@@ -91,7 +102,16 @@ def total_vol(vol_array):
     :return: total volume needed for entire procedure
     """
 
-    return np.sum(vol_array)
+    # Return total for 96 well plate
+    if np.shape(vol_array) == (12, 8):
+        return np.sum(vol_array)
+
+    # Return total for 6-well plate
+    elif np.shape(vol_array) == (3, 2):
+        return np.sum(vol_array) * 4
+
+    else:
+        return np.sum(vol_array)
 
 
 def vol_per_res(vol_array, reservoir: float):
@@ -122,6 +142,11 @@ def vol_per_res(vol_array, reservoir: float):
 
             # Return reservoir volume needed for both motors, 2-tip dispensing
             return [total_vols[0], total_vols[1]]
+
+        else:
+
+            # Return reservoir volume needed for one motor, 1-tip dispensing
+            return [total_vols[0]]
 
     # For 1.5mL Reservoir
     elif reservoir == val.tube_1500uL:
@@ -164,6 +189,24 @@ def vol_per_res(vol_array, reservoir: float):
                 # Return reservoir volume needed for both motors, 2-tip dispensing, 2 tubes
                 return [0, total_vols[0] / 2, 0, total_vols[1] / 2,
                         0, 0, 0, 0]
+
+        # For 1 tip
+        else:
+
+            # 4 Tubes
+            if val.tube_1500uL * 3 < total_vols[0] < val.tube_1500uL * 4:
+                return [total_vols[0]/4,total_vols[0]/4,total_vols[0]/4,total_vols[0]/4 ]
+
+            # 3 Tubes
+            elif val.tube_1500uL * 2 < total_vols[0] < val.tube_1500uL * 3:
+                return [total_vols[0]/3,total_vols[0]/3,total_vols[0]/3,0 ]
+            # 2 Tubes
+            elif val.tube_1500uL < total_vols[0] < val.tube_1500uL * 2:
+                return [total_vols[0]/2,total_vols[0]/2,0,0 ]
+
+            # 1 Tube
+            else:
+                return [total_vols[0], 0, 0, 0]
 
 
 def num_reservoir(vol_array: np.array, reservoir: float):

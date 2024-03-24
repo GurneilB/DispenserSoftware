@@ -39,7 +39,7 @@ def pick_tool(name: str, insert: str, tool_=0):
 
     :param name: name of file
     :param insert: type of insert
-    :param tool_: 0 if tool 0 is desired, 1 for tool 1
+    :param tool_: 0 if tool 0 is desired, 1 for tool 1 etc.
     """
 
     if insert == val.ez_seed:
