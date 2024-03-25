@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import src.main.Value as val
 
+
 def get_procedure_name():
     """
     Prompts user for procedure name
@@ -103,8 +104,7 @@ def get_design():
             continue
 
         # ***This does not work****
-        #if vol_array.shape != (8, 12):
-            #print("Incorrect size. Include all volumes for culture plate.")
+        # if vol_array.shape != (8, 12):
+        # print("Incorrect size. Include all volumes for culture plate.")
         else:
             return vol_array
-
