@@ -13,14 +13,16 @@ selections = {
     'insert': None,
     'reservoir': None
 }
+#assigns a variable using user's choice
 def update_selection(name, value):
-    selections[name] = value #assigns a variable using user's choice
+    selections[name] = value
 
 # Add Dropdowns
 def dropdown(name, prompt, options):
     var = tk.StringVar(root)
     var.set(prompt) # default value
-    def callback(value):
+
+    def callback(value): #can't be called outside
         update_selection(name, value)
 
     w = tk.OptionMenu(root, var, *options, command= callback)
@@ -48,13 +50,13 @@ dropdown('reservoir',p_res, opt_res)
 #exit button
 
 def on_exit():
-    print(f"Selected plate size: {selections['plate']}")
-    print(f"Selected insert size: {selections['insert']}")
-    print(f"Selected reservoir size: {selections['reservoir']}")
+    print(f"Last selected plate size: {selections['plate']}")
+    print(f"Last selected insert size: {selections['insert']}")
+    print(f"Last selected reservoir size: {selections['reservoir']}")
     root.destroy()
 
-button = tk.Button(root, text="Exit", command=on_exit)
-button.pack()
+exit_button = tk.Button(root, text="Exit", command=on_exit)
+exit_button.pack()
 
 # Tip Type
 
@@ -66,7 +68,15 @@ button.pack()
 # Add in-program grid that simulates 96-well plate, saves as np matrix
 
 # Add file menu items
+
 # Add Save
+saved = [] #stores all choices as a list
+
+def save_selections():
+    saved.append(selections.copy())
+
+save_button = tk.Button(root, text="Save", command=save_selections)
+save_button.pack()
 
 # Preferences are saved as custom file format (create it)
 
