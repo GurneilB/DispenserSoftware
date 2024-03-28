@@ -8,6 +8,16 @@ root = tk.Tk()
 root.title("FluidCAM")
 #root.configure(bg="white")
 
+#Create a frame to fit everything
+main_frame = tk.Frame(root) # Main frame to contain everything
+main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+controls_frame = tk.Frame(main_frame) # Frame for controls (buttons, dropdowns, entry fields)
+controls_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10)
+
+grid_frame = tk.Frame(main_frame) # Frame for the 8x12 grid
+grid_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10)
+
 # Storing the selection of the dropdowns
 selections = {
     'name': None,
@@ -18,9 +28,18 @@ selections = {
 }
 
 # Add entry field for procedure name, should press enter key to save name
-entry = tk.Entry(root, width=30)
+entry = tk.Entry(controls_frame, width=30)
 entry.bind('<Return>', lambda event: update_selection('name', entry.get()))
 entry.pack()
+
+# Function to create a 8x12 grid of entry widgets
+def create_grid(frame):
+    for i in range(12):
+        for j in range(8):
+            entry = tk.Entry(frame, width=3, justify='center')
+            entry.grid(row=i, column=j, padx=5, pady=5)
+
+create_grid(grid_frame)
 
 #assigns a variable using user's choice
 def update_selection(name, value):
@@ -28,13 +47,13 @@ def update_selection(name, value):
 
 # Add Dropdowns
 def dropdown(name, prompt, options):
-    var = tk.StringVar(root)
+    var = tk.StringVar(controls_frame)
     var.set(prompt) # default value
 
     def callback(value): #can't be called outside
         update_selection(name, value)
 
-    w = tk.OptionMenu(root, var, *options, command= callback)
+    w = tk.OptionMenu(controls_frame, var, *options, command= callback)
     w.pack() #creates and packs dropdown menu
 
 ### Plate Size
@@ -61,17 +80,16 @@ dropdown('tip',p_tip, opt_tip)
 # Add Checkboxes:
 ### Tip equip (only button, no saving)
 CheckVar1 = tk.IntVar()
-C1 = tk.Checkbutton(root, text="Press when tips are equipped",
-                    fg="white", bg="white",
-                    bd=10, variable=CheckVar1,
+C1 = tk.Checkbutton(controls_frame, text="Press when tips are equipped",
+                    fg="black",bd=10, variable=CheckVar1,
                     onvalue=1, offvalue=0)
 C1.pack()
 
 ### Tip eject (only button, no saving)
 CheckVar2 = tk.IntVar()
-C2 = tk.Checkbutton(root, text="Press when ejection bowl is equipped", activebackground="white", activeforeground="white" ,
-                 bg="green", bd=10, variable=CheckVar2,
-                 onvalue=1, offvalue=0)
+C2 = tk.Checkbutton(controls_frame, text="Press when ejection bowl is equipped",
+                    fg="black", bd=10, variable=CheckVar2,
+                    onvalue=1, offvalue=0)
 C2.pack()
 
 # Add "Run Procedure" Button (builds file)
