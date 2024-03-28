@@ -32,14 +32,54 @@ entry = tk.Entry(controls_frame, width=30)
 entry.bind('<Return>', lambda event: update_selection('name', entry.get()))
 entry.pack()
 
-# Function to create a 8x12 grid of entry widgets
-def create_grid(frame):
-    for i in range(12):
-        for j in range(8):
-            entry = tk.Entry(frame, width=3, justify='center')
-            entry.grid(row=i, column=j, padx=5, pady=5)
+# Add in-program grid that simulates 96-well plate, saves as np matrix
+### GRID
+entries = {}
 
-create_grid(grid_frame)
+def toggle_matrix(var):
+    action = "0" if var.get() else ""
+    for r in range(12):
+        for c in range(8):
+            entries[(r, c)].delete(0, tk.END)
+            entries[(r, c)].insert(0, action)
+
+# Create the all (fill grid with 0s) checkbox
+all_var = tk.IntVar()
+all_check = tk.Checkbutton(grid_frame, text="All", variable=all_var,
+                            onvalue=1, offvalue=0, command=lambda: toggle_matrix(all_var))
+all_check.grid(row=0, column=0)
+
+for c in range(8):  # Create column checkboxes to fill with zeroes
+    col_var = tk.IntVar()
+    chk = tk.Checkbutton(grid_frame, variable=col_var,
+                         onvalue=1, offvalue=0,
+                         command=lambda col=c, var=col_var: toggle_col_zero(col, var))
+    chk.grid(row=0, column=c+1)
+
+for r in range(12):  # Create row checkboxes to fill with zeroes
+    row_var = tk.IntVar()
+    chk = tk.Checkbutton(grid_frame, variable=row_var,
+                         onvalue=1, offvalue=0,
+                         command=lambda row=r, var=row_var: toggle_row_zero(row, var))
+    chk.grid(row=r+1, column=0)
+
+# checks if checkbox is toggled or not, adapts the zeroes for it
+def toggle_row_zero(r, var):
+    action = "0" if var.get() else ""
+    for c in range(8): entries[(r, c)].delete(0, tk.END); entries[(r, c)].insert(0, action)
+
+def toggle_col_zero(c, var):
+    action = "0" if var.get() else ""
+    for r in range(12): entries[(r, c)].delete(0, tk.END); entries[(r, c)].insert(0, action)
+
+# Creates a 12x8 grid of entry
+for r in range(12):
+    for c in range(8):
+        entry = tk.Entry(grid_frame, width=5, justify='center')
+        entry.grid(row=r+1, column=c+1)
+        entries[(r, c)] = entry
+
+###GRID end
 
 #assigns a variable using user's choice
 def update_selection(name, value):
@@ -94,8 +134,6 @@ C2.pack()
 
 # Add "Run Procedure" Button (builds file)
 # Add save "preferences button"
-
-# Add in-program grid that simulates 96-well plate, saves as np matrix
 
 # Add file menu items
 
