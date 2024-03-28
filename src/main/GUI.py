@@ -1,18 +1,27 @@
 import tkinter as tk
+from tkinter import messagebox
+
+import json
 
 # Create the main window
 root = tk.Tk()
-root.geometry("200x200")
 root.title("FluidCAM")
-
-# Add entry field for procedure name
+#root.configure(bg="white")
 
 # Storing the selection of the dropdowns
 selections = {
+    'name': None,
     'plate': None,
     'insert': None,
-    'reservoir': None
+    'reservoir': None,
+    'tip': None
 }
+
+# Add entry field for procedure name, should press enter key to save name
+entry = tk.Entry(root, width=30)
+entry.bind('<Return>', lambda event: update_selection('name', entry.get()))
+entry.pack()
+
 #assigns a variable using user's choice
 def update_selection(name, value):
     selections[name] = value
@@ -31,36 +40,39 @@ def dropdown(name, prompt, options):
 ### Plate Size
 opt_plate = ["6 well plate", "96 well plate"]
 p_plate = ["Choose a tip type"]
-
 dropdown('plate',p_plate, opt_plate)
 
-### Insert type (is this needed?)
-opt_insert = ["EZ-seed", "3-in-1"]
+### Insert type
+opt_insert = ["none", "EZ-seed", "3-in-1"]
 p_insert = ["Choose an insert type"]
-
 dropdown('insert',p_insert, opt_insert)
 
 ### Reservoir size
 opt_res = ["5mL", "25mL"]
 p_res = ["Choose a reservoir type"]
-
 dropdown('reservoir',p_res, opt_res)
 
 
-#exit button
+### Tip Type
+opt_tip = ["250mL"]
+p_tip = ["Choose a tip type"]
+dropdown('tip',p_tip, opt_tip)
 
-def on_exit():
-    print(f"Last selected plate size: {selections['plate']}")
-    print(f"Last selected insert size: {selections['insert']}")
-    print(f"Last selected reservoir size: {selections['reservoir']}")
-    root.destroy()
+# Add Checkboxes:
+### Tip equip (only button, no saving)
+CheckVar1 = tk.IntVar()
+C1 = tk.Checkbutton(root, text="Press when tips are equipped",
+                    fg="white", bg="white",
+                    bd=10, variable=CheckVar1,
+                    onvalue=1, offvalue=0)
+C1.pack()
 
-exit_button = tk.Button(root, text="Exit", command=on_exit)
-exit_button.pack()
-
-# Tip Type
-
-# Add Checkboxes for tip equip and tip eject
+### Tip eject (only button, no saving)
+CheckVar2 = tk.IntVar()
+C2 = tk.Checkbutton(root, text="Press when ejection bowl is equipped", activebackground="white", activeforeground="white" ,
+                 bg="green", bd=10, variable=CheckVar2,
+                 onvalue=1, offvalue=0)
+C2.pack()
 
 # Add "Run Procedure" Button (builds file)
 # Add save "preferences button"
@@ -70,15 +82,29 @@ exit_button.pack()
 # Add file menu items
 
 # Add Save
-saved = [] #stores all choices as a list
-
 def save_selections():
-    saved.append(selections.copy())
+    # creates the filename name
+    filename = f"{selections['name']}.json" if selections['name'] else "untitled.json"
 
-save_button = tk.Button(root, text="Save", command=save_selections)
+    # Saves the updated list of selections to save.json
+    with open(filename, "w") as file:
+        json.dump(selections, file)
+    messagebox.showinfo("Save", "Your Preferences are Saved")
+
+save_button = tk.Button(root, text="Save Preferences", command=save_selections)
 save_button.pack()
 
-# Preferences are saved as custom file format (create it)
+
+# exit button
+def on_exit():
+    print(f"Name of the Procedure: {selections['name']}")
+    print(f"Last selected plate size: {selections['plate']}")
+    print(f"Last selected insert size: {selections['insert']}")
+    print(f"Last selected reservoir size: {selections['reservoir']}")
+    root.destroy()
+
+exit_button = tk.Button(root, text="Exit", command=on_exit)
+exit_button.pack()
 
 
 root.mainloop()
