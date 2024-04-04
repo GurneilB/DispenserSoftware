@@ -1,3 +1,4 @@
+import src.main.BuildProcedure as bp
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
@@ -125,7 +126,7 @@ p_plate = ["Choose a tip type"]
 dropdown('plate',p_plate, opt_plate)
 
 ### Insert type
-opt_insert = ["none", "EZ-seed", "3-in-1"]
+opt_insert = ["none", "EZ-SEED", "3-IN-1"]
 p_insert = ["Choose an insert type"]
 dropdown('insert',p_insert, opt_insert)
 
@@ -133,7 +134,6 @@ dropdown('insert',p_insert, opt_insert)
 opt_res = ["5mL", "25mL"]
 p_res = ["Choose a reservoir type"]
 dropdown('reservoir',p_res, opt_res)
-
 
 ### Tip Type
 opt_tip = ["250mL"]
@@ -145,7 +145,7 @@ dropdown('tip',p_tip, opt_tip)
 ### Tip equipped
 # Updates Preference when checkbox is ticked
 def update_equip():
-    preference['equip'] = "yes" if CheckVar1.get() == 1 else None
+    preference['equip'] = "TRUE" if CheckVar1.get() == 1 else None
 CheckVar1 = tk.IntVar()
 #Creates the checkbox
 equip = tk.Checkbutton(controls_frame, text="Press when tips are equipped",
@@ -155,7 +155,7 @@ equip.pack()
 
 ### Tip ejection bowl equipped
 def update_eject():
-    preference['eject'] = "yes" if CheckVar2.get() == 1 else None
+    preference['eject'] = "TRUE" if CheckVar2.get() == 1 else None
 CheckVar2 = tk.IntVar()
 
 eject = tk.Checkbutton(controls_frame, text="Press when ejection bowl is equipped",
@@ -194,6 +194,33 @@ def save_preference():
 save_button = tk.Button(root, text="Save Preferences", command=save_preference)
 save_button.pack()
 
+#Add Run Procedure
+def run_procedure():
+    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)
+
+        # Extract variables for build_procedure from the .json
+        name = data.get('name', 'untitled')
+        insert = data.get('insert', 'none')
+        tip = int(data.get('tip', 250))
+        vol_array = data.get('grid', [[]])
+        restype = data.get('reservoir', '5mL')
+        r_vol = data.get('reservoir', '5mL')  #unsure
+
+        # Calls build_procedure
+        bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
+
+        messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
+    except FileNotFoundError:
+        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+
+
+run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
+run_procedure_button.pack()
 
 # exit button
 def on_exit():
