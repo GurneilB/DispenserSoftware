@@ -143,6 +143,58 @@ dropdown('tip',p_tip, opt_tip)
 # Add Checkboxes:
 
 ### Tip equipped
+def tip_set():
+    # Fill empty cells with '0's
+    for r in range(12):
+        for c in range(8):
+            if entries[(r, c)].get() == '':
+                entries[(r, c)].delete(0, tk.END)
+                entries[(r, c)].insert(0, '0')
+
+    # Initialize all letters to light grey (assuming no columns are filled)
+    for label in letter_labels.values():
+        label.config(fg="grey")
+
+    # Mapping each letter to its corresponding columns
+    column_pairs = {
+        'A': (0, 1),
+        'B': (2, 3),
+        'C': (4, 5),
+        'D': (6, 7)
+    }
+
+    # Check each pair of columns in the grid to determine if they are filled
+    for letter, (col_start, col_end) in column_pairs.items():
+        is_filled = True
+        for r in range(12):
+            if entries[(r, col_start)].get() == '0' and entries[(r, col_end)].get() == '0':
+                is_filled = False
+                break
+        # Update the color of the letter based on whether its columns are filled
+        if is_filled:
+            letter_labels[letter].config(fg="blue")
+        else:
+            letter_labels[letter].config(fg="grey")
+
+# Message label
+equip_label = tk.Label(controls_frame, text="Equip tips at positions:")
+equip_label.pack(pady=(10,0))
+
+#Add button to update tip selection
+tips_equip=tk.Button(controls_frame, text="Press for tips", command=tip_set)
+tips_equip.pack()
+
+#Frame for the letters
+letters_frame = tk.Frame(controls_frame)
+letters_frame.pack()
+
+#Letter labels
+letters = ['A', 'B', 'C', 'D']
+letter_labels = {}
+for letter in letters:
+    letter_labels[letter]= tk.Label(letters_frame, text= letter, fg="grey")
+    letter_labels[letter].pack(side='left', expand=True)
+
 # Updates Preference when checkbox is ticked
 def update_equip():
     preference['equip'] = "TRUE" if CheckVar1.get() == 1 else None
