@@ -1,4 +1,4 @@
-import src.main.BuildProcedure as bp
+#import src.main.BuildProcedure as bp
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
@@ -19,6 +19,9 @@ controls_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10)
 
 grid_frame = tk.Frame(main_frame) # Frame for the 8x12 grid
 grid_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10)
+
+bottom_frame = tk.Frame(main_frame)  # This is a new frame for the bottom elements
+bottom_frame.pack(side=tk.BOTTOM, fill=tk.X) 
 
 # Storing all the user preferences
 preference = {
@@ -61,11 +64,11 @@ def toggle_col_zero(c, var):
 # Variable to store the fill number from the entry box
 fill = tk.StringVar()
 # Label for the entry box
-label = tk.Label(controls_frame, text="Enter volume (in uL)\nto fill the grid:")
-label.pack(side='bottom', anchor='e', padx=5)  # 'e' for east/right
+label = tk.Label(bottom_frame, text="Enter volume (in uL)\nto fill the grid:")
+label.pack(side='top', anchor='e', padx=5)  # 'e' for east/right
 # Specify number to be filled inside the grids
-fill_number_entry = tk.Entry(controls_frame, textvariable=fill, width=10)
-fill_number_entry.pack(side='bottom', anchor='e', padx=5, pady=(0, 10))
+fill_number_entry = tk.Entry(bottom_frame, textvariable=fill, width=10)
+fill_number_entry.pack(side='top', padx=0, pady=(0, 150))
 
 # Create the "All" (fill grid with specified number) checkbox
 all_var = tk.IntVar()
@@ -79,7 +82,11 @@ for c in range(8):
     chk = tk.Checkbutton(grid_frame, variable=col_var,
                          onvalue=1, offvalue=0,
                          command=lambda col=c, var=col_var: toggle_col_zero(col, var))
-    chk.grid(row=0, column=c+1)
+    chk.grid(row=0, column=c+2)
+
+    # Add a label below each column checkbox
+    label = tk.Label(grid_frame, text=f"C{c+1}")
+    label.grid(row=1, column=c+2)
 
 # Create row checkboxes to fill with the specified number
 for r in range(12):
@@ -87,13 +94,16 @@ for r in range(12):
     chk = tk.Checkbutton(grid_frame, variable=row_var,
                          onvalue=1, offvalue=0,
                          command=lambda row=r, var=row_var: toggle_row_zero(row, var))
-    chk.grid(row=r+1, column=0)
+    chk.grid(row=r+2, column=0)
+    # Add a label to the right of each row checkbox
+    label = tk.Label(grid_frame, text=f"R{r+1}")
+    label.grid(row=r+2, column=1)
 
 # Create a 12x8 grid of entry widgets
 for r in range(12):
     for c in range(8):
         entry = tk.Entry(grid_frame, width=5, justify='center')
-        entry.grid(row=r+1, column=c+1)
+        entry.grid(row=r+2, column=c+2)
         entries[(r, c)] = entry
 ###GRID end
 
@@ -103,41 +113,50 @@ def update_selection(name, value):
 
 # Add procedure name, should press enter key to save name
 pname_label = tk.Label(controls_frame, text="Enter procedure name:")
-pname_label.pack() 
+pname_label.pack()
 
 pname = tk.Entry(controls_frame, width=30)
 pname.pack()
 
 # Add Dropdowns
-def dropdown(name, prompt, options):
-    var = tk.StringVar(controls_frame)
+def dropdown(name, prompt, options, message):
+    f = tk.Frame(controls_frame)
+    f.pack(fill='x', expand=True)
+
+    mes = tk.Label(f, text=message)
+    mes.grid(row=0, column=0, sticky='w', padx=5)
+
+    var = tk.StringVar(f)
     var.set(prompt) # default value
 
     def callback(value): #can't be called outside
         update_selection(name, value)
 
-    w = tk.OptionMenu(controls_frame, var, *options, command= callback)
-    w.pack() #creates and packs dropdown menu
+    w = tk.OptionMenu(f, var, *options, command= callback)
+    w.grid(row=0, column=1) #creates and packs dropdown menu
+
+    f.grid_columnconfigure(1, weight=1)
+    w.config(anchor='w')
 
 ### Plate Size
 opt_plate = ["6 well plate", "96 well plate"]
-p_plate = ["Choose a tip type"]
-dropdown('plate',p_plate, opt_plate)
+p_plate = ["Choose a plate size"]
+dropdown('plate',p_plate, opt_plate, "Plate Size:")
 
 ### Insert type
 opt_insert = ["none", "EZ-SEED", "3-IN-1"]
 p_insert = ["Choose an insert type"]
-dropdown('insert',p_insert, opt_insert)
+dropdown('insert',p_insert, opt_insert, "Insert Type:")
 
 ### Reservoir size
-opt_res = ["5mL", "25mL"]
+opt_res = ["1.5mL", "5mL", "25mL"]
 p_res = ["Choose a reservoir type"]
-dropdown('reservoir',p_res, opt_res)
+dropdown('reservoir',p_res, opt_res, "Reservoir Type:")
 
 ### Tip Type
 opt_tip = ["250mL"]
 p_tip = ["Choose a tip type"]
-dropdown('tip',p_tip, opt_tip)
+dropdown('tip',p_tip, opt_tip, "Tip Type:")
 
 # Add Checkboxes:
 
@@ -176,15 +195,15 @@ def tip_set():
             letter_labels[letter].config(fg="grey")
 
 # Message label
-equip_label = tk.Label(controls_frame, text="Equip tips at positions:")
+equip_label = tk.Label(bottom_frame, text="Equip tips at positions:")
 equip_label.pack(pady=(10,0))
 
 #Add button to update tip selection
-tips_equip=tk.Button(controls_frame, text="Press for tips", command=tip_set)
+tips_equip=tk.Button(bottom_frame, text="Press for tips", command=tip_set)
 tips_equip.pack()
 
 #Frame for the letters
-letters_frame = tk.Frame(controls_frame)
+letters_frame = tk.Frame(bottom_frame)
 letters_frame.pack()
 
 #Letter labels
@@ -210,7 +229,7 @@ def update_eject():
 CheckVar2 = tk.IntVar()
 
 eject = tk.Checkbutton(controls_frame, text="Press when ejection bowl is equipped",
-                    fg="black", bd=10, variable=CheckVar2,
+                    fg="black", variable=CheckVar2,
                     onvalue=1, offvalue=0, command=update_eject)
 eject.pack()
 
@@ -230,7 +249,7 @@ def save_preference():
     else:
         # updates the 'grid' in preference otherwise
         update_selection('grid', grid)
-   
+
         # Capture name and save it
         update_selection('name', pname.get())
 
@@ -246,32 +265,32 @@ save_button = tk.Button(root, text="Save Preferences", command=save_preference)
 save_button.pack()
 
 #Add Run Procedure
-def run_procedure():
-    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
-    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
-
-    try:
-        with open(filename, "r") as file:
-            data = json.load(file)
-
-        # Extract variables for build_procedure from the .json
-        name = data.get('name', 'untitled')
-        insert = data.get('insert', 'none')
-        tip = int(data.get('tip', 250))
-        vol_array = data.get('grid', [[]])
-        restype = data.get('reservoir', '5mL')
-        r_vol = data.get('reservoir', '5mL')  #unsure
-
-        # Calls build_procedure
-        bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
-
-        messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
-    except FileNotFoundError:
-        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
-
-
-run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
-run_procedure_button.pack()
+# def run_procedure():
+#     # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+#     filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+#
+#     try:
+#         with open(filename, "r") as file:
+#             data = json.load(file)
+#
+#         # Extract variables for build_procedure from the .json
+#         name = data.get('name', 'untitled')
+#         insert = data.get('insert', 'none')
+#         tip = int(data.get('tip', 250))
+#         vol_array = data.get('grid', [[]])
+#         restype = data.get('reservoir', '5mL')
+#         r_vol = data.get('reservoir', '5mL')  #unsure
+#
+#         # Calls build_procedure
+#         bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
+#
+#         messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
+#     except FileNotFoundError:
+#         messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+#
+#
+# run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
+# run_procedure_button.pack()
 
 # exit button
 def on_exit():
@@ -291,19 +310,19 @@ def import_csv_file():
     # Specify the options for opening the dialog
     filetypes = [('CSV files', '*.csv'), ('All files', '*.*')]
     filename = filedialog.askopenfilename(title="Open a file", initialdir="/", filetypes=filetypes)
-    
+
     # Check if a file was selected (filename will not be empty)
     if filename:
         # Reads the CSV file
         with open(filename, newline='') as csvfile:
             reader = csv.reader(csvfile)
             matrix = list(reader)
-            
+
             # Checks if the matrix exceeds 12x8 dimensions
             if len(matrix) > 12 or any(len(row) > 8 for row in matrix):
                 messagebox.showwarning("Invalid File", "Please submit an appropriate csv file with a 12x8 matrix or smaller.")
                 return  # Stop processing this file
-            
+
             # Populates the grid with the matrix values or zeros
             for r in range(12):
                 for c in range(8):
@@ -320,7 +339,6 @@ bottom_frame.pack(side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
 # Create the "Import .csv File" button
 import_button = tk.Button(bottom_frame, text="Import .csv File", command=import_csv_file)
 import_button.pack(side=tk.LEFT, padx=10, pady=10)  # Pack to the left side of the bottom_frame
-
 
 
 root.mainloop()
