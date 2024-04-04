@@ -1,4 +1,4 @@
-import src.main.BuildProcedure as bp
+#import src.main.BuildProcedure as bp
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
@@ -62,10 +62,10 @@ def toggle_col_zero(c, var):
 fill = tk.StringVar()
 # Label for the entry box
 label = tk.Label(controls_frame, text="Enter volume (in uL)\nto fill the grid:")
-label.pack(side='bottom', anchor='e', padx=5)  # 'e' for east/right
+label.pack(side='top', anchor='e', padx=5)  # 'e' for east/right
 # Specify number to be filled inside the grids
 fill_number_entry = tk.Entry(controls_frame, textvariable=fill, width=10)
-fill_number_entry.pack(side='bottom', anchor='e', padx=5, pady=(0, 10))
+fill_number_entry.pack(side='top', anchor='e', padx=5, pady=(0, 10))
 
 # Create the "All" (fill grid with specified number) checkbox
 all_var = tk.IntVar()
@@ -103,41 +103,50 @@ def update_selection(name, value):
 
 # Add procedure name, should press enter key to save name
 pname_label = tk.Label(controls_frame, text="Enter procedure name:")
-pname_label.pack() 
+pname_label.pack()
 
 pname = tk.Entry(controls_frame, width=30)
 pname.pack()
 
 # Add Dropdowns
-def dropdown(name, prompt, options):
-    var = tk.StringVar(controls_frame)
+def dropdown(name, prompt, options, message):
+    f = tk.Frame(controls_frame)
+    f.pack(fill='x', expand=True)
+
+    mes = tk.Label(f, text=message)
+    mes.grid(row=0, column=0, sticky='w', padx=5)
+
+    var = tk.StringVar(f)
     var.set(prompt) # default value
 
     def callback(value): #can't be called outside
         update_selection(name, value)
 
-    w = tk.OptionMenu(controls_frame, var, *options, command= callback)
-    w.pack() #creates and packs dropdown menu
+    w = tk.OptionMenu(f, var, *options, command= callback)
+    w.grid(row=0, column=1) #creates and packs dropdown menu
+
+    f.grid_columnconfigure(1, weight=1)
+    w.config(anchor='w')
 
 ### Plate Size
 opt_plate = ["6 well plate", "96 well plate"]
-p_plate = ["Choose a tip type"]
-dropdown('plate',p_plate, opt_plate)
+p_plate = ["Choose a plate size"]
+dropdown('plate',p_plate, opt_plate, "Plate Size:")
 
 ### Insert type
 opt_insert = ["none", "EZ-SEED", "3-IN-1"]
 p_insert = ["Choose an insert type"]
-dropdown('insert',p_insert, opt_insert)
+dropdown('insert',p_insert, opt_insert, "Insert Type:")
 
 ### Reservoir size
-opt_res = ["5mL", "25mL"]
+opt_res = ["1.5mL", "5mL", "25mL"]
 p_res = ["Choose a reservoir type"]
-dropdown('reservoir',p_res, opt_res)
+dropdown('reservoir',p_res, opt_res, "Reservoir Type:")
 
 ### Tip Type
 opt_tip = ["250mL"]
 p_tip = ["Choose a tip type"]
-dropdown('tip',p_tip, opt_tip)
+dropdown('tip',p_tip, opt_tip, "Tip Type:")
 
 # Add Checkboxes:
 
@@ -230,7 +239,7 @@ def save_preference():
     else:
         # updates the 'grid' in preference otherwise
         update_selection('grid', grid)
-   
+
         # Capture name and save it
         update_selection('name', pname.get())
 
@@ -246,32 +255,32 @@ save_button = tk.Button(root, text="Save Preferences", command=save_preference)
 save_button.pack()
 
 #Add Run Procedure
-def run_procedure():
-    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
-    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
-
-    try:
-        with open(filename, "r") as file:
-            data = json.load(file)
-
-        # Extract variables for build_procedure from the .json
-        name = data.get('name', 'untitled')
-        insert = data.get('insert', 'none')
-        tip = int(data.get('tip', 250))
-        vol_array = data.get('grid', [[]])
-        restype = data.get('reservoir', '5mL')
-        r_vol = data.get('reservoir', '5mL')  #unsure
-
-        # Calls build_procedure
-        bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
-
-        messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
-    except FileNotFoundError:
-        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
-
-
-run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
-run_procedure_button.pack()
+# def run_procedure():
+#     # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+#     filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+#
+#     try:
+#         with open(filename, "r") as file:
+#             data = json.load(file)
+#
+#         # Extract variables for build_procedure from the .json
+#         name = data.get('name', 'untitled')
+#         insert = data.get('insert', 'none')
+#         tip = int(data.get('tip', 250))
+#         vol_array = data.get('grid', [[]])
+#         restype = data.get('reservoir', '5mL')
+#         r_vol = data.get('reservoir', '5mL')  #unsure
+#
+#         # Calls build_procedure
+#         bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
+#
+#         messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
+#     except FileNotFoundError:
+#         messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+#
+#
+# run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
+# run_procedure_button.pack()
 
 # exit button
 def on_exit():
@@ -291,19 +300,19 @@ def import_csv_file():
     # Specify the options for opening the dialog
     filetypes = [('CSV files', '*.csv'), ('All files', '*.*')]
     filename = filedialog.askopenfilename(title="Open a file", initialdir="/", filetypes=filetypes)
-    
+
     # Check if a file was selected (filename will not be empty)
     if filename:
         # Reads the CSV file
         with open(filename, newline='') as csvfile:
             reader = csv.reader(csvfile)
             matrix = list(reader)
-            
+
             # Checks if the matrix exceeds 12x8 dimensions
             if len(matrix) > 12 or any(len(row) > 8 for row in matrix):
                 messagebox.showwarning("Invalid File", "Please submit an appropriate csv file with a 12x8 matrix or smaller.")
                 return  # Stop processing this file
-            
+
             # Populates the grid with the matrix values or zeros
             for r in range(12):
                 for c in range(8):
