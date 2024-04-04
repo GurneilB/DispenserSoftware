@@ -60,13 +60,12 @@ def toggle_col_zero(c, var):
 
 # Variable to store the fill number from the entry box
 fill = tk.StringVar()
-# Specify number to be filled inside the grids
-fill_number_entry = tk.Entry(controls_frame, textvariable=fill, width=10)
-fill_number_entry.pack(side='bottom', anchor='e', padx=5, pady=(5, 0))
 # Label for the entry box
 label = tk.Label(controls_frame, text="Enter volume (in uL)\nto fill the grid:")
-label.pack(side='bottom', anchor='e', padx=5, pady=(0, 5))  # 'e' for east/right
-
+label.pack(side='bottom', anchor='e', padx=5)  # 'e' for east/right
+# Specify number to be filled inside the grids
+fill_number_entry = tk.Entry(controls_frame, textvariable=fill, width=10)
+fill_number_entry.pack(side='bottom', anchor='e', padx=5, pady=(0, 10))
 
 # Create the "All" (fill grid with specified number) checkbox
 all_var = tk.IntVar()
@@ -165,10 +164,10 @@ def tip_set():
 
     # Check each pair of columns in the grid to determine if they are filled
     for letter, (col_start, col_end) in column_pairs.items():
-        is_filled = True
+        is_filled = False
         for r in range(12):
-            if entries[(r, col_start)].get() == '0' and entries[(r, col_end)].get() == '0':
-                is_filled = False
+            if entries[(r, col_start)].get() != '0' and entries[(r, col_end)].get() != '0':
+                is_filled = True
                 break
         # Update the color of the letter based on whether its columns are filled
         if is_filled:
@@ -201,7 +200,7 @@ def update_equip():
 CheckVar1 = tk.IntVar()
 #Creates the checkbox
 equip = tk.Checkbutton(controls_frame, text="Press when tips are equipped",
-                    fg="black", bd=10, variable=CheckVar1,
+                    fg="black", variable=CheckVar1,
                     onvalue=1, offvalue=0, command=update_equip)
 equip.pack()
 
