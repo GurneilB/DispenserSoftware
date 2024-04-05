@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import mock_open, patch
 import src.main.UserInput as UI
+import src.main.GUI as gui
 import src.main.Value as val
 
 
@@ -24,6 +25,11 @@ class DynamicUserInput(unittest.TestCase):
     def test_tip_exception(self, mock_open):
         tip = UI.get_tip_type()
         self.assertIsInstance(tip, int)
+
+    def test_gui(self):
+
+        gui.run_procedure()
+
 
 
 if __name__ == '__main__':
