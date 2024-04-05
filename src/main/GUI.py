@@ -179,7 +179,7 @@ dropdown('reservoir',p_res, opt_res, "Reservoir Type (in mL):")
 ### Tip Type
 opt_tip = ["250"]
 p_tip = ["Choose a tip type"]
-dropdown('tip',p_tip, opt_tip, "Tip Type (in mL):")
+dropdown('tip',p_tip, opt_tip, "Tip Type (in uL):")
 
 # Add Checkboxes:
 
