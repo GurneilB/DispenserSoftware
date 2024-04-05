@@ -8,7 +8,6 @@ import csv
 # Create the main window
 root = tk.Tk()
 root.title("FluidCAM")
-#root.configure(bg="white")
 
 #Create a frame to fit everything
 main_frame = tk.Frame(root) # Main frame to contain everything
@@ -119,34 +118,51 @@ pname = tk.Entry(controls_frame, width=30)
 pname.pack()
 
 # Add Dropdowns
-def dropdown(name, prompt, options, message):
-    f = tk.Frame(controls_frame)
+def dropdown(name, prompt, options, message, callback=None):
+    f = tk.Frame(controls_frame) #Creates frame
     f.pack(fill='x', expand=True)
 
-    mes = tk.Label(f, text=message)
+    mes = tk.Label(f, text=message) #displays the message
     mes.grid(row=0, column=0, sticky='w', padx=5)
 
     var = tk.StringVar(f)
     var.set(prompt) # default value
 
-    def callback(value): #can't be called outside
+    def call(value): #can't be called outside
+        if callback:
+            callback(value)
         update_selection(name, value)
 
-    w = tk.OptionMenu(f, var, *options, command= callback)
+    w = tk.OptionMenu(f, var, *options, command= call)
     w.grid(row=0, column=1) #creates and packs dropdown menu
 
     f.grid_columnconfigure(1, weight=1)
     w.config(anchor='w')
+    return var, w
+
+# Implement the callback function for updating insert options
+def insert_opts(selected_plate_size):
+    opt_insert = {
+        "6 well plate": ["none", "3-IN-1"],
+        "96 well plate": ["none", "EZ-SEED"],
+    }
+    new_options = opt_insert.get(selected_plate_size, ["none"])  # Default to ["none"] if not found
+    dropdown_insert['menu'].delete(0, 'end') # Clear the current options from the insert type dropdown
+
+    # Add new options to the insert type dropdown
+    for option in new_options:
+        dropdown_insert['menu'].add_command(label=option, command=lambda value=option: insert_var.set(value))
+    # Update the displayed value to the first option of the new list
+    insert_var.set(new_options[0])
 
 ### Plate Size
 opt_plate = ["6 well plate", "96 well plate"]
 p_plate = ["Choose a plate size"]
-dropdown('plate',p_plate, opt_plate, "Plate Size:")
+dropdown('plate',p_plate, opt_plate, "Plate Size:", insert_opts)
 
 ### Insert type
-opt_insert = ["none", "EZ-SEED", "3-IN-1"]
 p_insert = ["Choose an insert type"]
-dropdown('insert',p_insert, opt_insert, "Insert Type:")
+insert_var, dropdown_insert = dropdown('insert', p_insert, ["none"], "Insert Type:")
 
 ### Reservoir size
 opt_res = ["1.5mL", "5mL", "25mL"]
@@ -232,11 +248,6 @@ eject = tk.Checkbutton(controls_frame, text="Press when ejection bowl is equippe
                     fg="black", variable=CheckVar2,
                     onvalue=1, offvalue=0, command=update_eject)
 eject.pack()
-
-
-# Add "Run Procedure" Button (builds file)
-
-# Add file menu items
 
 # Add Save
 def save_preference():
