@@ -138,7 +138,7 @@ tip_var = tk.StringVar(value="Choose a tip type")
 
 
 # Add Dropdowns
-def dropdown(name, prompt, options, message, var, callback=None):
+def dropdown(name, prompt, options, message, var, callback=None, selection_callback=None):
     f = tk.Frame(controls_frame)  # Creates frame
     f.pack(fill='x', expand=True)
 
@@ -151,6 +151,8 @@ def dropdown(name, prompt, options, message, var, callback=None):
         if callback:
             callback(value)
         update_selection(name, value)
+        if selection_callback: # new callback after selection
+            selection_callback(value)
 
     w = tk.OptionMenu(f, var, *options, command=call)
     w.grid(row=0, column=1)  # creates and packs dropdown menu
@@ -194,9 +196,16 @@ p_insert = ["Choose an insert type"]
 dropdown_insert = dropdown('insert', p_insert, ["none"], "Insert Type:", insert_var)
 
 ### Reservoir size
+def greying(value):
+    if value == "25":
+        equip.config(state=tk.DISABLED) # Disables the checkbox
+        CheckVar1.set(0) #also unchecks it
+    else:
+        equip.config(state=tk.NORMAL)
+
 opt_res = ["1.5", "5", "25"]
 p_res = ["Choose a reservoir type"]
-dropdown('reservoir', p_res, opt_res, "Reservoir Type (in mL):", reservoir_var)
+dropdown('reservoir', p_res, opt_res, "Reservoir Type (in mL):", reservoir_var, selection_callback=greying)
 
 ### Tip Type
 opt_tip = [250]
