@@ -40,7 +40,6 @@ preference = {
 ### GRID
 entries = {}
 
-
 # Function to toggle the entire matrix
 def toggle_matrix(var):
     fill_number = fill.get() if var.get() and fill.get() else ""
