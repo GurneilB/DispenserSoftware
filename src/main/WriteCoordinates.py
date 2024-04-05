@@ -1,3 +1,5 @@
+from typing import List
+
 import src.main.Value as val
 
 
@@ -49,7 +51,7 @@ def linear_e_pos(name: str, pos: float, speed: float):
         file.write("G1 E%.3f F%.3f \n" % (pos, speed))
 
 
-def rapid_xy_pos(name: str, pos: list[float]):
+def rapid_xy_pos(name: str, pos: List[float]):
     """
     Writes a rapid XY command to file
 
@@ -61,7 +63,7 @@ def rapid_xy_pos(name: str, pos: list[float]):
         file.write("G0 X%.3f Y%.3f \n" % (pos[val.x], pos[val.y]))
 
 
-def linear_xy_pos(name: str, pos: list[float], speed: float):
+def linear_xy_pos(name: str, pos: List[float], speed: float):
     """
     Writes a linear XY command to file
 

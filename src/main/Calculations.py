@@ -240,6 +240,9 @@ def convert_vol(vol: float):
 
 
 def get_protocol(vol_array: np.array):
+    # Convert vol_array to a NumPy array if it's not already one
+    vol_array = np.array(vol_array)
+
     # 96 Well Plate Protocols
     if np.shape(vol_array) == (12, 8):
         section_1 = vol_array[:, [0, 1]]

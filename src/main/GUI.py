@@ -1,4 +1,4 @@
-#import src.main.BuildProcedure as bp
+import src.main.BuildProcedure as bp
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
@@ -140,18 +140,23 @@ def dropdown(name, prompt, options, message, callback=None):
     w.config(anchor='w')
     return var, w
 
-# Implement the callback function for updating insert options
+# Implement the callback for updating insert options
 def insert_opts(selected_plate_size):
     opt_insert = {
         "6 well plate": ["none", "3-IN-1"],
         "96 well plate": ["none", "EZ-SEED"],
     }
     new_options = opt_insert.get(selected_plate_size, ["none"])  # Default to ["none"] if not found
-    dropdown_insert['menu'].delete(0, 'end') # Clear the current options from the insert type dropdown
+    dropdown_insert['menu'].delete(0, 'end') # Clears the current options from the insert type dropdown
+
+    # update insert in preference
+    def update_in(value):
+        insert_var.set(value)
+        update_selection('insert', value)
 
     # Add new options to the insert type dropdown
     for option in new_options:
-        dropdown_insert['menu'].add_command(label=option, command=lambda value=option: insert_var.set(value))
+        dropdown_insert['menu'].add_command(label=option, command=lambda value=option: update_in(value))
     # Update the displayed value to the first option of the new list
     insert_var.set(new_options[0])
 
@@ -165,14 +170,14 @@ p_insert = ["Choose an insert type"]
 insert_var, dropdown_insert = dropdown('insert', p_insert, ["none"], "Insert Type:")
 
 ### Reservoir size
-opt_res = ["1.5mL", "5mL", "25mL"]
+opt_res = ["1.5", "5", "25"]
 p_res = ["Choose a reservoir type"]
-dropdown('reservoir',p_res, opt_res, "Reservoir Type:")
+dropdown('reservoir',p_res, opt_res, "Reservoir Type (in mL):")
 
 ### Tip Type
-opt_tip = ["250mL"]
+opt_tip = ["250"]
 p_tip = ["Choose a tip type"]
-dropdown('tip',p_tip, opt_tip, "Tip Type:")
+dropdown('tip',p_tip, opt_tip, "Tip Type (in mL):")
 
 # Add Checkboxes:
 
@@ -276,32 +281,32 @@ save_button = tk.Button(root, text="Save Preferences", command=save_preference)
 save_button.pack()
 
 #Add Run Procedure
-# def run_procedure():
-#     # Filename based on the procedure name and defaults to "untitled.json" if not provided.
-#     filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
-#
-#     try:
-#         with open(filename, "r") as file:
-#             data = json.load(file)
-#
-#         # Extract variables for build_procedure from the .json
-#         name = data.get('name', 'untitled')
-#         insert = data.get('insert', 'none')
-#         tip = int(data.get('tip', 250))
-#         vol_array = data.get('grid', [[]])
-#         restype = data.get('reservoir', '5mL')
-#         r_vol = data.get('reservoir', '5mL')  #unsure
-#
-#         # Calls build_procedure
-#         bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
-#
-#         messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
-#     except FileNotFoundError:
-#         messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
-#
-#
-# run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
-# run_procedure_button.pack()
+def run_procedure():
+    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)
+
+        # Extract variables for build_procedure from the .json
+        name = data.get('name', 'untitled')
+        insert = data.get('insert', 'none')
+        tip = int(data.get('tip', 250))
+        vol_array = data.get('grid', [[]])
+        restype = data.get('reservoir', '5mL')
+        r_vol = data.get('reservoir', '5mL')  #unsure
+
+        # Calls build_procedure
+        bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
+
+        messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
+    except FileNotFoundError:
+        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+
+
+run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
+run_procedure_button.pack()
 
 # exit button
 def on_exit():
