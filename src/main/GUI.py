@@ -1,4 +1,4 @@
-import src.main.BuildProcedure as bp
+# import src.main.BuildProcedure as bp
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
@@ -41,22 +41,22 @@ entries = {}
 # Function to toggle the entire matrix
 def toggle_matrix(var):
     fill_number = fill.get() if var.get() and fill.get() else ""
-    for r in range(12):
-        for c in range(8):
+    for c in range(12):  # Now loops through columns first
+        for r in range(8):  # Then rows
             entries[(r, c)].delete(0, tk.END)
             entries[(r, c)].insert(0, fill_number)
 
-# Function to toggle a row
-def toggle_row_zero(r, var):
+# Function to toggle a column - now toggles what used to be a row
+def toggle_row_zero(c, var):
     fill_number = fill.get() if var.get() and fill.get() else ""
-    for c in range(8):
+    for r in range(8):  # Adjusted for new dimensions
         entries[(r, c)].delete(0, tk.END)
         entries[(r, c)].insert(0, fill_number)
 
-# Function to toggle a column
-def toggle_col_zero(c, var):
+# Function to toggle a row - now toggles what used to be a column
+def toggle_col_zero(r, var):
     fill_number = fill.get() if var.get() and fill.get() else ""
-    for r in range(12):
+    for c in range(12):  # Adjusted for new dimensions
         entries[(r, c)].delete(0, tk.END)
         entries[(r, c)].insert(0, fill_number)
 
@@ -75,34 +75,36 @@ all_check = tk.Checkbutton(grid_frame, text="All", variable=all_var,
                            onvalue=1, offvalue=0, command=lambda: toggle_matrix(all_var))
 all_check.grid(row=0, column=0)
 
-# Create column checkboxes to fill with the specified number
-for c in range(8):
-    col_var = tk.IntVar()
-    chk = tk.Checkbutton(grid_frame, variable=col_var,
-                         onvalue=1, offvalue=0,
-                         command=lambda col=c, var=col_var: toggle_col_zero(col, var))
-    chk.grid(row=0, column=c+2)
-
-    # Add a label below each column checkbox
-    label = tk.Label(grid_frame, text=f"C{c+1}")
-    label.grid(row=1, column=c+2)
-
 # Create row checkboxes to fill with the specified number
-for r in range(12):
+for r in range(12):  # Adjusted loop for rows
     row_var = tk.IntVar()
     chk = tk.Checkbutton(grid_frame, variable=row_var,
                          onvalue=1, offvalue=0,
                          command=lambda row=r, var=row_var: toggle_row_zero(row, var))
-    chk.grid(row=r+2, column=0)
-    # Add a label to the right of each row checkbox
-    label = tk.Label(grid_frame, text=f"R{r+1}")
-    label.grid(row=r+2, column=1)
+    chk.grid(row=0, column=r+2)
 
-# Create a 12x8 grid of entry widgets
-for r in range(12):
-    for c in range(8):
+    # Add a label below each row checkbox
+    label = tk.Label(grid_frame, text=f"{r+1}")
+    label.grid(row=1, column=r+2)
+
+# Create column checkboxes to fill with the specified number
+for c in range(8):  # Adjusted loop for columns
+    col_var = tk.IntVar()
+    chk = tk.Checkbutton(grid_frame, variable=col_var,
+                         onvalue=1, offvalue=0,
+                         command=lambda col=c, var=col_var: toggle_col_zero(col, var))  # Adjusted command
+    chk.grid(row=c+2, column=0)  # Adjusted position
+
+    # Add a label to the right of each column checkbox
+    letter = chr(65 + c % 8)
+    label = tk.Label(grid_frame, text=f"{letter}")
+    label.grid(row=c+2, column=1)
+
+# Create an 8x12 grid of entry widgets
+for r in range(8):  # Adjusted loop for rows
+    for c in range(12):  # Adjusted loop for columns
         entry = tk.Entry(grid_frame, width=5, justify='center')
-        entry.grid(row=r+2, column=c+2)
+        entry.grid(row=r+2, column=c+2)  # Adjusted position
         entries[(r, c)] = entry
 ###GRID end
 
@@ -239,7 +241,7 @@ def update_equip():
     preference['equip'] = "TRUE" if CheckVar1.get() == 1 else None
 CheckVar1 = tk.IntVar()
 #Creates the checkbox
-equip = tk.Checkbutton(controls_frame, text="Press when tips are equipped",
+equip = tk.Checkbutton(controls_frame, text="Press once tips are equipped in their respective places",
                     fg="black", variable=CheckVar1,
                     onvalue=1, offvalue=0, command=update_equip)
 equip.pack()
@@ -249,7 +251,7 @@ def update_eject():
     preference['eject'] = "TRUE" if CheckVar2.get() == 1 else None
 CheckVar2 = tk.IntVar()
 
-eject = tk.Checkbutton(controls_frame, text="Press when ejection bowl is equipped",
+eject = tk.Checkbutton(controls_frame, text="Press once ejection bowl is equipped",
                     fg="black", variable=CheckVar2,
                     onvalue=1, offvalue=0, command=update_eject)
 eject.pack()
@@ -281,32 +283,32 @@ save_button = tk.Button(root, text="Save Preferences", command=save_preference)
 save_button.pack()
 
 #Add Run Procedure
-def run_procedure():
-    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
-    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
-
-    try:
-        with open(filename, "r") as file:
-            data = json.load(file)
-
-        # Extract variables for build_procedure from the .json
-        name = data.get('name', 'untitled')
-        insert = data.get('insert', 'none')
-        tip = int(data.get('tip', 250))
-        vol_array = data.get('grid', [[]])
-        restype = data.get('reservoir', '5mL')
-        r_vol = data.get('reservoir', '5mL')  #unsure
-
-        # Calls build_procedure
-        bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
-
-        messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
-    except FileNotFoundError:
-        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
-
-
-run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
-run_procedure_button.pack()
+# def run_procedure():
+#     # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+#     filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+#
+#     try:
+#         with open(filename, "r") as file:
+#             data = json.load(file)
+#
+#         # Extract variables for build_procedure from the .json
+#         name = data.get('name', 'untitled')
+#         insert = data.get('insert', 'none')
+#         tip = int(data.get('tip', 250))
+#         vol_array = data.get('grid', [[]])
+#         restype = data.get('reservoir', '5mL')
+#         r_vol = data.get('reservoir', '5mL')  #unsure
+#
+#         # Calls build_procedure
+#         bp.build_procedure(name, r_vol, insert, tip, vol_array, restype)
+#
+#         messagebox.showinfo("Procedure Run", "Procedure has been successfully run.")
+#     except FileNotFoundError:
+#         messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+#
+#
+# run_procedure_button = tk.Button(root, text="Run Procedure", command=lambda: run_procedure())
+# run_procedure_button.pack()
 
 # exit button
 def on_exit():
