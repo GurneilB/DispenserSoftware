@@ -306,31 +306,31 @@ save_button.pack()
 
 
 # Add Run Procedure
-#def run_procedure():
-#    save_preference()
-    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
-#   filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
-
-#    try:
- #       with open(filename, "r") as file:
-#            data = json.load(file)
-
-        # Extract variables for build_procedure from the .json
-#        name = data.get('name')
- #       plate = data.get('plate')
-#        insert = data.get('insert')
-#        tip = int(data.get('tip'))
- #       vol_array = data.get('grid')
- #       restype = data.get('reservoir')
- #       equip_ = data.get('equip')
- #       eject_ = data.get('eject')
-
-        # Calls program
- #       program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
-
- #       messagebox.showinfo("Procedure Run", "File Saved")
-#    except FileNotFoundError:
- #       messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+# def run_procedure():
+#     save_preference()
+#     # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+#     filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+#
+#     try:
+#         with open(filename, "r") as file:
+#             data = json.load(file)
+#
+#         # Extract variables for build_procedure from the .json
+#         name = data.get('name')
+#         plate = data.get('plate')
+#         insert = data.get('insert')
+#         tip = int(data.get('tip'))
+#         vol_array = data.get('grid')
+#         restype = data.get('reservoir')
+#         equip_ = data.get('equip')
+#         eject_ = data.get('eject')
+#
+#         # Calls program
+#         program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
+#
+#         messagebox.showinfo("Procedure Run", "File Saved")
+#     except FileNotFoundError:
+#         messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
 
 
 #run_procedure_button = tk.Button(root, text="Generate Procedure", command=lambda: run_procedure())
