@@ -54,7 +54,7 @@ def toggle_matrix(var):
 # Function to toggle a row
 def toggle_row_zero(r, var):
     fill_number = fill.get() if var.get() and fill.get() else ""
-    for c in range(8):  # Adjusted for new dimensions
+    for c in range(8):
         entries[(r, c)].delete(0, tk.END)
         entries[(r, c)].insert(0, fill_number)
 
@@ -82,32 +82,32 @@ all_check = tk.Checkbutton(grid_frame, text="All", variable=all_var,
                            onvalue=1, offvalue=0, command=lambda: toggle_matrix(all_var))
 all_check.grid(row=0, column=0)
 
-# Create row checkboxes to fill with the specified number
-for r in range(8):  # Adjusted loop for rows
-    row_var = tk.IntVar()
-    chk = tk.Checkbutton(grid_frame, variable=row_var,
-                         onvalue=1, offvalue=0,
-                         command=lambda row=r, var=row_var: toggle_row_zero(row, var))
-    chk.grid(row=0, column=r + 2)
-
-    # Add a label below each row checkbox
-    letter = chr(65 + r % 8)
-    label = tk.Label(grid_frame, text=f"{letter}")
-    label.grid(row=1, column=r + 2)
-
 # Create column checkboxes to fill with the specified number
-for c in range(12):  # Adjusted loop for columns
+for c in range(8):  # Adjusted loop for rows
     col_var = tk.IntVar()
     chk = tk.Checkbutton(grid_frame, variable=col_var,
                          onvalue=1, offvalue=0,
-                         command=lambda col=c, var=col_var: toggle_col_zero(col, var))  # Adjusted command
-    chk.grid(row=c + 2, column=0)  # Adjusted position
+                         command=lambda col=c, var=col_var: toggle_col_zero(col, var))
+    chk.grid(row=0, column=c + 2)
+
+    # Add a label below each row checkbox
+    letter =chr(72-c%8)
+    label = tk.Label(grid_frame, text=f"{letter}")
+    label.grid(row=1, column=c + 2)
+
+# Create row checkboxes to fill with the specified number
+for r in range(12):  # Adjusted loop for columns
+    row_var = tk.IntVar()
+    chk = tk.Checkbutton(grid_frame, variable=row_var,
+                         onvalue=1, offvalue=0,
+                         command=lambda row=r, var=row_var: toggle_row_zero(row, var))  # Adjusted command
+    chk.grid(row=r + 2, column=0)  # Adjusted position
 
     # Add a label to the right of each column checkbox
-    label = tk.Label(grid_frame, text=f"{c + 1}")
-    label.grid(row=c + 2, column=1)
+    label = tk.Label(grid_frame, text=f"{r+1}")
+    label.grid(row=r + 2, column=10)
 
-# Create an 8x12 grid of entry widgets
+# Create an 12x8 grid of entry widgets
 for r in range(12):  # Adjusted loop for rows
     for c in range(8):  # Adjusted loop for columns
         entry = tk.Entry(grid_frame, width=5, justify='center')
