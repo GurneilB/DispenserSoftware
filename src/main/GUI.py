@@ -5,8 +5,9 @@ from tkinter import filedialog
 import numpy as np
 import json
 import csv
+
 import src.main.Value as val
-import src.main.Program as program
+# import src.main.Program as program
 
 # Create the main window
 root = tk.Tk()
@@ -40,6 +41,7 @@ preference = {
 # Add in-program grid that simulates 96-well plate, saves as np matrix
 ### GRID
 entries = {}
+
 
 # Function to toggle the entire matrix
 def toggle_matrix(var):
@@ -90,7 +92,7 @@ for c in range(8):  # Adjusted loop for rows
     chk.grid(row=0, column=c + 2)
 
     # Add a label below each row checkbox
-    letter =chr(72-c%8)
+    letter = chr(72 - c % 8)
     label = tk.Label(grid_frame, text=f"{letter}")
     label.grid(row=1, column=c + 2)
 
@@ -103,7 +105,7 @@ for r in range(12):  # Adjusted loop for columns
     chk.grid(row=r + 2, column=0)  # Adjusted position
 
     # Add a label to the right of each column checkbox
-    label = tk.Label(grid_frame, text=f"{r+1}")
+    label = tk.Label(grid_frame, text=f"{r + 1}")
     label.grid(row=r + 2, column=10)
 
 # Create an 12x8 grid of entry widgets
@@ -128,16 +130,21 @@ pname_label.pack()
 pname = tk.Entry(controls_frame, width=30)
 pname.pack()
 
+# Declare StringVar objects for dropdowns
+plate_var = tk.StringVar(value="Choose a plate size")
+insert_var = tk.StringVar(value="Choose an insert type")
+reservoir_var = tk.StringVar(value="Choose a reservoir type")
+tip_var = tk.StringVar(value="Choose a tip type")
+
 
 # Add Dropdowns
-def dropdown(name, prompt, options, message, callback=None):
+def dropdown(name, prompt, options, message, var, callback=None):
     f = tk.Frame(controls_frame)  # Creates frame
     f.pack(fill='x', expand=True)
 
     mes = tk.Label(f, text=message)  # displays the message
     mes.grid(row=0, column=0, sticky='w', padx=5)
 
-    var = tk.StringVar(f)
     var.set(prompt)  # default value
 
     def call(value):  # can't be called outside
@@ -150,17 +157,20 @@ def dropdown(name, prompt, options, message, callback=None):
 
     f.grid_columnconfigure(1, weight=1)
     w.config(anchor='w')
-    return var, w
+
+    return w
 
 
 # Implement the callback for updating insert options
 def insert_opts(selected_plate_size):
     opt_insert = {
-        "6 well plate": ["none", val.three_in_one],
-        "96 well plate": ["none", val.ez_seed],
+         "6 well plate": ["none", val.three_in_one],
+         "96 well plate": ["none", val.ez_seed],
     }
     new_options = opt_insert.get(selected_plate_size, ["none"])  # Default to ["none"] if not found
-    dropdown_insert['menu'].delete(0, 'end')  # Clears the current options from the insert type dropdown
+
+    menu = dropdown_insert['menu']  # Access the menu of the OptionMenu widget
+    menu.delete(0, 'end')  # Clear current options
 
     # update insert in preference
     def update_in(value):
@@ -177,21 +187,21 @@ def insert_opts(selected_plate_size):
 ### Plate Size
 opt_plate = ["6 well plate", "96 well plate"]
 p_plate = ["Choose a plate size"]
-dropdown('plate', p_plate, opt_plate, "Plate Size:", insert_opts)
+dropdown('plate', p_plate, opt_plate, "Plate Size:", plate_var, insert_opts)
 
 ### Insert type
 p_insert = ["Choose an insert type"]
-insert_var, dropdown_insert = dropdown('insert', p_insert, ["none"], "Insert Type:")
+dropdown_insert = dropdown('insert', p_insert, ["none"], "Insert Type:", insert_var)
 
 ### Reservoir size
 opt_res = ["1.5", "5", "25"]
 p_res = ["Choose a reservoir type"]
-dropdown('reservoir', p_res, opt_res, "Reservoir Type (in mL):")
+dropdown('reservoir', p_res, opt_res, "Reservoir Type (in mL):", reservoir_var)
 
 ### Tip Type
 opt_tip = [250]
 p_tip = ["Choose a tip type"]
-dropdown('tip', p_tip, opt_tip, "Tip Type (in uL):")
+dropdown('tip', p_tip, opt_tip, "Tip Type (in uL):", tip_var)
 
 
 # Add Checkboxes:
@@ -307,37 +317,37 @@ save_button.pack()
 
 
 # Add Run Procedure
-def run_procedure():
-    save_preference()
-    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
-    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+# def run_procedure():
+#    save_preference()
+# Filename based on the procedure name and defaults to "untitled.json" if not provided.
+#    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
 
-    try:
-        with open(filename, "r") as file:
-            data = json.load(file)
+#    try:
+#        with open(filename, "r") as file:
+#            data = json.load(file)
 
-        # Extract variables for build_procedure from the .json
-        name = data.get('name')
-        plate = data.get('plate')
-        insert = data.get('insert')
-        tip = int(data.get('tip'))
-        vol_array = np.array(data.get('grid')).astype(np.float_)
-        restype = data.get('reservoir')
-        equip_ = data.get('equip')
-        eject_ = data.get('eject')
+# Extract variables for build_procedure from the .json
+#        name = data.get('name')
+#        plate = data.get('plate')
+#        insert = data.get('insert')
+#        tip = int(data.get('tip'))
+#        vol_array = np.array(data.get('grid')).astype(np.float_)
+#        restype = data.get('reservoir')
+#        equip_ = data.get('equip')
+#        eject_ = data.get('eject')
 
-        # Calls program
-        res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
+# Calls program
+#        res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
 
-        print(res_volumes)
+#        print(res_volumes)
 
-        messagebox.showinfo("Procedure Run", "File Saved")
-    except FileNotFoundError:
-        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+#        messagebox.showinfo("Procedure Run", "File Saved")
+#    except FileNotFoundError:
+#        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
 
 
-run_procedure_button = tk.Button(root, text="Generate Procedure", command=lambda: run_procedure())
-run_procedure_button.pack()
+# run_procedure_button = tk.Button(root, text="Generate Procedure", command=lambda: run_procedure())
+# run_procedure_button.pack()
 
 
 # exit button
@@ -352,6 +362,10 @@ def on_exit():
 
 exit_button = tk.Button(root, text="Exit", command=on_exit)
 exit_button.pack()
+
+# Create a bottom frame (like controls and grid frames)
+bottom_frame = tk.Frame(root)
+bottom_frame.pack(side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
 
 
 # Import csv file
@@ -383,12 +397,49 @@ def import_csv_file():
                         entries[(r, c)].insert(0, "0")
 
 
-# Create a bottom frame (like controls and grid frames)
-bottom_frame = tk.Frame(root)
-bottom_frame.pack(side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
-
 # Create the "Import .csv File" button
 import_button = tk.Button(bottom_frame, text="Import CSV File", command=import_csv_file)
 import_button.pack(side=tk.LEFT, padx=10, pady=10)  # Pack to the left side of the bottom_frame
+
+
+# Load Preferences
+def load_pref():  # still needs exception handling
+    filetypes = [('JSON files', '*.json'), ('All files', '*.*')]
+    filename = filedialog.askopenfilename(title='Open Prefences .json File', initialdir="/", filetypes=filetypes)
+
+    if filename:
+        with open(filename, 'r') as file:
+            loaded_pref = json.load(file)
+        global preference
+        preference.update(loaded_pref)
+
+    # updating procedure name
+    pname.delete(0, tk.END)
+    pname.insert(0, preference.get('name', ''))
+
+    # updating dropdowns
+    global plate_var, insert_var, reservoir_var, tip_var
+    plate_var.set(preference.get('plate', 'Choose a plate size'))
+    insert_var.set(preference.get('insert', 'Choose an insert type'))
+    reservoir_var.set(preference.get('reservoir', 'Choose a reservoir type'))
+    tip_var.set(str(preference.get('tip', 'Choose a tip type')))
+
+    # updating checkboxes
+    CheckVar1.set(1 if preference.get('equip') == "TRUE" else 0)
+    CheckVar2.set(1 if preference.get('eject') == "TRUE" else 0)
+
+    # updating grid
+    grid_values = preference.get('grid', [])  # Default to an empty list if 'grid' key is not found
+    for r, row in enumerate(grid_values):
+        for c, cell_value in enumerate(row):
+            if r < 12 and c < 8:  # Ensure within grid bounds
+                entry = entries[(r, c)]
+                entry.delete(0, tk.END)
+                entry.insert(0, cell_value)
+
+
+# Create the "Load Preferences" button
+load_button = tk.Button(bottom_frame, text="Load Preferences", command=load_pref)
+load_button.pack(side=tk.LEFT, padx=0, pady=10)  # Pack to the left side of the bottom_frame
 
 root.mainloop()
