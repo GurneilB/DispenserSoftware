@@ -167,7 +167,7 @@ def vol_per_res(vol_array, reservoir: float):
             else:
 
                 # Return reservoir volume needed for both motors, 4-tip dispensing, 4 tubes
-                return [total_vols[0] / 2, total_vols[1] / 2, total_vols[2] / 2, total_vols[3] / 2,
+                return [total_vols[0], total_vols[1], total_vols[2], total_vols[3],
                         0, 0, 0, 0]
 
         # For 2 tips

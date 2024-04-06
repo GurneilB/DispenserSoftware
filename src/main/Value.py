@@ -18,13 +18,13 @@ tip_250 = 250
 plate_96 = [125, 20]
 plate96_movement_height = 49
 dispense_height_EZ = 53
-dispense_height_96 = None
+dispense_height_96 = 0  # Not Calibrated
 
 # 6 Well Plate Coordinates
-plate_6 = []
-plate6_movement_height = None
-dispense_height_3in1 = None
-dispense_height_6 = None
+plate_6 = [101, 0]  # Not Calibrated
+plate6_movement_height = 0  # Not Calibrated
+dispense_height_3in1 = 0  # Not Calibrated
+dispense_height_6 = 0  # Not Calibrated
 
 # 25 mL Reservoir Coordinates
 pos_reservoir_25ml = [3, 58]
@@ -32,10 +32,10 @@ aspirate_height_25ml = 56
 movement_height_25mL = 36
 
 # 1.5 mL Reservoir Coordinates
-tubes4tips = [[]]
-tubes2tips = []
-aspirate_height_1_5ml = None
-movement_height_1_5ml = None
+tubes4tips = [[11, 104], [47, 104]]  # Not calibrated
+tubes2tips = [[11, 104], [47, 104], [2, 117], [38, 117]]  # Not Calibrated
+aspirate_height_1_5ml = 0  # Not Calibrated
+movement_height_1_5ml = 0  # Not Calibrated
 
 # Ejection Coordinates
 eject_bowl = [5, 108]
@@ -46,8 +46,8 @@ present = [65, 0]
 present_height = 0
 
 # Equipping Coordinates
-tip_tray_8 = []
-equip_height = None
+tip_tray_8 = [65, 0]  # Not Calibrated
+equip_height = 0  # Not Calibrated
 
 # 96-well plate dimensions
 dims_96 = (8, 12)

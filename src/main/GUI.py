@@ -71,7 +71,7 @@ def toggle_col_zero(c, var):
 fill = tk.StringVar()
 # Label for the entry box
 label = tk.Label(bottom_frame, text="Enter volume (in uL)\nto fill the grid:")
-label.pack(side='top', anchor='e', padx=5)  # 'e' for east/right
+label.pack(side='top', padx=5)  # 'e' for east/right
 # Specify number to be filled inside the grids
 fill_number_entry = tk.Entry(bottom_frame, textvariable=fill, width=10)
 fill_number_entry.pack(side='top', padx=0, pady=(0, 150))
@@ -217,59 +217,81 @@ dropdown('tip', p_tip, opt_tip, "Tip Type (in uL):", tip_var)
 # Add Checkboxes:
 
 # Tip equipped
-def tip_set():
-    # Fill empty cells with '0's
-    for r in range(12):
-        for c in range(8):
-            if entries[(r, c)].get() == '':
-                entries[(r, c)].delete(0, tk.END)
-                entries[(r, c)].insert(0, '0')
+def tip_set(protocol):
+    # # Fill empty cells with '0's
+    # for r in range(12):
+    #     for c in range(8):
+    #         if entries[(r, c)].get() == '':
+    #             entries[(r, c)].delete(0, tk.END)
+    #             entries[(r, c)].insert(0, '0')
+    #
+    # # Initialize all letters to light grey (assuming no columns are filled)
+    # for label in letter_labels.values():
+    #     label.config(fg="grey")
+    #
+    # # Mapping each letter to its corresponding columns
+    # column_pairs = {
+    #     'A': (0, 1),
+    #     'B': (2, 3),
+    #     'C': (4, 5),
+    #     'D': (6, 7)
+    # }
+    #
+    # # Check each pair of columns in the grid to determine if they are filled
+    # for letter, (col_start, col_end) in column_pairs.items():
+    #     is_filled = False
+    #     for r in range(12):
+    #         if entries[(r, col_start)].get() != '0' and entries[(r, col_end)].get() != '0':
+    #             is_filled = True
+    #             break
+    #     # Update the color of the letter based on whether its columns are filled
+    #     if is_filled:
+    #         letter_labels[letter].config(fg="blue")
+    #     else:
+    #         letter_labels[letter].config(fg="grey")
+    if protocol == val.tip4_96:
+        for letter_ in letters:
+            letter_labels[letter_].config(fg="#ADD8E6")
+    elif protocol == val.tip2_96:
+        for letter_ in letters:
+            letter_labels[letter_].config(fg="grey")
+        letter_labels['B'].config(fg="#ADD8E6")
+        letter_labels['D'].config(fg="#ADD8E6")
 
-    # Initialize all letters to light grey (assuming no columns are filled)
-    for label in letter_labels.values():
-        label.config(fg="grey")
 
-    # Mapping each letter to its corresponding columns
-    column_pairs = {
-        'A': (0, 1),
-        'B': (2, 3),
-        'C': (4, 5),
-        'D': (6, 7)
-    }
-
-    # Check each pair of columns in the grid to determine if they are filled
-    for letter, (col_start, col_end) in column_pairs.items():
-        is_filled = False
-        for r in range(12):
-            if entries[(r, col_start)].get() != '0' and entries[(r, col_end)].get() != '0':
-                is_filled = True
-                break
-        # Update the color of the letter based on whether its columns are filled
-        if is_filled:
-            letter_labels[letter].config(fg="blue")
-        else:
-            letter_labels[letter].config(fg="grey")
-
-
-# Message label
-equip_label = tk.Label(bottom_frame, text="Equip tips at positions:")
+# Tip Placement Label
+equip_label = tk.Label(bottom_frame, text="Tip Placement", font=('Helvetica', 18, 'bold'))
 equip_label.pack(pady=(10, 0))
 
-# Add button to update tip selection
-tips_equip = tk.Button(bottom_frame, text="Press for tips", command=tip_set)
-tips_equip.pack()
-
-# Frame for the letters
+# Frame for the Tip Positions
 letters_frame = tk.Frame(bottom_frame)
 letters_frame.pack()
 
+# Reservoir Volumes Label
+equip_label = tk.Label(bottom_frame, text="Reservoir Volumes", font=('Helvetica', 18, 'bold'))
+equip_label.pack(pady=(10, 0))
+
+# Frame for the Volume Positions
+volume_frame = tk.Frame(bottom_frame)
+volume_frame.pack()
+
+volumes = tk.Label(volume_frame, text="Generate Procedure \nTo View Volumes", font=('Helvetica', 14, 'italic'), fg="grey")
+volumes.pack()
+
 # Letter labels
-letters = ['A', 'B', 'C', 'D']
+letters = ['D', 'C', 'B', 'A']
 letter_labels = {}
 for letter in letters:
     letter_labels[letter] = tk.Label(letters_frame, text=letter, fg="grey")
     letter_labels[letter].pack(side='left', expand=True)
 
+
+# equip_label = tk.Label(bottom_frame, text="Minimum Reservoir Volumes")
+# equip_label.pack(pady=(10, 0))
+
+# # Add button to update tip selection
+# tips_equip = tk.Button(bottom_frame, text="Press for tips", command=tip_set)
+# tips_equip.pack()
 
 # Updates Preference when checkbox is ticked
 def update_equip():
@@ -365,14 +387,26 @@ def run_procedure():
                 return
 
         # Check if tip is being equipped with 25mL reservoir on stage
-        if restype == "25" and equip:
+        if restype == "25" and equip_ == "TRUE":
             messagebox.showinfo("Setup Error", "Cannot Auto-Equip Tips with 25mL Reservoir")
             return
 
         # Calls program
         res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
 
-        print(res_volumes)
+        # Display Tip Arrangement
+        protocol = calc.get_protocol(vol_array)
+        tip_set(protocol)
+
+        # Display Reservoir Volumes and Arrangement
+        if restype == "25":
+            volumes.config(text="%.3f mL" % (sum(res_volumes) / 1000), fg="#ADD8E6")
+        elif restype == "1.5":
+            converted_vol = [x / 1000 for x in res_volumes]
+            volumes.config(text="(mL)\nRow A:   %.3f   %.3f   %.3f   %.3f\nRow B:   %.3f   %.3f   %.3f   %.3f"
+                                % (converted_vol[0], converted_vol[1], converted_vol[2], converted_vol[3],
+                                   converted_vol[4], converted_vol[5], converted_vol[6], converted_vol[7]),
+                           fg="#ADD8E6")
 
         messagebox.showinfo("Procedure Run", "File Saved")
     except FileNotFoundError:
