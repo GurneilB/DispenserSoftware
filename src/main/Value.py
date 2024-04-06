@@ -88,5 +88,5 @@ zero_height = 0  # Find height, set manually with G92 E
 model_factor = 1
 
 # New Calibration Coordinates
-cal_25_pos_new = []
-cal_tubes_new = [[]]
+cal_25_pos_new = [0, 116]
+cal_tubes_new = [[0, 56], [7, 42]]
