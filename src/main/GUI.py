@@ -1,13 +1,11 @@
-# import src.main.BuildProcedure as bp
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
 import numpy as np
 import json
 import csv
-
-import src.main.Value as val
-# import src.main.Program as program
+import Value as val
+import Program as program
 
 # Create the main window
 root = tk.Tk()
@@ -39,7 +37,7 @@ preference = {
 }
 
 # Add in-program grid that simulates 96-well plate, saves as np matrix
-### GRID
+# GRID
 entries = {}
 
 
@@ -108,7 +106,7 @@ for r in range(12):  # Adjusted loop for columns
     label = tk.Label(grid_frame, text=f"{r + 1}")
     label.grid(row=r + 2, column=10)
 
-# Create an 12x8 grid of entry widgets
+# Create a 12x8 grid of entry widgets
 for r in range(12):  # Adjusted loop for rows
     for c in range(8):  # Adjusted loop for columns
         entry = tk.Entry(grid_frame, width=5, justify='center')
@@ -116,7 +114,7 @@ for r in range(12):  # Adjusted loop for rows
         entries[(r, c)] = entry
 
 
-###GRID end
+# GRID end
 
 # assigns a variable using user's choice
 def update_selection(name, value):
@@ -151,7 +149,7 @@ def dropdown(name, prompt, options, message, var, callback=None, selection_callb
         if callback:
             callback(value)
         update_selection(name, value)
-        if selection_callback: # new callback after selection
+        if selection_callback:  # new callback after selection
             selection_callback(value)
 
     w = tk.OptionMenu(f, var, *options, command=call)
@@ -166,8 +164,8 @@ def dropdown(name, prompt, options, message, var, callback=None, selection_callb
 # Implement the callback for updating insert options
 def insert_opts(selected_plate_size):
     opt_insert = {
-         "6 well plate": ["none", val.three_in_one],
-         "96 well plate": ["none", val.ez_seed],
+        "6 well plate": ["none", val.three_in_one],
+        "96 well plate": ["none", val.ez_seed],
     }
     new_options = opt_insert.get(selected_plate_size, ["none"])  # Default to ["none"] if not found
 
@@ -186,28 +184,30 @@ def insert_opts(selected_plate_size):
     insert_var.set(new_options[0])
 
 
-### Plate Size
+# Plate Size
 opt_plate = ["6 well plate", "96 well plate"]
 p_plate = ["Choose a plate size"]
 dropdown('plate', p_plate, opt_plate, "Plate Size:", plate_var, insert_opts)
 
-### Insert type
+# Insert type
 p_insert = ["Choose an insert type"]
 dropdown_insert = dropdown('insert', p_insert, ["none"], "Insert Type:", insert_var)
 
-### Reservoir size
+
+# Reservoir size
 def greying(value):
     if value == "25":
-        equip.config(state=tk.DISABLED) # Disables the checkbox
-        CheckVar1.set(0) #also unchecks it
+        equip.config(state=tk.DISABLED)  # Disables the checkbox
+        CheckVar1.set(0)  # also unchecks it
     else:
         equip.config(state=tk.NORMAL)
+
 
 opt_res = ["1.5", "5", "25"]
 p_res = ["Choose a reservoir type"]
 dropdown('reservoir', p_res, opt_res, "Reservoir Type (in mL):", reservoir_var, selection_callback=greying)
 
-### Tip Type
+# Tip Type
 opt_tip = [250]
 p_tip = ["Choose a tip type"]
 dropdown('tip', p_tip, opt_tip, "Tip Type (in uL):", tip_var)
@@ -215,7 +215,7 @@ dropdown('tip', p_tip, opt_tip, "Tip Type (in uL):", tip_var)
 
 # Add Checkboxes:
 
-### Tip equipped
+# Tip equipped
 def tip_set():
     # Fill empty cells with '0's
     for r in range(12):
@@ -326,37 +326,37 @@ save_button.pack()
 
 
 # Add Run Procedure
-# def run_procedure():
-#    save_preference()
-# Filename based on the procedure name and defaults to "untitled.json" if not provided.
-#    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
+def run_procedure():
+    save_preference()
+    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
 
-#    try:
-#        with open(filename, "r") as file:
-#            data = json.load(file)
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)
 
-# Extract variables for build_procedure from the .json
-#        name = data.get('name')
-#        plate = data.get('plate')
-#        insert = data.get('insert')
-#        tip = int(data.get('tip'))
-#        vol_array = np.array(data.get('grid')).astype(np.float_)
-#        restype = data.get('reservoir')
-#        equip_ = data.get('equip')
-#        eject_ = data.get('eject')
+        # Extract variables for build_procedure from the .json
+        name = data.get('name')
+        plate = data.get('plate')
+        insert = data.get('insert')
+        tip = int(data.get('tip'))
+        vol_array = np.array(data.get('grid')).astype(np.float_)
+        restype = data.get('reservoir')
+        equip_ = data.get('equip')
+        eject_ = data.get('eject')
 
-# Calls program
-#        res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
+        # Calls program
+        res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
 
-#        print(res_volumes)
+        print(res_volumes)
 
-#        messagebox.showinfo("Procedure Run", "File Saved")
-#    except FileNotFoundError:
-#        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+        messagebox.showinfo("Procedure Run", "File Saved")
+    except FileNotFoundError:
+        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
 
 
-# run_procedure_button = tk.Button(root, text="Generate Procedure", command=lambda: run_procedure())
-# run_procedure_button.pack()
+run_procedure_button = tk.Button(root, text="Generate Procedure", command=lambda: run_procedure())
+run_procedure_button.pack()
 
 
 # exit button
@@ -414,7 +414,7 @@ import_button.pack(side=tk.LEFT, padx=10, pady=10)  # Pack to the left side of t
 # Load Preferences
 def load_pref():  # still needs exception handling
     filetypes = [('JSON files', '*.json'), ('All files', '*.*')]
-    filename = filedialog.askopenfilename(title='Open Prefences .json File', initialdir="/", filetypes=filetypes)
+    filename = filedialog.askopenfilename(title='Open Preferences .json File', initialdir="/", filetypes=filetypes)
 
     if filename:
         with open(filename, 'r') as file:

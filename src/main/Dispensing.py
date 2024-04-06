@@ -1,8 +1,8 @@
-import src.main.WriteCoordinates as wc
-import src.main.Initialize as init
-import src.main.Calculations as calc
-import src.main.Value as val
-import src.main.Aspiration as asp
+import WriteCoordinates as wc
+import Initialize as init
+import Calculations as calc
+import Value as val
+import Aspiration as asp
 import numpy as np
 
 
@@ -225,13 +225,13 @@ def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
         # Aspirate more reagent if current tip volume is too low for next non-zero well, move to next well
         if min(snake[0][k], snake[1][m]) > t_vol[0]:
             if min(k, m) < 12:
-                pos = [val.plate_96[val.x] - (2*9), val.plate_96[val.y] + (min(k, m) * 9)]
-            elif 12 <= min(k,m) < 24:
-                pos = [val.plate_96[val.x] - (1*9), val.plate_96[val.y] + ((-min(k, m) + 23) * 9)]
-            elif 24 <= min(k,m) < 36:
-                pos = [val.plate_96[val.x] + (0*9), val.plate_96[val.y] + ((-min(k, m) + 35) * 9)]
+                pos = [val.plate_96[val.x] - (2 * 9), val.plate_96[val.y] + (min(k, m) * 9)]
+            elif 12 <= min(k, m) < 24:
+                pos = [val.plate_96[val.x] - (1 * 9), val.plate_96[val.y] + ((-min(k, m) + 23) * 9)]
+            elif 24 <= min(k, m) < 36:
+                pos = [val.plate_96[val.x] + (0 * 9), val.plate_96[val.y] + ((-min(k, m) + 35) * 9)]
             else:
-                pos = [val.plate_96[val.x] + (1*9) , val.plate_96[val.y] + ((-min(k, m) + 47) * 9)]
+                pos = [val.plate_96[val.x] + (1 * 9), val.plate_96[val.y] + ((-min(k, m) + 47) * 9)]
             asp.asp_2tip(name, r_vol, insert, tip, restype, t_vol, disp_pos=pos)
             init.set_disp(name)
 
@@ -241,13 +241,13 @@ def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
             wc.rapid_xy_pos(name, [val.plate_96[val.x], val.plate_96[val.y] + (min(k, m) * 9)])
         elif 12 <= min(k, m) < 24:
             wc.rapid_z_pos(name, val.plate96_movement_height)
-            wc.rapid_xy_pos(name, [val.plate_96[val.x] - (1*9), val.plate_96[val.y] + ((-min(k, m) + 23) * 9)])
+            wc.rapid_xy_pos(name, [val.plate_96[val.x] - (1 * 9), val.plate_96[val.y] + ((-min(k, m) + 23) * 9)])
         elif 24 <= min(k, m) < 36:
             wc.rapid_z_pos(name, val.plate96_movement_height)
-            wc.rapid_xy_pos(name, [val.plate_96[val.x] + (0*9), val.plate_96[val.y] + ((-min(k, m) + 35) * 9)])
+            wc.rapid_xy_pos(name, [val.plate_96[val.x] + (0 * 9), val.plate_96[val.y] + ((-min(k, m) + 35) * 9)])
         else:
             wc.rapid_z_pos(name, val.plate96_movement_height)
-            wc.rapid_xy_pos(name, [val.plate_96[val.x] + (1*9) , val.plate_96[val.y] + ((-min(k, m) + 47) * 9)])
+            wc.rapid_xy_pos(name, [val.plate_96[val.x] + (1 * 9), val.plate_96[val.y] + ((-min(k, m) + 47) * 9)])
 
 
 def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert="EZ-Seed"):

@@ -1,12 +1,10 @@
-from typing import List
-
-import src.main.WriteCoordinates as wc
-import src.main.Initialize as init
-import src.main.Calculations as calc
-import src.main.Value as val
+import WriteCoordinates as wc
+import Initialize as init
+import Calculations as calc
+import Value as val
 
 
-def asp_4tip_25ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
+def asp_4tip_25ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
     """
     Writes 4-tip 25 mL reservoir aspiration-related commands to G-code file
 
@@ -75,7 +73,7 @@ def asp_4tip_25ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=No
     return t_vol
 
 
-def asp_2tip_25ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
+def asp_2tip_25ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
     """
     Writes 2-tip, 25mL reservoir aspiration-related commands to G-code file
 
@@ -144,7 +142,7 @@ def asp_2tip_25ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=No
     return t_vol
 
 
-def asp_4tip_1_5ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
+def asp_4tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
     """
     Writes 4 tip, 1.5mL reservoir Aspiration-related commands to G-code file
 
@@ -220,7 +218,7 @@ def asp_4tip_1_5ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=N
     return t_vol
 
 
-def asp_2tip_1_5ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
+def asp_2tip_1_5ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
     """
     Writes 2 tip, 1.5mL reservoir Aspiration-related commands to G-code file
 
@@ -294,7 +292,7 @@ def asp_2tip_1_5ml(name: str, r_vol: List[float], insert: str, tip: int, t_vol=N
     return t_vol
 
 
-def asp_4tip(name: str, r_vol: List[float], insert: str, tip: int, restype, t_vol=None, disp_pos=val.plate_96):
+def asp_4tip(name: str, r_vol: list[float], insert: str, tip: int, restype, t_vol=None, disp_pos=val.plate_96):
     """
     Finds 4-Tip Aspiration function for appropriate reservoir in use
 
@@ -302,6 +300,7 @@ def asp_4tip(name: str, r_vol: List[float], insert: str, tip: int, restype, t_vo
     :param r_vol: volume remaining in reservoir
     :param insert: type of insert used for procedure
     :param tip: max volume of tip
+    :param restype: Maximum volume of reservoir
     :param t_vol: Current volume of reagent in tip
     :param disp_pos: Next XY dispensing position
     :return t_vol: Updated volume of reagent in tip
@@ -313,7 +312,7 @@ def asp_4tip(name: str, r_vol: List[float], insert: str, tip: int, restype, t_vo
         return asp_4tip_1_5ml(name, r_vol, insert, tip, t_vol, disp_pos)
 
 
-def asp_2tip(name: str, r_vol: List[float], insert: str, tip: int, restype, t_vol=None, disp_pos=val.plate_96):
+def asp_2tip(name: str, r_vol: list[float], insert: str, tip: int, restype, t_vol=None, disp_pos=val.plate_96):
     """
     Finds 2-Tip Aspiration function for appropriate reservoir in use
 
@@ -321,6 +320,7 @@ def asp_2tip(name: str, r_vol: List[float], insert: str, tip: int, restype, t_vo
     :param r_vol: volume remaining in reservoir
     :param insert: type of insert used for procedure
     :param tip: max volume of tip
+    :param restype: Maximum volume of reservoir
     :param t_vol: Current volume of reagent in tip
     :param disp_pos: Next XY dispensing position
     :return t_vol: Updated volume of reagent in tip

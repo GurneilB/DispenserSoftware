@@ -1,5 +1,4 @@
 import WriteCoordinates as wc
-import BuildProcedure as bp
 import Value as val
 import Initialize as init
 import MiscOperations as mc

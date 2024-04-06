@@ -1,8 +1,6 @@
-import src.main.WriteCoordinates as wc
-import src.main.Initialize as init
-import src.main.Calculations as calc
-import src.main.Value as val
-import numpy as np
+import WriteCoordinates as wc
+import Initialize as init
+import Value as val
 
 
 def equip(name):

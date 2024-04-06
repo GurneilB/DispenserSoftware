@@ -1,6 +1,3 @@
-import src.main.UserInput as UI
-import numpy as np
-
 
 class OutOfRangeError(Exception):
     def __init__(self, value, minimum, maximum):

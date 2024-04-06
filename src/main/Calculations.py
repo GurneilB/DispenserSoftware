@@ -1,5 +1,5 @@
 import numpy as np
-import src.main.Value as val
+import Value as val
 
 
 def all_identical(arr):
@@ -195,14 +195,14 @@ def vol_per_res(vol_array, reservoir: float):
 
             # 4 Tubes
             if val.tube_1500uL * 3 < total_vols[0] < val.tube_1500uL * 4:
-                return [total_vols[0]/4,total_vols[0]/4,total_vols[0]/4,total_vols[0]/4 ]
+                return [total_vols[0] / 4, total_vols[0] / 4, total_vols[0] / 4, total_vols[0] / 4]
 
             # 3 Tubes
             elif val.tube_1500uL * 2 < total_vols[0] < val.tube_1500uL * 3:
-                return [total_vols[0]/3,total_vols[0]/3,total_vols[0]/3,0 ]
+                return [total_vols[0] / 3, total_vols[0] / 3, total_vols[0] / 3, 0]
             # 2 Tubes
             elif val.tube_1500uL < total_vols[0] < val.tube_1500uL * 2:
-                return [total_vols[0]/2,total_vols[0]/2,0,0 ]
+                return [total_vols[0] / 2, total_vols[0] / 2, 0, 0]
 
             # 1 Tube
             else:

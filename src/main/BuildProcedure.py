@@ -1,8 +1,7 @@
-import src.main.Calculations as calc
-import src.main.Value as val
-import src.main.Aspiration as asp
-import src.main.Dispensing as disp
-import numpy as np
+import Calculations as calc
+import Value as val
+import Aspiration as asp
+import Dispensing as disp
 
 
 def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, restype):
