@@ -296,3 +296,17 @@ def build_snake(array):
                 # If the column index is even, iterate up the column
                 snake.append(array[i][j])
     return snake
+
+
+def check_vol(vol_array):
+    # Loops through each row
+    for i in range(val.dims_96[1]):
+
+        # Loops through each element in a row
+        for j in range(val.dims_96[0]):
+
+            # Checks if element is not identical to first element in the row
+            if vol_array[i, j] != 0 and not (20 <= vol_array[i, j] <= 200):
+                return False
+
+    return True

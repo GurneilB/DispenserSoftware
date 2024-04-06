@@ -6,6 +6,7 @@ import json
 import csv
 import Value as val
 import Program as program
+import Calculations as calc
 
 # Create the main window
 root = tk.Tk()
@@ -344,6 +345,12 @@ def run_procedure():
         restype = data.get('reservoir')
         equip_ = data.get('equip')
         eject_ = data.get('eject')
+
+        if calc.check_vol(vol_array):
+            pass
+        else:
+            messagebox.showinfo("Volume Error", "Well Volumes must be 0 uL, or 20 uL - 200 uL")
+            return
 
         # Calls program
         res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
