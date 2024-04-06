@@ -346,11 +346,23 @@ def run_procedure():
         equip_ = data.get('equip')
         eject_ = data.get('eject')
 
+        # Check if well volumes are 20 - 200 ul
         if calc.check_vol(vol_array):
             pass
         else:
             messagebox.showinfo("Volume Error", "Well Volumes must be 0 uL, or 20 uL - 200 uL")
             return
+
+        # Check if total procedure volume is compatible with 1.5 mL tubes (if applicable)
+        if restype == "1.5" and calc.get_protocol(vol_array) == val.tip2_96:
+            if np.sum(vol_array[:, [0, 1, 2, 3]]) > 3000 or np.sum(vol_array[:, [4, 5, 6, 7]]) > 3000:
+                messagebox.showinfo("Volume Error", "Total culture plate volume is too large for reservoir")
+                return
+        elif restype == "1.5" and calc.get_protocol(vol_array) == val.tip4_96:
+            if (np.sum(vol_array[:, [0, 1]]) > 3000 or np.sum(vol_array[:, [2, 3]]) > 3000
+                    or np.sum(vol_array[:, [4, 5]]) > 3000 or np.sum(vol_array[:, [6, 7]]) > 3000):
+                messagebox.showinfo("Volume Error", "Total culture plate volume is too large for reservoir")
+                return
 
         # Calls program
         res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
