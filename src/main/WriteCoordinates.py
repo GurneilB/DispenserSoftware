@@ -1,6 +1,6 @@
 from typing import List
 
-import src.main.Value as val
+import Value as val
 
 
 def rapid_z_pos(name: str, pos: float):
