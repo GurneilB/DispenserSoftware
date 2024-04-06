@@ -251,12 +251,12 @@ def tip_set(protocol):
     #         letter_labels[letter].config(fg="grey")
     if protocol == val.tip4_96:
         for letter_ in letters:
-            letter_labels[letter_].config(fg="#ADD8E6")
+            letter_labels[letter_].config(fg="#blue")
     elif protocol == val.tip2_96:
         for letter_ in letters:
             letter_labels[letter_].config(fg="grey")
-        letter_labels['B'].config(fg="#ADD8E6")
-        letter_labels['D'].config(fg="#ADD8E6")
+        letter_labels['B'].config(fg="#blue")
+        letter_labels['D'].config(fg="#blue")
 
 
 # Tip Placement Label
@@ -400,13 +400,13 @@ def run_procedure():
 
         # Display Reservoir Volumes and Arrangement
         if restype == "25":
-            volumes.config(text="%.3f mL" % (sum(res_volumes) / 1000), fg="#ADD8E6")
+            volumes.config(text="%.3f mL" % (sum(res_volumes) / 1000), fg="#blue")
         elif restype == "1.5":
             converted_vol = [x / 1000 for x in res_volumes]
             volumes.config(text="(mL)\nRow A:   %.3f   %.3f   %.3f   %.3f\nRow B:   %.3f   %.3f   %.3f   %.3f"
                                 % (converted_vol[0], converted_vol[1], converted_vol[2], converted_vol[3],
                                    converted_vol[4], converted_vol[5], converted_vol[6], converted_vol[7]),
-                           fg="#ADD8E6")
+                           fg="#blue")
 
         messagebox.showinfo("Procedure Run", "File Saved")
     except FileNotFoundError:
