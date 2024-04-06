@@ -32,7 +32,7 @@ init.set_absolute(file_name)
 # Move to reservoir
 wc.rapid_e_pos(file_name, val.zero_height)
 wc.rapid_z_pos(file_name, val.movement_height_25mL)
-wc.rapid_xy_pos(file_name, val.pos_reservoir_25ml)
+wc.rapid_xy_pos(file_name, val.cal_25_pos_new)
 
 # Aspirate
 wc.rapid_z_pos(file_name, val.aspirate_height_25ml)
@@ -42,13 +42,13 @@ for j in range(2):
     wc.rapid_e_pos(file_name, volume * factor * 2)
 
 wc.rapid_z_pos(file_name, val.movement_height_25mL)
-wc.rapid_xy_pos(file_name, val.cal_tubes2[0])
+wc.rapid_xy_pos(file_name, val.cal_tubes_new[0])
 
 for i in range(2):
     # Move to tubes
     init.set_absolute(file_name)
     wc.rapid_z_pos(file_name, val.dispense_move_height)
-    wc.rapid_xy_pos(file_name, val.cal_tubes2[i])
+    wc.rapid_xy_pos(file_name, val.cal_tubes_new[i])
 
     # Dispense
     for j in range(2):

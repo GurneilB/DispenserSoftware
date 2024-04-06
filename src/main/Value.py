@@ -86,3 +86,7 @@ zero_height = 0  # Find height, set manually with G92 E
 
 # Calibration model dispensing factor
 model_factor = 1
+
+# New Calibration Coordinates
+cal_25_pos_new = []
+cal_tubes_new = [[]]
