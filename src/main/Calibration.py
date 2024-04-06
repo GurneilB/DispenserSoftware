@@ -9,32 +9,36 @@ file_name = "Calibration"
 with open("%s.gcode" % file_name, "w") as file:
     file.write(";Calibration")
 
-# Absolute positioning, Pick tool 0
+# Absolute positioning
 init.set_absolute(file_name)
-init.pick_tool(file_name, "EZ-Seed")
 wc.rapid_e_pos(file_name, val.zero_height)
 
-for i in range(4):
+for i in range(2):
     init.set_absolute(file_name)
 
-    # Move to beaker
-    wc.rapid_z_pos(file_name, val.cal_movement_height)
-    wc.rapid_xy_pos(file_name, val.beaker)
+    # Move to reservoir
+    wc.rapid_e_pos(file_name, val.zero_height)
+    wc.rapid_z_pos(file_name, val.movement_height_25mL)
+    wc.rapid_xy_pos(file_name, val.pos_reservoir_25ml)
 
     # Aspirate
-    wc.rapid_z_pos(file_name, val.beaker_asp_height)
+    wc.rapid_z_pos(file_name, val.aspirate_height_25ml)
     init.set_relative(file_name)
-    wc.rapid_e_pos(file_name, displacement)
+    for j in range(2):
+        init.pick_tool(file_name, val.ez_seed, j)
+        wc.rapid_e_pos(file_name, displacement)
 
     # Move to tubes
     init.set_absolute(file_name)
-    wc.rapid_z_pos(file_name, val.cal_movement_height)
-    wc.rapid_xy_pos(file_name, val.cal_tubes4[i])
+    wc.rapid_z_pos(file_name, val.movement_height_25mL)
+    wc.rapid_xy_pos(file_name, val.cal_tubes2[i])
 
     # Dispense
     wc.rapid_z_pos(file_name, val.tubes_disp_height)
     init.set_relative(file_name)
-    wc.rapid_e_pos(file_name, -displacement)
+    for j in range(2):
+        init.pick_tool(file_name, val.ez_seed, j)
+        wc.rapid_e_pos(file_name, -displacement)
 
 
 init.set_absolute(file_name)
