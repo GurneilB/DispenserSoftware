@@ -1,6 +1,5 @@
-import csv
 import numpy as np
-import src.main.Value as val
+import Value as val
 
 
 def get_procedure_name():

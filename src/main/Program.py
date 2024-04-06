@@ -5,7 +5,6 @@ import BuildProcedure as bp
 import MiscOperations as mo
 import Value as val
 import WriteCoordinates as wc
-import numpy as np
 
 
 def commandline():
@@ -35,7 +34,6 @@ def commandline():
 
 
 def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, eject):
-
     # Convert inputs to recognized variables
 
     plate = None
@@ -61,7 +59,7 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
 
     init.initialization(name, res_type, rnum, tip_size, tnum, plate, insert)
     mo.present(name)
-    wc.dwell(name,60)
+    wc.dwell(name, 60)
 
     if equip:
         mo.equip(name)
@@ -75,5 +73,3 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
     mo.present(name)
 
     return r_vol
-
-
