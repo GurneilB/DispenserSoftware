@@ -364,6 +364,11 @@ def run_procedure():
                 messagebox.showinfo("Volume Error", "Total culture plate volume is too large for reservoir")
                 return
 
+        # Check if tip is being equipped with 25mL reservoir on stage
+        if restype == "25" and equip:
+            messagebox.showinfo("Setup Error", "Cannot Auto-Equip Tips with 25mL Reservoir")
+            return
+
         # Calls program
         res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
 
