@@ -22,12 +22,12 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
         # Run EZ SEED 4 Tip Dispensing
         if insert == val.ez_seed:
             t_vol = asp.asp_4tip(name, r_vol, insert, tip, restype)
-            disp.ez_4tip_dispense(name, r_vol, tip, vol_array, t_vol, insert)
+            disp.ez_4tip_dispense(name, r_vol, tip, vol_array, t_vol, restype)
 
         # Run General 96-Well 4 Tip Dispensing
         else:
             t_vol = asp.asp_4tip(name, r_vol, insert, tip, restype)
-            disp.n_ez_4tip_dispense(name, r_vol, tip, vol_array, t_vol, insert)
+            disp.n_ez_4tip_dispense(name, r_vol, tip, vol_array, t_vol, restype)
 
     # Run EZ SEED 2 Tip Dispensing
     elif calc.get_protocol(vol_array) == val.tip2_96:
@@ -35,12 +35,12 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
         # Run EZ SEED 2 Tip Dispensing
         if insert == val.ez_seed:
             t_vol = asp.asp_2tip(name, r_vol, insert, tip, restype)
-            disp.ez_2tip_dispense(name, r_vol, tip, vol_array, t_vol, insert)
+            disp.ez_2tip_dispense(name, r_vol, tip, vol_array, t_vol, restype)
 
         # Run General 96-Well 2 Tip Dispensing
         else:
             t_vol = asp.asp_2tip(name, r_vol, insert, tip, restype)
-            disp.n_ez_2tip_dispense(name, r_vol, tip, vol_array, t_vol, insert)
+            disp.n_ez_2tip_dispense(name, r_vol, tip, vol_array, t_vol, restype)
 
     # Run 3-in-1 2 Tip Dispensing
     elif calc.get_protocol(vol_array) == val.tip2_6:

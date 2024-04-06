@@ -5,6 +5,7 @@ import BuildProcedure as bp
 import MiscOperations as mo
 import Value as val
 import WriteCoordinates as wc
+import copy
 
 
 def commandline():
@@ -57,6 +58,8 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
     tnum = calc.num_tip(design)
     r_vol = calc.vol_per_res(design, res_type)
 
+    res_vol = copy.deepcopy(r_vol)
+
     init.initialization(name, res_type, rnum, tip_size, tnum, plate, insert)
     mo.present(name)
     wc.dwell(name, 60)
@@ -72,4 +75,4 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
 
     mo.present(name)
 
-    return r_vol
+    return res_vol
