@@ -1,6 +1,31 @@
 import numpy as np
 import Value as val
 
+""" 
+    Calculations required for generating aspiration/dispensing procedures:
+
+    all_identical: Checks if all elements in an array are identical
+    
+    rows_identical: Checks if all elements in a row are identical
+    
+    num_tip: Calculates the max number for tips for user's procedure
+    
+    required_vol_per_tip: Calculates total volume needed per tip for entire procedure
+    
+    total_vol: Calculates total volume needed for plate design (w/out error)
+    
+    vol_per_res: Calculates total volume per reservoir for entire procedure
+    
+    num_reservoir: Calculates number of reservoirs needed for entire procedure
+    
+    convert_vol: Converts volume to relative extrusion (dispensing) distance
+    
+    get_protocol: Finds relevant dispensing protocol for culture plate design
+    
+    build_snake: Creates list of values in snake order, starting from top right of array
+    moving column-wise towards the left.
+"""
+
 
 def all_identical(arr):
     """
@@ -240,6 +265,12 @@ def convert_vol(vol: float):
 
 
 def get_protocol(vol_array: np.array):
+    """
+    Finds relevant dispensing protocol for culture plate design
+
+    :param vol_array: array with well volumes
+    :return: Relevant protocol number
+    """
     # Convert vol_array to a NumPy array if it's not already one
     vol_array = np.array(vol_array)
 
@@ -296,17 +327,3 @@ def build_snake(array):
                 # If the column index is even, iterate up the column
                 snake.append(array[i][j])
     return snake
-
-
-def check_vol(vol_array):
-    # Loops through each row
-    for i in range(val.dims_96[1]):
-
-        # Loops through each element in a row
-        for j in range(val.dims_96[0]):
-
-            # Checks if element is not identical to first element in the row
-            if vol_array[i, j] != 0 and not (20 <= vol_array[i, j] <= 200):
-                return False
-
-    return True

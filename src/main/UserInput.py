@@ -1,6 +1,8 @@
 import numpy as np
 import Value as val
 
+""" Functions relating to prompting user input via terminal/command-line """
+
 
 def get_procedure_name():
     """
@@ -107,3 +109,43 @@ def get_design():
         # print("Incorrect size. Include all volumes for culture plate.")
         else:
             return vol_array
+
+
+def get_equip():
+    """
+    Prompts user to specify if automatic tip equip is desired
+
+    :return: (bool) True for equip, False otherwise
+    """
+    while True:
+        try:
+            equip = input("Please indicate if you want to auto-equip tips? (T or F): \n")
+            equip.upper()
+            if equip not in {"T", "F"}:
+                raise ValueError("Invalid Input\n Please select T or F.")
+            elif equip == "T":
+                return True
+            else:
+                return False
+        except ValueError as e:
+            print(e)
+
+
+def get_eject():
+    """
+    Prompts user to specify if automatic tip equip is desired
+
+    :return: (bool) True for equip, False otherwise
+    """
+    while True:
+        try:
+            eject = input("Please indicate if you want to auto-eject tips? (T or F): \n")
+            eject.upper()
+            if eject not in {"T", "F"}:
+                raise ValueError("Invalid Input\n Please select T or F.")
+            elif eject == "T":
+                return True
+            else:
+                return False
+        except ValueError as e:
+            print(e)

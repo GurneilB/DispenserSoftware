@@ -5,6 +5,9 @@ import Value as val
 import Aspiration as asp
 import numpy as np
 
+""" Functions related to generating G-Code dispensing commands for 4 tips and 2 tips within 96-well plate 
+with EZ-seed or no insert. (6-well and 3-in-1 unsupported)."""
+
 
 def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert="EZ-Seed"):
     """

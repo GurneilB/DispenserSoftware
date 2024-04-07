@@ -3,6 +3,9 @@ import Initialize as init
 import Calculations as calc
 import Value as val
 
+""" Functions related to generating G-Code aspiration commands for 4 tips and 2 tips using 
+25mL and 1.5mL reservoirs. (5mL Reservoir unsupported)."""
+
 
 def asp_4tip_25ml(name: str, r_vol: list[float], insert: str, tip: int, t_vol=None, disp_pos=val.plate_96):
     """

@@ -1,3 +1,5 @@
+""" Values related to the program's operation. Includes calibrated positions"""
+
 # Protocol Identifiers
 tip4_96 = 0
 tip2_96 = 1

@@ -2,6 +2,16 @@ import WriteCoordinates as wc
 import Initialize as init
 import Value as val
 
+""" 
+    Writes non-aspiration/dispensing related operations to gcode file.
+
+    Equip: Writes tip-equipping commands to file
+
+    Eject: Writes stage presenting commands to file
+
+    Present: Presents stage contents to user
+"""
+
 
 def equip(name):
     """
@@ -41,7 +51,7 @@ def eject(name, tool):
 
 def present(name):
     """
-    Writes plate presenting commands to file
+    Writes stage presenting commands to file
 
     :param name: name of file to write to
     """

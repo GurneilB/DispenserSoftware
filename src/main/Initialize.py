@@ -1,5 +1,7 @@
 import Value as val
 
+""" Functions that writes comments and non-movement commands to gcode file """
+
 
 def write_preference(name, reservoir, rnum, tip, tnum,
                      plate, insert):

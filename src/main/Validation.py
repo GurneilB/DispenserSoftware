@@ -3,6 +3,8 @@ import MiscOperations as  mo
 import Value as val
 import Initialize as init
 
+"""  Generate wet validation commands """
+
 # v_range = (input("Low Medium or High Volume Validation? (L or M or H): ")).upper()
 # min_ = None
 # max_ = None
@@ -19,12 +21,16 @@ import Initialize as init
 #         print(e)
 
 
+# Get dispensing model factor, and desired volume to be dispensed
 factor = float(input("Enter the model factor: "))
 volume = float(input("Enter the dispensing volume (20ul - 100ul): "))
 file_name = "Validation"
 
+# Generate Validation file
 with open("%s.gcode" % file_name, "w") as file:
     file.write(";Validation")
+
+# Build procedure
 
 # Absolute positioning,
 init.set_absolute(file_name)
@@ -56,6 +62,7 @@ for i in range(2):
         init.set_relative(file_name)
         wc.rapid_e_pos(file_name, -volume * factor)
 
+# End procedure
 init.set_absolute(file_name)
 wc.rapid_e_pos(file_name, val.zero_height)
 mo.present(file_name)

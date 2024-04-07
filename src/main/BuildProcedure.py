@@ -3,6 +3,9 @@ import Value as val
 import Aspiration as asp
 import Dispensing as disp
 
+""" Finds and executes appropriate aspiration/dispensing procedure for given preferences.
+ Supports 96 well EZ-Seed and no-insert, with 25mL and 1.5mL reservoirs.
+ No 6-well or 3-in-1 insert support (To be added)."""
 
 def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, restype):
     """
