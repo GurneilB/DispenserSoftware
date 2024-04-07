@@ -255,7 +255,7 @@ def on_exit():
 
 # *****Add documentation*****
 def run_procedure():
-    if save_preference() is False:
+    if save_preference(True) is False:
         return
     # Filename based on the procedure name and defaults to "untitled.json" if not provided.
     filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
@@ -319,7 +319,7 @@ def run_procedure():
             # Move the file to the destination folder
             destination_path = os.path.join(destination_folder, f"{name}.gcode")
             shutil.move(source_path, destination_path)
-            messagebox.showinfo("Procedure Run", "File Saved")
+            messagebox.showinfo("Procedure Run", "Preferences and Procedure Saved")
         else:
             messagebox.showwarning("Save Error", "No destination folder selected.")
     except FileNotFoundError:
@@ -327,7 +327,7 @@ def run_procedure():
 
 
 # *****Add documentation*****
-def save_preference():
+def save_preference(suppress_message: bool = False):
     # Fill empty cells with '0's
     for r in range(12):
         for c in range(8):
@@ -359,8 +359,10 @@ def save_preference():
         # Saves the updated list of preference to save.json
         with open(filename, "w") as file:
             json.dump(preference, file)
-
-        messagebox.showinfo("Save", "Preferences Saved")
+        if suppress_message:
+            pass
+        else:
+            messagebox.showinfo("Save", "Preferences Saved")
 
 
 # *****Add documentation*****
@@ -439,7 +441,7 @@ for c in range(8):
     chk.grid(row=0, column=c + 2)
 
     # Add a label below each column checkbox
-    letter = chr(72 - c % 8)
+    letter = chr(65 + c % 8)
     label = tk.Label(grid_frame, text=f"{letter}")
     label.grid(row=1, column=c + 2)
 
@@ -453,7 +455,7 @@ for r in range(12):
 
     # Add a label to the right of each column checkbox
     label = tk.Label(grid_frame, text=f"{r + 1}")
-    label.grid(row=r + 2, column=10)
+    label.grid(row=r + 2, column=1)
 
 # Create a 12x8 grid of entry widgets
 for r in range(12):
@@ -564,10 +566,6 @@ for letter in letters:
 
 """ SAVE, LOAD, GENERATE BUTTONS START """
 
-# Save Preferences Button
-save_button = tk.Button(root, text="Save Preferences", command=save_preference)
-save_button.pack()
-
 # Run procedure button
 run_procedure_button = tk.Button(root, text="Generate Procedure", command=lambda: run_procedure())
 run_procedure_button.pack()
@@ -587,6 +585,10 @@ import_button.pack(side=tk.LEFT, padx=10, pady=10)  # Pack to the left side of t
 # Load Preferences button
 load_button = tk.Button(bottom_frame, text="Load Preferences", command=load_pref)
 load_button.pack(side=tk.LEFT, padx=0, pady=10)  # Pack to the left side of the bottom_frame
+
+# Save Preferences Button
+save_button = tk.Button(bottom_frame, text="Save Preferences", command=save_preference)
+save_button.pack(side=tk.LEFT, padx=10, pady=10)
 
 """ SAVE, LOAD, GENERATE BUTTONS END """
 
