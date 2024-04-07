@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
+import shutil
+import os
 import numpy as np
 import json
 import csv
@@ -168,26 +170,26 @@ def tip_set(protocol):
     #         letter_labels[letter].config(fg="grey")
     if protocol == val.tip4_96:
         for letter_ in letters:
-            letter_labels[letter_].config(fg="#blue")
+            letter_labels[letter_].config(fg="blue")
     elif protocol == val.tip2_96:
         for letter_ in letters:
             letter_labels[letter_].config(fg="grey")
-        letter_labels['B'].config(fg="#blue")
-        letter_labels['D'].config(fg="#blue")
+        letter_labels['B'].config(fg="blue")
+        letter_labels['D'].config(fg="blue")
 
 
 def update_equip():
     """
     Updates equip key value in preference when checkbox is ticked
     """
-    preference['equip'] = "TRUE" if CheckVar1.get() == 1 else None
+    preference['equip'] = True if CheckVar1.get() == 1 else False
 
 
 def update_eject():
     """
     Updates eject key value in preference when checkbox is ticked
     """
-    preference['eject'] = "TRUE" if CheckVar2.get() == 1 else None
+    preference['eject'] = True if CheckVar2.get() == 1 else False
 
 
 def check_preference(pref):
@@ -253,11 +255,10 @@ def on_exit():
 
 # *****Add documentation*****
 def run_procedure():
-    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
-    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
-
     if save_preference() is False:
         return
+    # Filename based on the procedure name and defaults to "untitled.json" if not provided.
+    filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
 
     try:
         with open(filename, "r") as file:
@@ -285,7 +286,7 @@ def run_procedure():
                 return
 
         # Check if tip is being equipped with 25mL reservoir on stage
-        if restype == "25" and equip_ == "TRUE":
+        if restype == "25" and equip_:
             messagebox.showerror("Setup Error", "Cannot Auto-Equip Tips with 25mL Reservoir")
             return
 
@@ -298,17 +299,31 @@ def run_procedure():
 
         # Display Reservoir Volumes and Arrangement
         if restype == "25":
-            volumes.config(text="%.3f mL" % (sum(res_volumes) / 1000), fg="#blue")
+            volumes.config(text="%.3f mL" % (sum(res_volumes) / 1000), fg="blue")
         elif restype == "1.5":
             converted_vol = [x / 1000 for x in res_volumes]
             volumes.config(text="(mL)\nRow A:   %.3f   %.3f   %.3f   %.3f\nRow B:   %.3f   %.3f   %.3f   %.3f"
                                 % (converted_vol[0], converted_vol[1], converted_vol[2], converted_vol[3],
                                    converted_vol[4], converted_vol[5], converted_vol[6], converted_vol[7]),
-                           fg="#blue")
+                           fg="blue")
 
-        messagebox.showinfo("Procedure Run", "File Saved")
+        # Get the current working directory
+        current_directory = os.getcwd()
+
+        # Ask user to select the destination folder
+        destination_folder = filedialog.askdirectory(title="Select destination folder")
+
+        # Check if the user selected a destination folder
+        if destination_folder:
+            source_path = os.path.join(current_directory, f"{name}.gcode")
+            # Move the file to the destination folder
+            destination_path = os.path.join(destination_folder, f"{name}.gcode")
+            shutil.move(source_path, destination_path)
+            messagebox.showinfo("Procedure Run", "File Saved")
+        else:
+            messagebox.showwarning("Save Error", "No destination folder selected.")
     except FileNotFoundError:
-        messagebox.showerror("File Not Found", f"Could not find the file: {filename}")
+        messagebox.showwarning("File Not Found", f"Could not find the file: {filename}")
 
 
 # *****Add documentation*****
@@ -344,7 +359,8 @@ def save_preference():
         # Saves the updated list of preference to save.json
         with open(filename, "w") as file:
             json.dump(preference, file)
-        messagebox.showinfo("Save", "Your Preferences are Saved")
+
+        messagebox.showinfo("Save", "Preferences Saved")
 
 
 # *****Add documentation*****
@@ -456,8 +472,8 @@ preference = {
     'insert': None,
     'reservoir': None,
     'tip': None,
-    'equip': None,
-    'eject': None,
+    'equip': False,
+    'eject': False,
     'grid': None
 }
 

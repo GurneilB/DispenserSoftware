@@ -107,7 +107,7 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
     # Aspirate and Dispense
     bp.build_procedure(name, r_vol, insert, tip_size, design, res_type)
 
-    # EJect Tips
+    # Eject Tips
     if eject:
         for i in range(2):
             mo.eject(name, i)
