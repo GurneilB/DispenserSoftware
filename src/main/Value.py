@@ -75,13 +75,13 @@ x = 0
 y = 1
 
 # Calibration and Testing Coordinates
-beaker = [27.5, 61]
-beaker_asp_height = 50
+beaker = [23.5, 61]
+beaker_asp_height = 55
 cal_tubes8 = [[9, 104], [27, 104], [45, 104], [72, 104],
               [0, 117], [18, 117], [36, 117], [54, 117]]  # Coordinates for 1-Tip dispensing
-cal_tubes4 = [[11, 104], [47, 104], [2, 117], [38, 117]]  # Coordinates for 2-Tip dispensing
+cal_tubes4 = [[10, 104], [46, 104], [37, 117],[1, 117]]  # Coordinates for 2-Tip dispensing
 cal_tubes2 = [[9, 104], [0,117]]  # Coordinates for 4-Tip dispensing
-tubes_disp_height = 81
+tubes_disp_height = 78
 cal_movement_height = 17
 dispense_move_height = 41
 zero_height = 0  # Find height, set manually with G92 E
