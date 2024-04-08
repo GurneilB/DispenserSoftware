@@ -1,5 +1,5 @@
 import WriteCoordinates as wc
-import MiscOperations as  mo
+import MiscOperations as mo
 import Value as val
 import Initialize as init
 
@@ -23,7 +23,7 @@ import Initialize as init
 
 # Get dispensing model factor, and desired volume to be dispensed
 factor = float(input("Enter the model factor: "))
-volume = float(input("Enter the dispensing volume (20ul - 100ul): "))
+volume = float(input("Enter the dispensing volume (20ul - 50ul): "))
 file_name = "Validation"
 
 # Generate Validation file
@@ -37,30 +37,28 @@ init.set_absolute(file_name)
 
 # Move to reservoir
 wc.rapid_e_pos(file_name, val.zero_height)
-wc.rapid_z_pos(file_name, val.movement_height_25mL)
-wc.rapid_xy_pos(file_name, val.cal_25_pos_new)
+wc.rapid_z_pos(file_name, val.cal_movement_height)
+wc.rapid_xy_pos(file_name, val.beaker)
 
 # Aspirate
-wc.rapid_z_pos(file_name, val.aspirate_height_25ml)
+wc.rapid_z_pos(file_name, val.beaker_asp_height)
 init.set_relative(file_name)
-for j in range(2):
-    init.pick_tool(file_name, val.ez_seed, j)
-    wc.rapid_e_pos(file_name, volume * factor * 2)
+init.pick_tool(file_name, val.ez_seed)
+wc.rapid_e_pos(file_name, volume * factor * 4)
 
-wc.rapid_z_pos(file_name, val.movement_height_25mL)
-wc.rapid_xy_pos(file_name, val.cal_tubes_new[0])
+init.set_absolute(file_name)
+wc.rapid_z_pos(file_name, val.cal_movement_height)
+wc.rapid_xy_pos(file_name, val.cal_tubes4[0])
 
-for i in range(2):
+for i in range(4):
     # Move to tubes
     init.set_absolute(file_name)
     wc.rapid_z_pos(file_name, val.dispense_move_height)
-    wc.rapid_xy_pos(file_name, val.cal_tubes_new[i])
+    wc.rapid_xy_pos(file_name, val.cal_tubes4[i])
 
-    # Dispense
-    for j in range(2):
-        wc.rapid_z_pos(file_name, val.tubes_disp_height)
-        init.set_relative(file_name)
-        wc.rapid_e_pos(file_name, -volume * factor)
+    wc.rapid_z_pos(file_name, val.tubes_disp_height)
+    init.set_relative(file_name)
+    wc.rapid_e_pos(file_name, -volume * factor)
 
 # End procedure
 init.set_absolute(file_name)

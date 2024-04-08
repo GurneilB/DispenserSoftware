@@ -3,15 +3,17 @@ import Value as val
 import Initialize as init
 import MiscOperations as mc
 
-""" Generate wet calibration commands """
+""" Generate new wet validation commands """
 
-# Get piston displacement value from user
-displacement = int(input("Enter the displacement in mm: "))
-file_name = "Calibration %d mm" % displacement
+# Get dispensing model factor, and desired volume to be dispensed
+factor = float(input("Enter the model factor: "))
+volume = int(input("Enter the dispensing volume (20ul - 200ul): "))
+file_name = "Validation %d uL" % volume
 
-# Create Calibration File
+# Generate Validation file
 with open("%s.gcode" % file_name, "w") as file:
-    file.write(";Calibration")
+    file.write(";Validation")
+    file.write(";FACTOR: %.3f" % factor)
 
 # Build File
 
@@ -32,7 +34,7 @@ for i in range(4):
     wc.rapid_z_pos(file_name, val.beaker_asp_height)
     init.set_relative(file_name)
     init.pick_tool(file_name, val.ez_seed)
-    wc.rapid_e_pos(file_name, displacement)
+    wc.rapid_e_pos(file_name, volume * factor)
 
     # Move to tubes
     init.set_absolute(file_name)
@@ -43,7 +45,7 @@ for i in range(4):
     wc.rapid_z_pos(file_name, val.tubes_disp_height)
     init.set_relative(file_name)
     init.pick_tool(file_name, val.ez_seed)
-    wc.rapid_e_pos(file_name, -displacement)
+    wc.rapid_e_pos(file_name, -volume * factor)
 
 # Present
 init.set_absolute(file_name)
