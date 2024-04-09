@@ -206,9 +206,11 @@ def check_preference(pref):
 
 
 # *****Add documentation*****
-def load_pref():  # still needs exception handling
+def load_pref(file):  # still needs exception handling
     filetypes = [('JSON files', '*.json'), ('All files', '*.*')]
     filename = filedialog.askopenfilename(title='Open Preferences .json File', initialdir="/", filetypes=filetypes)
+
+    filename = file
 
     if filename:
         with open(filename, 'r') as file:
@@ -392,6 +394,44 @@ def import_csv_file():
                         entries[(r, c)].insert(0, matrix[r][c])
                     else:
                         entries[(r, c)].insert(0, "0")
+
+
+# def open_preferences():
+#     def select_preference():
+#         selected_preference = pref_listbox.curselection()
+#         # load_pref(selected_preference + ".json")
+#         preference_window.destroy()
+#
+#     preference_window = tk.Toplevel(root)
+#
+#     # Title and geometry for the pop-up window
+#     preference_window.title("Load Preferences")
+#     preference_window.geometry("200x100")
+#
+#     # Pop-up window label
+#     pref_label = tk.Label(preference_window, text="Load Preferences")
+#     pref_label.pack(padx=10, pady=10)
+#
+#     # Create Listbox
+#     pref_listbox = tk.Listbox(preference_window, selectmode=tk.SINGLE)
+#
+#     # Get contents for preferences listbox
+#     pref_files = []
+#
+#     for file in os.listdir(os.getcwd()):
+#         # Check if the file has the specified extension
+#         if file.endswith(".json"):
+#             # Add the file to the list
+#             pref_files.append(file.rsplit(".", 1)[0])
+#
+#     for item in pref_files:
+#         pref_listbox.insert(tk.END, item)
+#
+#     # Bind the on_select function to the listbox
+#     # pref_listbox.bind("<<ListboxSelect>>", select_preference())
+#
+#     # Pack the listbox widget
+#     pref_listbox.pack()
 
 
 # Create the main window
@@ -583,7 +623,7 @@ import_button = tk.Button(bottom_frame, text="Import CSV File", command=import_c
 import_button.pack(side=tk.LEFT, padx=10, pady=10)  # Pack to the left side of the bottom_frame
 
 # Load Preferences button
-load_button = tk.Button(bottom_frame, text="Load Preferences", command=load_pref)
+load_button = tk.Button(bottom_frame, text="Load Preferences", command=open_preferences())
 load_button.pack(side=tk.LEFT, padx=0, pady=10)  # Pack to the left side of the bottom_frame
 
 # Save Preferences Button
