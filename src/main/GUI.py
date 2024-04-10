@@ -9,6 +9,7 @@ import csv
 import Value as val
 import Program as program
 import Calculations as calc
+import xml.etree.ElementTree as ET
 
 """ Generates GUI for dispenser software, called FluidCAM"""
 
@@ -206,11 +207,9 @@ def check_preference(pref):
 
 
 # *****Add documentation*****
-def load_pref(file):  # still needs exception handling
+def load_pref():  # still needs exception handling
     filetypes = [('JSON files', '*.json'), ('All files', '*.*')]
     filename = filedialog.askopenfilename(title='Open Preferences .json File', initialdir="/", filetypes=filetypes)
-
-    filename = file
 
     if filename:
         with open(filename, 'r') as file:
@@ -365,6 +364,150 @@ def save_preference(suppress_message: bool = False):
             pass
         else:
             messagebox.showinfo("Save", "Preferences Saved")
+
+
+# Stores coordinates inside an XML file
+def value_to_xml():
+    root = ET.Element("CalibrationValues")
+
+    ET.SubElement(root, "plate_96", x=str(val.plate_96[0]), y=str(val.plate_96[1]), z=str(val.dispense_height_EZ),
+                  z_movement=str(val.plate96_movement_height))
+    ET.SubElement(root, "plate_6", x=str(val.plate_6[0]), y=str(val.plate_6[1]), z=str(val.dispense_height_3in1),
+                  z_movement=str(val.plate6_movement_height))
+    ET.SubElement(root, "pos_reservoir_25ml", x=str(val.pos_reservoir_25ml[0]), y=str(val.pos_reservoir_25ml[1]),
+                  z=str(val.aspirate_height_25ml), z_movement=str(val.movement_height_25mL))
+    ET.SubElement(root, "tubes4tips", x=str(val.tubes4tips[0][0]), y=str(val.tubes4tips[0][1]),
+                  z=str(val.aspirate_height_1_5ml), z_movement=str(val.movement_height_1_5ml))
+    ET.SubElement(root, "eject_bowl", x=str(val.eject_bowl[0]), y=str(val.eject_bowl[1]), z=str(val.eject_height))
+    ET.SubElement(root, "tip_tray_8", x=str(val.tip_tray_8[0]), y=str(val.tip_tray_8[1]), z=str(val.equip_height))
+
+    tree = ET.ElementTree(root)
+    tree.write("calibration_values.xml")
+
+
+# saves updates inside the XML
+def save_updates():
+    global entries
+    root = ET.Element("CalibrationValues")
+
+    for tag, ents in entries.items():
+        # Start building the element with x and y, which are always present
+        elem_attribs = {
+            'x': ents[0].get() or "0",
+            'y': ents[1].get() or "0",
+            'z': ents[2].get().strip() or "0"}
+
+        # Check if there's a zmove value to add
+        if len(ents) > 3:
+            elem_attribs['zmove'] = ents[3].get() or "0"
+
+        # Create the XML element with the appropriate attributes
+        ET.SubElement(root, tag, **elem_attribs)
+
+    tree = ET.ElementTree(root)
+    tree.write("calibration_values.xml")
+    toggle_entries("normal")
+
+
+# Adds Greying out of the TextBoxes
+# This is important so the user doesn't accidentally change values
+def toggle_entries(state):
+    global entries, save_button
+    if state == "readonly":  # If currently readonly, switch to editable
+        newState = "normal"
+        buttonText = "Save"
+        commandAction = save_updates  # Call save_updates when button is clicked
+
+    else:  # If currently editable (normal), switch back to readonly
+        newState = "readonly"
+        buttonText = "Edit Coordinates"
+        commandAction = lambda: toggle_entries("readonly")  # Toggle back to readonly
+
+    # Apply the state change to entries
+    for ents in entries.values():
+        for entry in ents:  # Iterate over each widget in the tuple
+            entry.config(state=newState)
+
+            # Update save_button text and bind the appropriate action
+    save_button.config(text=buttonText, command=commandAction)
+
+
+# Toggles Calibration
+def calibration():
+    # creates calibration_values.xml if it doesn't exist
+    if not os.path.exists("calibration_values.xml"):
+        value_to_xml()
+
+    global entries, save_button
+    cal_window = tk.Toplevel(root)
+    cal_window.title("Calibration Settings")
+
+    # Parse the XML and get its root element
+    tree = ET.parse('calibration_values.xml')
+    xml_root = tree.getroot()
+
+    entries = {}  # Dictionary to keep track of text entries for each value
+    custom_label = {
+        "plate_96": "96-well plate",
+        "plate_6": "6-well plate",
+        "pos_reservoir_25ml": "25ml Reservoir",
+        "tubes4tips": "1.5mL Reservoir",
+        "eject_bowl": "Ejection Bowl",
+        "tip_tray_8": "8 Tip Tray"
+    }
+    row_index = 0
+    # Loop through each calibration value in the XML
+    for elem in xml_root:
+        label_text = custom_label.get(elem.tag)
+        label = tk.Label(cal_window, text=label_text, font=("Helvetica", 10, "bold"))
+        label.grid(row=row_index, column=0, columnspan=9, sticky='ew', pady=(10, 0))
+        row_index += 1
+
+        x_label = tk.Label(cal_window, text="X:")
+        x_label.grid(row=row_index, column=1, sticky='e')
+        entry_x = tk.Entry(cal_window)
+        entry_x.grid(row=row_index, column=2)
+
+        y_label = tk.Label(cal_window, text="Y:")
+        y_label.grid(row=row_index, column=3, sticky='e')
+        entry_y = tk.Entry(cal_window)
+        entry_y.grid(row=row_index, column=4)
+
+        z_label = tk.Label(cal_window, text="Z:")
+        z_label.grid(row=row_index, column=5, sticky='e')
+        entry_z = tk.Entry(cal_window)
+        entry_z.grid(row=row_index, column=6)
+
+        # Insert coordinates into Entry widgets
+        entry_x.insert(0, elem.attrib.get('x', '0'))  # Default to '0' if attribute is missing
+        entry_y.insert(0, elem.attrib.get('y', '0'))  # Default to '0' if attribute is missing
+        entry_z.insert(0, elem.attrib.get('z', '0'))
+
+        # Change to "readonly" after the window is updated
+        cal_window.after(1, lambda entry=entry_x: entry.config(state="readonly"))
+        cal_window.after(1, lambda entry=entry_y: entry.config(state="readonly"))
+        cal_window.after(1, lambda entry=entry_z: entry.config(state="readonly"))
+
+        if elem.tag not in ["eject_bowl", "tip_tray_8"]:
+            zmove_label = tk.Label(cal_window, text="Z-movement:")
+            zmove_label.grid(row=row_index, column=7, sticky='e')
+            entry_zmove = tk.Entry(cal_window)
+            entry_zmove.grid(row=row_index, column=8)
+
+            entry_zmove.insert(0, elem.attrib.get('z_movement', '0'))  # Default to '0' if attribute is missing
+
+            cal_window.after(1, lambda entry=entry_zmove: entry.config(state="readonly"))
+
+            # Adds these elements to entries
+            entries[elem.tag] = (entry_x, entry_y, entry_z, entry_zmove)
+        else:
+            entries[elem.tag] = (entry_x, entry_y, entry_z)
+
+        row_index += 2
+
+    # Save button to update XML with new values
+    save_button = tk.Button(cal_window, text="Edit Coordinates", command=lambda: toggle_entries("readonly"))
+    save_button.grid(row=row_index, column=0, columnspan=9, pady=(10, 0))
 
 
 # *****Add documentation*****
@@ -623,13 +766,19 @@ import_button = tk.Button(bottom_frame, text="Import CSV File", command=import_c
 import_button.pack(side=tk.LEFT, padx=10, pady=10)  # Pack to the left side of the bottom_frame
 
 # Load Preferences button
-load_button = tk.Button(bottom_frame, text="Load Preferences", command=open_preferences())
+load_button = tk.Button(bottom_frame, text="Load Preferences", command=load_pref)
 load_button.pack(side=tk.LEFT, padx=0, pady=10)  # Pack to the left side of the bottom_frame
+
+# Calibration Button
+cal_button = tk.Button(bottom_frame, text="Calibration Settings", command=calibration)
+cal_button.pack(side=tk.RIGHT, padx=10, pady=10)
 
 # Save Preferences Button
 save_button = tk.Button(bottom_frame, text="Save Preferences", command=save_preference)
-save_button.pack(side=tk.LEFT, padx=10, pady=10)
+save_button.pack(side=tk.RIGHT, padx=0, pady=0)
 
 """ SAVE, LOAD, GENERATE BUTTONS END """
 
 root.mainloop()
+
+
