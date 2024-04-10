@@ -1,37 +1,50 @@
+import xml.etree.ElementTree as ET
 """ Values related to the program's operation. Includes calibrated positions"""
 
-# Protocol Identifiers
-tip4_96 = 0
-tip2_96 = 1
-tip1_6 = 2
-tip2_6 = 3
+# Coordinate Types
+plate_96 = "96 Well Plate"
+plate_6 = "6 Well Plate"
+reservoir_25ml = "25 mL Reservoir"
+_1_5_tubes = "1.5 mL Reservoirs"
+tip_tray = "Tip Tray"
+pos_eject_bowl = "Ejection Bowl"
+cal_1_5_tubes = "1.5 mL Reservoirs (Testing)"
 
 # Insert Types
 ez_seed = "EZ-SEED"
 three_in_one = "3-IN-1"
 
+# Protocol Identifiers
+_4_tip_96well_protocol = 0
+_2_tip_96well_protocol = 1
+_1_tip_6well_protocol = 2
+_2_tip_6well_protocol = 3
+
 # Tip and Reservoir volumes
-tube_5mL = 5000.000
-tube_1500uL = 1500.000
-res_25mL = 25000.000
-tip_250 = 250
+_5mL = 5000.000
+_1_5mL = 1500.000
+_25mL = 25000.000
+_250uL_tip = 250
+
+# tree = ET.parse("calibration_values.xml")
+# root = tree.getroot()
 
 # 96 Well Plate Coordinates
-plate_96 = [125, 20]
-plate96_movement_height = 49
-dispense_height_EZ = 53
-dispense_height_96 = 0  # Not Calibrated
+_96_well_coordinates =[125,21] # [int(root.find(plate_96).attrib['x']), int(root.find(plate_96).attrib['y'])]
+_96_well_movement_height = 30 #int(root.find(plate_96).attrib['z_movement'])
+ez_dispense_height = 40 #int(root.find(plate_96).attrib['z']) - 3
+_96_well_dispense_height = 40 #int(root.find(plate_96).attrib['z'])
 
 # 6 Well Plate Coordinates
-plate_6 = [101, 0]  # Not Calibrated
-plate6_movement_height = 0  # Not Calibrated
+_6_well_coordinates = [101, 0]  # Not Calibrated
+_6_well_movement_height = 0  # Not Calibrated
 dispense_height_3in1 = 0  # Not Calibrated
 dispense_height_6 = 0  # Not Calibrated
 
 # 25 mL Reservoir Coordinates
-pos_reservoir_25ml = [6, 61]
+pos_reservoir_25ml = [6, 49]
 aspirate_height_25ml = 45
-movement_height_25mL = 22
+movement_height_25mL = 18
 
 # 1.5 mL Reservoir Coordinates
 tubes4tips = [[11, 104], [47, 104]]  # Not calibrated
@@ -80,7 +93,7 @@ beaker_asp_height = 55
 cal_tubes8 = [[9, 104], [27, 104], [45, 104], [72, 104],
               [0, 117], [18, 117], [36, 117], [54, 117]]  # Coordinates for 1-Tip dispensing
 cal_tubes4 = [[10, 104], [46, 104], [37, 117],[1, 117]]  # Coordinates for 2-Tip dispensing
-cal_tubes2 = [[9, 104], [0,117]]  # Coordinates for 4-Tip dispensing
+cal_tubes2 = [[11, 101], [2,114]]  # Coordinates for 4-Tip dispensing
 tubes_disp_height = 78
 cal_movement_height = 17
 dispense_move_height = 41
@@ -91,4 +104,5 @@ model_factor = 1
 
 # New Calibration Coordinates
 cal_25_pos_new = [0, 116]
-cal_tubes_new = [[0, 56], [7, 42]]
+cal_tubes_new = [[11, 101], [2,114]]
+
