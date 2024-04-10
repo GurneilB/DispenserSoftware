@@ -365,7 +365,7 @@ def save_preference(suppress_message: bool = False):
         else:
             messagebox.showinfo("Save", "Preferences Saved")
 
-
+###Calibration Start
 # Stores coordinates inside an XML file
 def value_to_xml():
     root = ET.Element("CalibrationValues")
@@ -508,7 +508,7 @@ def calibration():
     # Save button to update XML with new values
     save_button = tk.Button(cal_window, text="Edit Coordinates", command=lambda: toggle_entries("readonly"))
     save_button.grid(row=row_index, column=0, columnspan=9, pady=(10, 0))
-
+###Calibration Ends
 
 # *****Add documentation*****
 def import_csv_file():
