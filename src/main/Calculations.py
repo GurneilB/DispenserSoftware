@@ -67,13 +67,13 @@ def num_tip(vol_array: np.array):
     :return: Number of tips required for dispensing
     """
     # Checks for appropriate protocol
-    if get_protocol(vol_array) == val.tip4_96:
+    if get_protocol(vol_array) == val._4_tip_96well_protocol:
         # Returns "4" for 4-tip dispensing
         return val.tip4
-    elif get_protocol(vol_array) in {val.tip2_96, val.tip2_6}:
+    elif get_protocol(vol_array) in {val._2_tip_96well_protocol, val._2_tip_6well_protocol}:
         # Returns "2" for 2-tip dispensing
         return val.tip2
-    elif get_protocol(vol_array) == val.tip1_6:
+    elif get_protocol(vol_array) == val._1_tip_6well_protocol:
         # Returns "1" for 1-tip dispensing
         return val.tip1
 
@@ -93,12 +93,12 @@ def required_vol_per_tip(vol_array):
         section_3 = vol_array[:, [4, 5]]
         section_4 = vol_array[:, [6, 7]]
 
-        if get_protocol(vol_array) == val.tip4_96:
+        if get_protocol(vol_array) == val._4_tip_96well_protocol:
 
             # Return set of tip volumes for 96-well 4-tip Dispensing
             return [total_vol(section_4), total_vol(section_3), total_vol(section_2), total_vol(section_1)]
 
-        elif get_protocol(vol_array) == val.tip2_96:
+        elif get_protocol(vol_array) == val._2_tip_96well_protocol:
 
             # Return set of tip volumes for 96-well 2-tip Dispensing
             return [total_vol(section_4) + total_vol(section_3), total_vol(section_2) + total_vol(section_1)]
@@ -108,12 +108,12 @@ def required_vol_per_tip(vol_array):
         section_1 = vol_array[:, [0]]
         section_2 = vol_array[:, [1]]
 
-        if get_protocol(vol_array) == val.tip2_96:
+        if get_protocol(vol_array) == val._2_tip_96well_protocol:
 
             # Return set of tip volumes for 6-well 2-tip Dispensing
             return [total_vol(section_2) * 4, total_vol(section_1) * 4]
 
-        elif get_protocol(vol_array) == val.tip1_6:
+        elif get_protocol(vol_array) == val._1_tip_6well_protocol:
 
             # Return set of tip volumes for 6-well 1-tip Dispensing
             return [total_vol(vol_array)]
@@ -154,7 +154,7 @@ def vol_per_res(vol_array, reservoir: float):
     total_vols = required_vol_per_tip(vol_array)
 
     # For 25ml Reservoir
-    if reservoir == val.res_25mL:
+    if reservoir == val._25mL:
 
         # For 4 tips
         if num_tip(vol_array) == val.tip4:
@@ -174,14 +174,14 @@ def vol_per_res(vol_array, reservoir: float):
             return [total_vols[0]]
 
     # For 1.5mL Reservoir
-    elif reservoir == val.tube_1500uL:
+    elif reservoir == val._1_5mL:
 
         # For 4 tips
         if num_tip(vol_array) == val.tip4:
 
             # Check if any tip needs more than 1500uL
             for i in range(4):
-                if total_vols[i] > val.tube_1500uL:
+                if total_vols[i] > val._1_5mL:
                     double_tubes = True
 
             if double_tubes:
@@ -200,7 +200,7 @@ def vol_per_res(vol_array, reservoir: float):
 
             # Check if any tip needs more than 1500uL
             for i in range(2):
-                if total_vols[i] > val.tube_1500uL:
+                if total_vols[i] > val._1_5mL:
                     double_tubes = True
 
             if double_tubes:
@@ -219,14 +219,14 @@ def vol_per_res(vol_array, reservoir: float):
         else:
 
             # 4 Tubes
-            if val.tube_1500uL * 3 < total_vols[0] < val.tube_1500uL * 4:
+            if val._1_5mL * 3 < total_vols[0] < val._1_5mL * 4:
                 return [total_vols[0] / 4, total_vols[0] / 4, total_vols[0] / 4, total_vols[0] / 4]
 
             # 3 Tubes
-            elif val.tube_1500uL * 2 < total_vols[0] < val.tube_1500uL * 3:
+            elif val._1_5mL * 2 < total_vols[0] < val._1_5mL * 3:
                 return [total_vols[0] / 3, total_vols[0] / 3, total_vols[0] / 3, 0]
             # 2 Tubes
-            elif val.tube_1500uL < total_vols[0] < val.tube_1500uL * 2:
+            elif val._1_5mL < total_vols[0] < val._1_5mL * 2:
                 return [total_vols[0] / 2, total_vols[0] / 2, 0, 0]
 
             # 1 Tube
@@ -242,7 +242,7 @@ def num_reservoir(vol_array: np.array, reservoir: float):
     :param reservoir: size of reagent reservoir used
     :return: # of reservoirs needed
     """
-    if reservoir == val.res_25mL:
+    if reservoir == val._25mL:
 
         # Returns "1" for 25mL reservoir
         return val.rnum1
@@ -285,22 +285,22 @@ def get_protocol(vol_array: np.array):
         if np.array_equal(section_1, section_2) & np.array_equal(section_3, section_4):
 
             # protocol 0 is 4 Tip dispensing
-            return val.tip4_96
+            return val._4_tip_96well_protocol
         else:
 
             # protocol 1 is 2 Tip dispensing
-            return val.tip2_96
+            return val._2_tip_96well_protocol
 
     # 6 Well Plate Protocols
     elif np.shape(vol_array) == (3, 2):
         if rows_identical(vol_array):
 
             # Protocol 2 is 2 Tip Dispensing
-            return val.tip2_6
+            return val._2_tip_6well_protocol
         else:
 
             # Protocol 3 is 1 Tip Dispensing
-            return val.tip1_6
+            return val._1_tip_6well_protocol
 
 
 def build_snake(array):

@@ -20,7 +20,7 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
     """
 
     # Run EZ SEED 4 Tip Dispensing
-    if calc.get_protocol(vol_array) == val.tip4_96:
+    if calc.get_protocol(vol_array) == val._4_tip_96well_protocol:
 
         # Run EZ SEED 4 Tip Dispensing
         if insert == val.ez_seed:
@@ -33,7 +33,7 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
             disp.n_ez_4tip_dispense(name, r_vol, tip, vol_array, t_vol, restype)
 
     # Run EZ SEED 2 Tip Dispensing
-    elif calc.get_protocol(vol_array) == val.tip2_96:
+    elif calc.get_protocol(vol_array) == val._2_tip_96well_protocol:
 
         # Run EZ SEED 2 Tip Dispensing
         if insert == val.ez_seed:
@@ -46,7 +46,7 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
             disp.n_ez_2tip_dispense(name, r_vol, tip, vol_array, t_vol, restype)
 
     # Run 3-in-1 2 Tip Dispensing
-    elif calc.get_protocol(vol_array) == val.tip2_6:
+    elif calc.get_protocol(vol_array) == val._2_tip_6well_protocol:
 
         # Run 3-in-1 2 Tip Dispensing
         if insert == val.three_in_one:
@@ -59,7 +59,7 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
             pass
 
     # Run 3-in-1 1 Tip Dispensing
-    elif calc.get_protocol(vol_array) == val.tip1_6:
+    elif calc.get_protocol(vol_array) == val._1_tip_6well_protocol:
 
         # Run 3-in-1 1 Tip Dispensing
         if insert == val.three_in_one:

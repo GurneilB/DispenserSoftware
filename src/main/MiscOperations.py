@@ -44,9 +44,11 @@ def eject(name, tool):
     wc.rapid_z_pos(name, val.eject_height)
 
     # Eject Tips
-    wc.rapid_e_pos(name, tool)
+    init.set_relative(name)
+    init.pick_tool(name,tool)
+    wc.rapid_e_pos(name, -3)
+    init.set_absolute(name)
     wc.dwell(name, 2)
-    wc.rapid_z_pos(name, val.movement_height_25mL)
 
 
 def present(name):

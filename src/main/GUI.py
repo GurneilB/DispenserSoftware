@@ -7,6 +7,7 @@ import numpy as np
 import json
 import csv
 import Value as val
+import ConfigCalibration as calval
 import Program as program
 import Calculations as calc
 import xml.etree.ElementTree as ET
@@ -169,10 +170,10 @@ def tip_set(protocol):
     #         letter_labels[letter].config(fg="blue")
     #     else:
     #         letter_labels[letter].config(fg="grey")
-    if protocol == val.tip4_96:
+    if protocol == val._4_tip_96well_protocol:
         for letter_ in letters:
             letter_labels[letter_].config(fg="blue")
-    elif protocol == val.tip2_96:
+    elif protocol == val._2_tip_96well_protocol:
         for letter_ in letters:
             letter_labels[letter_].config(fg="grey")
         letter_labels['B'].config(fg="blue")
@@ -276,11 +277,11 @@ def run_procedure():
         eject_ = data.get('eject')
 
         # Check if total procedure volume is compatible with 1.5 mL tubes (if applicable)
-        if restype == "1.5" and calc.get_protocol(vol_array) == val.tip2_96:
+        if restype == "1.5" and calc.get_protocol(vol_array) == val._2_tip_96well_protocol:
             if np.sum(vol_array[:, [0, 1, 2, 3]]) > 3000 or np.sum(vol_array[:, [4, 5, 6, 7]]) > 3000:
                 messagebox.showerror("Volume Error", "Total culture plate volume is too large for reservoir")
                 return
-        elif restype == "1.5" and calc.get_protocol(vol_array) == val.tip4_96:
+        elif restype == "1.5" and calc.get_protocol(vol_array) == val._4_tip_96well_protocol:
             if (np.sum(vol_array[:, [0, 1]]) > 3000 or np.sum(vol_array[:, [2, 3]]) > 3000
                     or np.sum(vol_array[:, [4, 5]]) > 3000 or np.sum(vol_array[:, [6, 7]]) > 3000):
                 messagebox.showerror("Volume Error", "Total culture plate volume is too large for reservoir")
@@ -365,15 +366,16 @@ def save_preference(suppress_message: bool = False):
         else:
             messagebox.showinfo("Save", "Preferences Saved")
 
+
 ###Calibration Start
 # Stores coordinates inside an XML file
 def value_to_xml():
     root = ET.Element("CalibrationValues")
 
-    ET.SubElement(root, "plate_96", x=str(val.plate_96[0]), y=str(val.plate_96[1]), z=str(val.dispense_height_EZ),
-                  z_movement=str(val.plate96_movement_height))
+    ET.SubElement(root, "plate_96", x=str(val.plate_96[0]), y=str(val.plate_96[1]), z=str(calval.dispense_height_EZ),
+                  z_movement=str(calval.plate96_movement_height))
     ET.SubElement(root, "plate_6", x=str(val.plate_6[0]), y=str(val.plate_6[1]), z=str(val.dispense_height_3in1),
-                  z_movement=str(val.plate6_movement_height))
+                  z_movement=str(calval.plate6_movement_height))
     ET.SubElement(root, "pos_reservoir_25ml", x=str(val.pos_reservoir_25ml[0]), y=str(val.pos_reservoir_25ml[1]),
                   z=str(val.aspirate_height_25ml), z_movement=str(val.movement_height_25mL))
     ET.SubElement(root, "tubes4tips", x=str(val.tubes4tips[0][0]), y=str(val.tubes4tips[0][1]),
@@ -448,8 +450,8 @@ def calibration():
 
     entries = {}  # Dictionary to keep track of text entries for each value
     custom_label = {
-        "plate_96": "96-well plate",
-        "plate_6": "6-well plate",
+        "_96_well_coordinates": "96-well plate",
+        "_6_well_coordinates": "6-well plate",
         "pos_reservoir_25ml": "25ml Reservoir",
         "tubes4tips": "1.5mL Reservoir",
         "eject_bowl": "Ejection Bowl",
@@ -508,6 +510,8 @@ def calibration():
     # Save button to update XML with new values
     save_button = tk.Button(cal_window, text="Edit Coordinates", command=lambda: toggle_entries("readonly"))
     save_button.grid(row=row_index, column=0, columnspan=9, pady=(10, 0))
+
+
 ###Calibration Ends
 
 # *****Add documentation*****
@@ -780,5 +784,3 @@ save_button.pack(side=tk.RIGHT, padx=0, pady=0)
 """ SAVE, LOAD, GENERATE BUTTONS END """
 
 root.mainloop()
-
-

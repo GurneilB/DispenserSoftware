@@ -20,7 +20,7 @@ def commandline():
     res_type = inp.get_reservoir_type()
     tip_size = inp.get_tip_type()
     design = inp.get_design()
-    if res_type != val.res_25mL:
+    if res_type != val._25mL:
         equip = inp.get_equip()
     else:
         equip = False
@@ -83,11 +83,11 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
 
     # Initialize Reservoir type
     if restype_inp == "1.5":
-        res_type = val.tube_1500uL
+        res_type = val._1_5mL
     elif plate_inp == "5":
-        res_type = val.tube_5mL
+        res_type = val._5mL
     elif restype_inp == "25":
-        res_type = val.res_25mL
+        res_type = val._25mL
 
     # Calculate number of reservoirs, tips and starting res volumes
     rnum = calc.num_reservoir(design, res_type)

@@ -27,7 +27,7 @@ def get_reservoir_type(default=True):
     :return: (Float) size of reservoir in uL
     """
     if default:
-        return val.res_25mL
+        return val._25mL
     while True:
         try:
             tube = input("Which reservoir are you using? (Type A for 25mL reservoir, "
@@ -35,9 +35,9 @@ def get_reservoir_type(default=True):
             if tube not in {"A", "B"}:
                 raise ValueError("Invalid Input\n Please select A or B.")
             elif tube == "A":
-                return val.res_25mL
+                return val._25mL
             else:
-                return val.tube_5mL
+                return val._5mL
         except ValueError as e:
             print(e)
 
@@ -48,7 +48,7 @@ def get_tip_type(default=True):
     :return: (Int) size of tip in uL
     """
     if default:
-        return val.tip_250
+        return val._250uL_tip
     else:
         while True:
             try:
