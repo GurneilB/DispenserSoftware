@@ -9,7 +9,7 @@ import numpy as np
 with EZ-seed or no insert. (6-well and 3-in-1 unsupported)."""
 
 
-def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert="EZ-Seed"):
+def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert=val.ez_seed):
     """
     Writes EZ-Seed dispensing commands to file for 4-tip dispensing
 
@@ -86,7 +86,7 @@ def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
             wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + 9, val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)])
 
 
-def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert="EZ-Seed"):
+def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert=val.ez_seed):
     """
     Writes 96-well plate dispensing commands to file for 4-tip dispensing
 
@@ -163,7 +163,7 @@ def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
             wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + 9, val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)])
 
 
-def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert="EZ-Seed"):
+def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert=val.ez_seed):
     """
         Writes EZ-Seed dispensing commands to file for 2-tip dispensing
 
@@ -253,7 +253,7 @@ def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
             wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 47) * 9)])
 
 
-def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert="EZ-Seed"):
+def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert=val.ez_seed):
     """
             Writes 96-well Plate dispensing commands to file for 2-tip dispensing
 
