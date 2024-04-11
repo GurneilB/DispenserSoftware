@@ -20,10 +20,10 @@ G0 X6.000 Y49.000
 G0 Z45.000 
 T0 ;select EZ-SEED tool 
 G90 ;sets absolute positioning
-G0 E250 
+G0 E40.75 
 T1 ;select EZ-SEED tool 
 G90 ;sets absolute positioning
-G0 E250 
+G0 E40.75 
 G90 ;sets absolute positioning
 G0 Z18.000 
 G0 X125.000 Y21.000 
@@ -31,72 +31,72 @@ G0 X125.000 Y21.000
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y30.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y39.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y48.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y57.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y66.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y75.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y84.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 ;Begin Aspiration
 G90 ;sets absolute positioning
@@ -105,10 +105,10 @@ G0 X6.000 Y49.000
 G0 Z45.000 
 T2 ;select EZ-Seed tool 
 G90 ;sets absolute positioning
-G0 E250 
+G0 E40.75 
 T2 ;select EZ-Seed tool 
 G90 ;sets absolute positioning
-G0 E250 
+G0 E40.75 
 G90 ;sets absolute positioning
 G0 Z18.000 
 G0 X125.000 Y93.000 
@@ -116,63 +116,63 @@ G0 X125.000 Y93.000
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y102.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y111.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X125.000 Y120.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y120.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y111.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y102.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 ;Begin Aspiration
 G90 ;sets absolute positioning
@@ -181,10 +181,10 @@ G0 X6.000 Y49.000
 G0 Z45.000 
 T2 ;select EZ-Seed tool 
 G90 ;sets absolute positioning
-G0 E250 
+G0 E40.75 
 T2 ;select EZ-Seed tool 
 G90 ;sets absolute positioning
-G0 E250 
+G0 E40.75 
 G90 ;sets absolute positioning
 G0 Z18.000 
 G0 X134.000 Y93.000 
@@ -192,63 +192,63 @@ G0 X134.000 Y93.000
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y84.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y75.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y66.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y57.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y48.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y39.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 ;Begin Aspiration
 G90 ;sets absolute positioning
@@ -257,10 +257,10 @@ G0 X6.000 Y49.000
 G0 Z45.000 
 T2 ;select EZ-Seed tool 
 G91 ;sets relative positioning
-G0 E50.0 
+G0 E8.15 
 T2 ;select EZ-Seed tool 
 G91 ;sets relative positioning
-G0 E50.0 
+G0 E8.15 
 G90 ;sets absolute positioning
 G0 Z18.000 
 G0 X134.000 Y30.000 
@@ -268,18 +268,18 @@ G0 X134.000 Y30.000
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 G90 ;sets absolute positioning
 G0 Z30.000 
 G0 X134.000 Y21.000 
 G0 Z40.000 
 G91 ;sets relative positioning
 T2 ;select EZ-Seed tool 
-G0 E-25.0 
+G0 E-4.075 
 T2 ;select EZ-Seed tool 
-G0 E-50.0 
+G0 E-8.15 
 G90 ;sets absolute positioning
 ;Begin tip ejection
 G90 ;sets absolute positioning
