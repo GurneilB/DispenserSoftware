@@ -100,7 +100,7 @@ dispense_move_height = 41
 zero_height = 0  # Find height, set manually with G92 E
 
 # Calibration model dispensing factor
-model_factor = 1
+model_factor = 0.163
 
 # New Calibration Coordinates
 cal_25_pos_new = [0, 116]
