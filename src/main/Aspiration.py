@@ -216,7 +216,7 @@ def asp_4tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
 
     # Move to dispensing position
     wc.rapid_z_pos(name, val.movement_height_1_5ml, "Move height")
-    wc.rapid_xy_pos(name, disp_pos, "More to well plate")
+    wc.rapid_xy_pos(name, disp_pos, "Move to well plate")
 
     return t_vol
 
