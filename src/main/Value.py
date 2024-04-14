@@ -59,13 +59,13 @@ if os.path.exists("calibration_values.xml"):
 
     # 96 Well Plate Coordinates
     _96_well_coordinates = [int(root.find("plate_96").attrib['x']), int(root.find("plate_96").attrib['y'])]
-    _96_well_movement_height = int(root.find("plate_96").attrib['zmove'])
-    ez_dispense_height = int(root.find("plate_96").attrib['z']) - 3
+    _96_well_movement_height = int(root.find("plate_96").attrib['z_movement'])
+    ez_dispense_height = int(root.find("plate_96").attrib['z']) - 2
     _96_well_dispense_height = int(root.find("plate_96").attrib['z'])
 
     # 6 Well Plate Coordinates
     _6_well_coordinates = [int(root.find("plate_6").attrib['x']), int(root.find("plate_6").attrib['y'])]
-    _6_well_movement_height = int(root.find("plate_6").attrib['zmove'])
+    _6_well_movement_height = int(root.find("plate_6").attrib['z_movement'])
     dispense_height_3in1 = int(root.find("plate_6").attrib['z']) - 3
     dispense_height_6 = int(root.find("plate_6").attrib['z'])
 
@@ -73,7 +73,7 @@ if os.path.exists("calibration_values.xml"):
     pos_reservoir_25ml = [int(root.find("pos_reservoir_25ml").attrib['x']),
                           int(root.find("pos_reservoir_25ml").attrib['y'])]
     aspirate_height_25ml = int(root.find("pos_reservoir_25ml").attrib['z'])
-    movement_height_25mL = int(root.find("pos_reservoir_25ml").attrib['zmove'])
+    movement_height_25mL = int(root.find("pos_reservoir_25ml").attrib['z_movement'])
 
     # 1.5 mL Reservoir Coordinates
     tubes4tips = [[int(root.find("tubes4tips").attrib['x']), int(root.find("tubes4tips").attrib['y'])],
@@ -84,7 +84,7 @@ if os.path.exists("calibration_values.xml"):
                   [int(root.find("tubes4tips").attrib['x']) - 9, int(root.find("tubes4tips").attrib['y']) + 13],
                   [int(root.find("tubes4tips").attrib['x']) + 27, int(root.find("tubes4tips").attrib['y']) + 13]]
     aspirate_height_1_5ml = int(root.find("tubes4tips").attrib['z'])
-    movement_height_1_5ml = int(root.find("tubes4tips").attrib['zmove'])
+    movement_height_1_5ml = int(root.find("tubes4tips").attrib['z_movement'])
 
     # Ejection Coordinates
     eject_bowl = [int(root.find("eject_bowl").attrib['x']), int(root.find("eject_bowl").attrib['y'])]

@@ -526,7 +526,7 @@ def save_updates():
 
         # Check if there's a zmove value to add
         if len(ents) > 3:
-            elem_attribs['zmove'] = ents[3].get() or "0"
+            elem_attribs['z_movement'] = ents[3].get() or "0"
 
         # Create the XML element with the appropriate attributes
         ET.SubElement(root_, tag, **elem_attribs)

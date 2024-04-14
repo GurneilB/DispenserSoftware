@@ -47,7 +47,7 @@ def commandline():
     # Eject Tips
     if eject:
         for i in range(2):
-            mo.eject(name, i)
+            mo.eject(name, insert, i)
 
     # Present Stage/End Procedure
     mo.present(name)
@@ -110,7 +110,7 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
     # Eject Tips
     if eject:
         for i in range(2):
-            mo.eject(name, i)
+            mo.eject(name, insert, i)
 
     # Present Stage/End Procedure
     mo.present(name)

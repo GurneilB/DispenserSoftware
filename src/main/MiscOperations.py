@@ -28,11 +28,12 @@ def equip(name):
     wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
 
 
-def eject(name, tool):
+def eject(name, insert, tool):
     """
     Writes tip-ejection commands to file
 
     :param name: name of file to write to
+    :param insert: motor set to eject
     :param tool: motor to perform ejection
     """
     init.set_eject(name)
@@ -44,10 +45,8 @@ def eject(name, tool):
     wc.rapid_z_pos(name, val.eject_height, "Ejection height")
 
     # Eject Tips
-    init.set_relative(name)
-    init.pick_tool(name,tool)
+    init.pick_tool(name, insert, tool)
     wc.rapid_e_pos(name, -3, "Eject tips")
-    init.set_absolute(name)
     wc.dwell(name, 2)
 
 
