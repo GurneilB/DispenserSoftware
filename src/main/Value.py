@@ -1,4 +1,6 @@
+import os.path
 import xml.etree.ElementTree as ET
+import ConfigCalibration as calval
 
 """ Values related to the program's operation. Includes calibrated positions"""
 
@@ -51,45 +53,79 @@ x = 0
 y = 1
 
 """ COORDINATES AND CALIBRATION MODEL"""
-tree = ET.parse("calibration_values.xml")
-root = tree.getroot()
+if os.path.exists("calibration_values.xml"):
+    tree = ET.parse("calibration_values.xml")
+    root = tree.getroot()
 
-# 96 Well Plate Coordinates
-_96_well_coordinates = [int(root.find("plate_96").attrib['x']), int(root.find("plate_96").attrib['y'])]
-_96_well_movement_height = int(root.find("plate_96").attrib['zmove'])
-ez_dispense_height = int(root.find("plate_96").attrib['z']) - 3
-_96_well_dispense_height = int(root.find("plate_96").attrib['z'])
+    # 96 Well Plate Coordinates
+    _96_well_coordinates = [int(root.find("plate_96").attrib['x']), int(root.find("plate_96").attrib['y'])]
+    _96_well_movement_height = int(root.find("plate_96").attrib['zmove'])
+    ez_dispense_height = int(root.find("plate_96").attrib['z']) - 3
+    _96_well_dispense_height = int(root.find("plate_96").attrib['z'])
 
-# 6 Well Plate Coordinates
-_6_well_coordinates = [int(root.find("plate_6").attrib['x']), int(root.find("plate_6").attrib['y'])]
-_6_well_movement_height = int(root.find("plate_6").attrib['zmove'])
-dispense_height_3in1 = int(root.find("plate_6").attrib['z']) - 3
-dispense_height_6 = int(root.find("plate_6").attrib['z'])
+    # 6 Well Plate Coordinates
+    _6_well_coordinates = [int(root.find("plate_6").attrib['x']), int(root.find("plate_6").attrib['y'])]
+    _6_well_movement_height = int(root.find("plate_6").attrib['zmove'])
+    dispense_height_3in1 = int(root.find("plate_6").attrib['z']) - 3
+    dispense_height_6 = int(root.find("plate_6").attrib['z'])
 
-# 25 mL Reservoir Coordinates
-pos_reservoir_25ml = [int(root.find("pos_reservoir_25ml").attrib['x']),
-                      int(root.find("pos_reservoir_25ml").attrib['y'])]
-aspirate_height_25ml = int(root.find("pos_reservoir_25ml").attrib['z'])
-movement_height_25mL = int(root.find("pos_reservoir_25ml").attrib['zmove'])
+    # 25 mL Reservoir Coordinates
+    pos_reservoir_25ml = [int(root.find("pos_reservoir_25ml").attrib['x']),
+                          int(root.find("pos_reservoir_25ml").attrib['y'])]
+    aspirate_height_25ml = int(root.find("pos_reservoir_25ml").attrib['z'])
+    movement_height_25mL = int(root.find("pos_reservoir_25ml").attrib['zmove'])
 
-# 1.5 mL Reservoir Coordinates
-tubes4tips = [[int(root.find("tubes4tips").attrib['x']), int(root.find("tubes4tips").attrib['y'])],
-              [int(root.find("tubes4tips").attrib['x']) - 9,
-               int(root.find("tubes4tips").attrib['y']) + 13]]  # Not calibrated
-tubes2tips = [[int(root.find("tubes4tips").attrib['x']), int(root.find("tubes4tips").attrib['y'])],
-              [int(root.find("tubes4tips").attrib['x']) + 36, int(root.find("tubes4tips").attrib['y'])],
-              [int(root.find("tubes4tips").attrib['x']) - 9, int(root.find("tubes4tips").attrib['y']) + 13],
-              [int(root.find("tubes4tips").attrib['x']) + 27, int(root.find("tubes4tips").attrib['y']) + 13]]
-aspirate_height_1_5ml = int(root.find("tubes4tips").attrib['z'])
-movement_height_1_5ml = int(root.find("tubes4tips").attrib['zmove'])
+    # 1.5 mL Reservoir Coordinates
+    tubes4tips = [[int(root.find("tubes4tips").attrib['x']), int(root.find("tubes4tips").attrib['y'])],
+                  [int(root.find("tubes4tips").attrib['x']) - 9,
+                   int(root.find("tubes4tips").attrib['y']) + 13]]  # Not calibrated
+    tubes2tips = [[int(root.find("tubes4tips").attrib['x']), int(root.find("tubes4tips").attrib['y'])],
+                  [int(root.find("tubes4tips").attrib['x']) + 36, int(root.find("tubes4tips").attrib['y'])],
+                  [int(root.find("tubes4tips").attrib['x']) - 9, int(root.find("tubes4tips").attrib['y']) + 13],
+                  [int(root.find("tubes4tips").attrib['x']) + 27, int(root.find("tubes4tips").attrib['y']) + 13]]
+    aspirate_height_1_5ml = int(root.find("tubes4tips").attrib['z'])
+    movement_height_1_5ml = int(root.find("tubes4tips").attrib['zmove'])
 
-# Ejection Coordinates
-eject_bowl = [int(root.find("eject_bowl").attrib['x']), int(root.find("eject_bowl").attrib['y'])]
-eject_height = int(root.find("eject_bowl").attrib['z'])
+    # Ejection Coordinates
+    eject_bowl = [int(root.find("eject_bowl").attrib['x']), int(root.find("eject_bowl").attrib['y'])]
+    eject_height = int(root.find("eject_bowl").attrib['z'])
 
-# Equipping Coordinates
-tip_tray_8 = [int(root.find("tip_tray_8").attrib['x']), int(root.find("tip_tray_8").attrib['y'])]
-equip_height = int(root.find("tip_tray_8").attrib['z'])
+    # Equipping Coordinates
+    tip_tray_8 = [int(root.find("tip_tray_8").attrib['x']), int(root.find("tip_tray_8").attrib['y'])]
+    equip_height = int(root.find("tip_tray_8").attrib['z'])
+
+else:
+    # 96 Well Plate Coordinates
+    _96_well_coordinates = calval.plate_96
+    _96_well_movement_height = calval.plate96_movement_height
+    ez_dispense_height = calval.dispense_height_EZ
+    _96_well_dispense_height = calval.dispense_height_96
+
+    # 6 Well Plate Coordinates
+    _6_well_coordinates = calval.plate_6
+    _6_well_movement_height = calval.plate6_movement_height
+    dispense_height_3in1 = calval.dispense_height_3in1
+    dispense_height_6 = calval.dispense_height_6
+
+    # 25 mL Reservoir Coordinates
+    pos_reservoir_25ml = calval.pos_reservoir_25ml
+    aspirate_height_25ml = calval.aspirate_height_25ml
+    movement_height_25mL = calval.movement_height_25mL
+
+    # 1.5 mL Reservoir Coordinates
+    tubes4tips = calval.tubes4tips
+    tubes2tips = calval.tubes2tips
+    aspirate_height_1_5ml = calval.aspirate_height_1_5ml
+    movement_height_1_5ml = calval.movement_height_1_5ml
+
+    # Ejection Coordinates
+    eject_bowl = calval.eject_bowl
+    eject_height = calval.eject_height
+
+    # Equipping Coordinates
+    tip_tray_8 = calval.tip_tray_8
+    equip_height = calval.equip_height
+
 
 # Presenting Coordinates
 present = [65, 0]

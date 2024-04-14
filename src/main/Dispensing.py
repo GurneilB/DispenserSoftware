@@ -29,8 +29,10 @@ def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
     snake1 = calc.build_snake(path1)
     snake = [snake0, snake1]
 
+    init.set_disp(name)
+
     # Move to dispensing start point
-    wc.rapid_xy_pos(name, val._96_well_coordinates)
+    wc.rapid_xy_pos(name, val._96_well_coordinates, "Move to 96 well plate")
 
     # Dispense volumes for each well
     for i in range(len(snake0)):
@@ -40,13 +42,13 @@ def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
             continue
 
         # Move to dispense height
-        wc.rapid_z_pos(name, val.ez_dispense_height)
+        wc.rapid_z_pos(name, val.ez_dispense_height, "Dispense Height at well %d" % i)
         init.set_relative(name)
 
         # Dispense Reagent for both tools
         for j in range(2):
             init.pick_tool(name, insert, j)
-            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]))
+            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]), "Dispense %.1f uL" % snake[j][i])
             t_vol[j] = t_vol[j] - snake[j][i]
 
         init.set_absolute(name)
@@ -79,11 +81,13 @@ def ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
 
         # Move to next unfilled non-zero well
         elif min(k, m) < 12:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)],
+                            "Move to next well")
         else:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + 9, val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + 9, val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)],
+                            "Move to next well")
 
 
 def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert=val.ez_seed):
@@ -107,7 +111,7 @@ def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
     snake = [snake0, snake1]
 
     # Move to dispensing start point
-    wc.rapid_xy_pos(name, val._96_well_coordinates)
+    wc.rapid_xy_pos(name, val._96_well_coordinates, "Move to 96-well plate")
 
     # Dispense volumes for each well
     for i in range(len(snake0)):
@@ -117,13 +121,13 @@ def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
             continue
 
         # Move to dispense height
-        wc.rapid_z_pos(name, val._96_well_dispense_height)
+        wc.rapid_z_pos(name, val._96_well_dispense_height, "Dispense Height at well %d" % i)
         init.set_relative(name)
 
         # Dispense Reagent for both tools
         for j in range(2):
             init.pick_tool(name, insert, j)
-            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]))
+            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]), "Dispense %.1f uL" % snake[j][i])
             t_vol[j] = t_vol[j] - snake[j][i]
 
         init.set_absolute(name)
@@ -156,11 +160,13 @@ def n_ez_4tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
 
         # Move to next unfilled non-zero well
         elif min(k, m) < 12:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)],
+                            "Move to next well")
         else:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + 9, val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + 9, val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)],
+                            "Move to next well")
 
 
 def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert=val.ez_seed):
@@ -184,7 +190,7 @@ def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
     snake = [snake0, snake1]
 
     # Move to dispensing start point
-    wc.rapid_xy_pos(name, val._96_well_coordinates)
+    wc.rapid_xy_pos(name, val._96_well_coordinates, "Move to 96-well plate")
 
     # Write dispensing comment to file
     init.set_disp(name)
@@ -197,13 +203,13 @@ def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
             continue
 
         # Move to dispense height
-        wc.rapid_z_pos(name, val.ez_dispense_height)
+        wc.rapid_z_pos(name, val.ez_dispense_height, "Dispense Height at well %d" % i)
         init.set_relative(name)
 
         # Dispense Reagent for both tools
         for j in range(2):
             init.pick_tool(name, insert, j)
-            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]))
+            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]), "Dispense %.1f uL" % snake[j][i])
             t_vol[j] = t_vol[j] - snake[j][i]
 
         init.set_absolute(name)
@@ -240,17 +246,21 @@ def ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vo
 
         # Move to next unfilled non-zero well
         elif min(k, m) < 12:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)],
+                            "Move to next well")
         elif 12 <= min(k, m) < 24:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] - (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] - (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)],
+                            "Move to next well")
         elif 24 <= min(k, m) < 36:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (0 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 35) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (0 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 35) * 9)],
+                            "Move to next well")
         else:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 47) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 47) * 9)],
+                            "Move to next well")
 
 
 def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_vol, restype, insert=val.ez_seed):
@@ -274,7 +284,7 @@ def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
     snake = [snake0, snake1]
 
     # Move to dispensing start point
-    wc.rapid_xy_pos(name, val._96_well_coordinates)
+    wc.rapid_xy_pos(name, val._96_well_coordinates, "Move to 96-well plate")
 
     # Write dispensing comment to file
     init.set_disp(name)
@@ -287,13 +297,13 @@ def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
             continue
 
         # Move to dispense height
-        wc.rapid_z_pos(name, val.ez_dispense_height)
+        wc.rapid_z_pos(name, val.ez_dispense_height, "Dispense Height at well %d" % i)
         init.set_relative(name)
 
         # Dispense Reagent for both tools
         for j in range(2):
             init.pick_tool(name, insert, j)
-            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]))
+            wc.rapid_e_pos(name, calc.convert_vol(-snake[j][i]), "Dispense %.1f uL" % snake[j][i])
             t_vol[j] = t_vol[j] - snake[j][i]
 
         init.set_absolute(name)
@@ -330,14 +340,18 @@ def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
 
         # Move to next unfilled non-zero well
         elif min(k, m) < 12:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x], val._96_well_coordinates[val.y] + (min(k, m) * 9)],
+                            "Move to next well")
         elif 12 <= min(k, m) < 24:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] - (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] - (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 23) * 9)],
+                            "Move to next well")
         elif 24 <= min(k, m) < 36:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (0 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 35) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (0 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 35) * 9)],
+                            "Move to next well")
         else:
-            wc.rapid_z_pos(name, val._96_well_movement_height)
-            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 47) * 9)])
+            wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
+            wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 47) * 9)],
+                            "Move to next well")

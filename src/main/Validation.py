@@ -36,31 +36,31 @@ with open("%s.gcode" % file_name, "w") as file:
 init.set_absolute(file_name)
 
 # Move to reservoir
-wc.rapid_e_pos(file_name, val.zero_height)
-wc.rapid_z_pos(file_name, val.cal_movement_height)
-wc.rapid_xy_pos(file_name, val.beaker)
+wc.rapid_e_pos(file_name, val.zero_height, "Set Extruder to 0")
+wc.rapid_z_pos(file_name, val.cal_movement_height, "Move height")
+wc.rapid_xy_pos(file_name, val.beaker, "Move to beaker")
 
 # Aspirate
-wc.rapid_z_pos(file_name, val.beaker_asp_height)
+wc.rapid_z_pos(file_name, val.beaker_asp_height, "Aspiration height")
 init.set_relative(file_name)
 init.pick_tool(file_name, val.ez_seed)
-wc.rapid_e_pos(file_name, volume * factor * 4)
+wc.rapid_e_pos(file_name, volume * factor * 4, "Aspirate %.1f uL" % (volume * factor * 4))
 
 init.set_absolute(file_name)
-wc.rapid_z_pos(file_name, val.cal_movement_height)
-wc.rapid_xy_pos(file_name, val.cal_tubes4[0])
+wc.rapid_z_pos(file_name, val.cal_movement_height, "Move height")
+wc.rapid_xy_pos(file_name, val.cal_tubes4[0], "Move to tubes")
 
 for i in range(4):
     # Move to tubes
     init.set_absolute(file_name)
-    wc.rapid_z_pos(file_name, val.dispense_move_height)
-    wc.rapid_xy_pos(file_name, val.cal_tubes4[i])
+    wc.rapid_z_pos(file_name, val.dispense_move_height, "Move height")
+    wc.rapid_xy_pos(file_name, val.cal_tubes4[i], "Move to tubes")
 
-    wc.rapid_z_pos(file_name, val.tubes_disp_height)
+    wc.rapid_z_pos(file_name, val.tubes_disp_height, "Dispense height")
     init.set_relative(file_name)
-    wc.rapid_e_pos(file_name, -volume * factor)
+    wc.rapid_e_pos(file_name, -volume * factor, "Dispense %.1f uL" % (volume*factor))
 
 # End procedure
 init.set_absolute(file_name)
-wc.rapid_e_pos(file_name, val.zero_height)
+wc.rapid_e_pos(file_name, val.zero_height, "Set Extruder to 0")
 mo.present(file_name)

@@ -12,7 +12,7 @@ import Program as program
 import Calculations as calc
 import xml.etree.ElementTree as ET
 
-""" Generates GUI for dispenser software, called FluidCAM"""
+""" Generates GUI for dispenser software, called FluidCAM """
 
 
 def toggle_matrix(var):
@@ -23,8 +23,13 @@ def toggle_matrix(var):
     """
 
     fill_number = fill.get() if var.get() and fill.get() else ""
-    for r in range(12):  # Now loops through columns first
-        for c in range(8):  # Then rows
+
+    # Loop through rows
+    for r in range(12):
+
+        # Loop through columns
+        for c in range(8):
+            # Fill entry with var
             entries[(r, c)].delete(0, tk.END)
             entries[(r, c)].insert(0, fill_number)
 
@@ -38,7 +43,10 @@ def toggle_row_zero(r, var):
     """
 
     fill_number = fill.get() if var.get() and fill.get() else ""
+
+    # Loop through each column
     for c in range(8):
+        # Fill entry with var
         entries[(r, c)].delete(0, tk.END)
         entries[(r, c)].insert(0, fill_number)
 
@@ -52,7 +60,10 @@ def toggle_col_zero(c, var):
     """
 
     fill_number = fill.get() if var.get() and fill.get() else ""
-    for r in range(12):  # Adjusted for new dimensions
+
+    # Loop through each row
+    for r in range(12):
+        # Fill entry with var
         entries[(r, c)].delete(0, tk.END)
         entries[(r, c)].insert(0, fill_number)
 
@@ -72,31 +83,36 @@ def dropdown(name, prompt, options, message, var, callback=None, selection_callb
     """
     Creates dropdown widgets
 
-    :param name:
-    :param prompt:
-    :param options:
-    :param message:
+    :param name: Preference dictionary key
+    :param prompt: Initial value for dropdown
+    :param options: All optional values for dropdown
+    :param message: Message in dropdown
     :param var:
     :param callback:
     :param selection_callback:
     """
-    f = tk.Frame(controls_frame)  # Creates frame
+
+    # Create frame
+    f = tk.Frame(controls_frame)
     f.pack(fill='x', expand=True)
 
-    mes = tk.Label(f, text=message)  # displays the message
+    # display the message
+    mes = tk.Label(f, text=message)
     mes.grid(row=0, column=0, sticky='w', padx=5)
 
-    var.set(prompt)  # default value
+    # default value
+    var.set(prompt)
 
-    def call(value):  # can't be called outside
+    def call(value):
         if callback:
             callback(value)
         update_selection(name, value)
         if selection_callback:  # new callback after selection
             selection_callback(value)
 
+    # Create and pack dropdown menu
     w = tk.OptionMenu(f, var, *options, command=call)
-    w.grid(row=0, column=1)  # creates and packs dropdown menu
+    w.grid(row=0, column=1)
 
     f.grid_columnconfigure(1, weight=1)
     w.config(anchor='w')
@@ -104,32 +120,55 @@ def dropdown(name, prompt, options, message, var, callback=None, selection_callb
     return w
 
 
-# Implement the callback for updating insert options
-# *****Add documentation*****
 def insert_opts(selected_plate_size):
+    """
+    Updates insert dropdowns for selected plate size
+
+    :param selected_plate_size: Plate Size
+    """
+
+    # Insert options for each plate size
     opt_insert = {
         "6 well plate": ["none", val.three_in_one],
         "96 well plate": ["none", val.ez_seed],
     }
-    new_options = opt_insert.get(selected_plate_size, ["none"])  # Default to ["none"] if not found
 
-    menu = dropdown_insert['menu']  # Access the menu of the OptionMenu widget
-    menu.delete(0, 'end')  # Clear current options
+    # Default to ["none"] if not found
+    new_options = opt_insert.get(selected_plate_size, ["none"])
+
+    # Access the menu of the OptionMenu widget
+    menu = dropdown_insert['menu']
+
+    # Clear current options
+    menu.delete(0, 'end')
 
     # update insert in preference
     def update_in(value):
+        """
+        Updates insert key in preferences dictionary
+
+        :param value: Value to update insert key with
+        """
+
         insert_var.set(value)
         update_selection('insert', value)
 
     # Add new options to the insert type dropdown
     for option in new_options:
         dropdown_insert['menu'].add_command(label=option, command=lambda value=option: update_in(value))
+
     # Update the displayed value to the first option of the new list
     insert_var.set(new_options[0])
 
 
-# *****Add documentation*****
 def greying(value):
+    """
+    Disables Equip Tip Checkbox
+
+    :param value: Reservoir selection
+    """
+
+    # Disable checkbox for 25mL reservoir
     if value == "25":
         equip.config(state=tk.DISABLED)  # Disables the checkbox
         CheckVar1.set(0)  # also unchecks it
@@ -137,47 +176,24 @@ def greying(value):
         equip.config(state=tk.NORMAL)
 
 
-# *****Add documentation*****
 def tip_set(protocol):
-    # # Fill empty cells with '0's
-    # for r in range(12):
-    #     for c in range(8):
-    #         if entries[(r, c)].get() == '':
-    #             entries[(r, c)].delete(0, tk.END)
-    #             entries[(r, c)].insert(0, '0')
-    #
-    # # Initialize all letters to light grey (assuming no columns are filled)
-    # for label in letter_labels.values():
-    #     label.config(fg="grey")
-    #
-    # # Mapping each letter to its corresponding columns
-    # column_pairs = {
-    #     'A': (0, 1),
-    #     'B': (2, 3),
-    #     'C': (4, 5),
-    #     'D': (6, 7)
-    # }
-    #
-    # # Check each pair of columns in the grid to determine if they are filled
-    # for letter, (col_start, col_end) in column_pairs.items():
-    #     is_filled = False
-    #     for r in range(12):
-    #         if entries[(r, col_start)].get() != '0' and entries[(r, col_end)].get() != '0':
-    #             is_filled = True
-    #             break
-    #     # Update the color of the letter based on whether its columns are filled
-    #     if is_filled:
-    #         letter_labels[letter].config(fg="blue")
-    #     else:
-    #         letter_labels[letter].config(fg="grey")
+    """
+    Displays procedure active tips for user
+
+    :param protocol: Procedure protocol
+    """
+
+    # 4-Tip 96 well Protocol, Activate all tips
     if protocol == val._4_tip_96well_protocol:
         for letter_ in letters:
             letter_labels[letter_].config(fg="blue")
+
+    # 2-Tip 96 well Protocol, activate Tips A and C
     elif protocol == val._2_tip_96well_protocol:
         for letter_ in letters:
             letter_labels[letter_].config(fg="grey")
-        letter_labels['B'].config(fg="blue")
-        letter_labels['D'].config(fg="blue")
+        letter_labels['A'].config(fg="blue")
+        letter_labels['C'].config(fg="blue")
 
 
 def update_equip():
@@ -197,6 +213,7 @@ def update_eject():
 def check_preference(pref):
     """
     Checks dictionary values are all non-None Type
+
     :param pref: user preferences dictionary
     :return: True if one or more values are None
     """
@@ -207,58 +224,46 @@ def check_preference(pref):
     return False
 
 
-# *****Add documentation*****
-def load_pref():  # still needs exception handling
-    filetypes = [('JSON files', '*.json'), ('All files', '*.*')]
-    filename = filedialog.askopenfilename(title='Open Preferences .json File', initialdir="/", filetypes=filetypes)
+def import_csv_file():
+    """
+    Imports contents of .csv file into GUI volumetric plate design
+    """
 
+    # Specify the options for opening the dialog
+    filetypes = [('CSV files', '*.csv'), ('All files', '*.*')]
+    filename = filedialog.askopenfilename(title="Open a file", initialdir="/", filetypes=filetypes)
+
+    # Check if a file was selected (filename will not be empty)
     if filename:
-        with open(filename, 'r') as file:
-            loaded_pref = json.load(file)
-        global preference
-        preference.update(loaded_pref)
+        # Reads the CSV file
+        with open(filename, newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            matrix = list(reader)
 
-    # updating procedure name
-    pname.delete(0, tk.END)
-    pname.insert(0, preference.get('name', ''))
+            # Checks if the matrix exceeds 12x8 dimensions
+            if len(matrix) > 12 or any(len(row) > 8 for row in matrix):
+                messagebox.showwarning("Invalid File",
+                                       "Please submit an appropriate csv file with a 12x8 matrix or smaller.")
+                return  # Stop processing this file
 
-    # updating dropdowns
-    global plate_var, insert_var, reservoir_var, tip_var
-    plate_var.set(preference.get('plate', 'Choose a plate size'))
-    insert_var.set(preference.get('insert', 'Choose an insert type'))
-    reservoir_var.set(preference.get('reservoir', 'Choose a reservoir type'))
-    tip_var.set(str(preference.get('tip', 'Choose a tip type')))
+            # Populates the grid with the matrix values or zeros
+            for r in range(12):
+                for c in range(8):
+                    entries[(r, c)].delete(0, tk.END)
+                    if r < len(matrix) and c < len(matrix[r]):
+                        entries[(r, c)].insert(0, matrix[r][c])
+                    else:
+                        entries[(r, c)].insert(0, "0")
 
-    # updating checkboxes
-    CheckVar1.set(1 if preference.get('equip') == "TRUE" else 0)
-    CheckVar2.set(1 if preference.get('eject') == "TRUE" else 0)
-
-    # updating grid
-    grid_values = preference.get('grid', [])  # Default to an empty list if 'grid' key is not found
-    for r, row in enumerate(grid_values):
-        for c, cell_value in enumerate(row):
-            if r < 12 and c < 8:  # Ensure within grid bounds
-                entry = entries[(r, c)]
-                entry.delete(0, tk.END)
-                entry.insert(0, cell_value)
-
-
-def on_exit():
-    """
-    Prints preferences to console and closes window
-    """
-    print(f"Name of the Procedure: {preference['name']}")
-    print(f"Last selected plate size: {preference['plate']}")
-    print(f"Last selected insert size: {preference['insert']}")
-    print(f"Last selected reservoir size: {preference['reservoir']}")
-    print(f"Last entered grid: {preference['grid']}")
-    root.destroy()
-
-
-# *****Add documentation*****
 def run_procedure():
+    """
+    Checks validity of procedure, generates G-code file
+    """
+
+    # Save user preferences, suppress confirmation message
     if save_preference(True) is False:
         return
+
     # Filename based on the procedure name and defaults to "untitled.json" if not provided.
     filename = f"{preference['name']}.json" if preference['name'] else "untitled.json"
 
@@ -281,6 +286,7 @@ def run_procedure():
             if np.sum(vol_array[:, [0, 1, 2, 3]]) > 3000 or np.sum(vol_array[:, [4, 5, 6, 7]]) > 3000:
                 messagebox.showerror("Volume Error", "Total culture plate volume is too large for reservoir")
                 return
+
         elif restype == "1.5" and calc.get_protocol(vol_array) == val._4_tip_96well_protocol:
             if (np.sum(vol_array[:, [0, 1]]) > 3000 or np.sum(vol_array[:, [2, 3]]) > 3000
                     or np.sum(vol_array[:, [4, 5]]) > 3000 or np.sum(vol_array[:, [6, 7]]) > 3000):
@@ -292,7 +298,7 @@ def run_procedure():
             messagebox.showerror("Setup Error", "Cannot Auto-Equip Tips with 25mL Reservoir")
             return
 
-        # Calls program
+        # Calls program to develop gcode file
         res_volumes = program.gui(name, plate, insert, restype, tip, vol_array, equip_, eject_)
 
         # Display Tip Arrangement
@@ -305,8 +311,8 @@ def run_procedure():
         elif restype == "1.5":
             converted_vol = [x / 1000 for x in res_volumes]
             volumes.config(text="(mL)\nRow A:   %.3f   %.3f   %.3f   %.3f\nRow B:   %.3f   %.3f   %.3f   %.3f"
-                                % (converted_vol[0], converted_vol[1], converted_vol[2], converted_vol[3],
-                                   converted_vol[4], converted_vol[5], converted_vol[6], converted_vol[7]),
+                                % (converted_vol[3], converted_vol[2], converted_vol[1], converted_vol[0],
+                                   converted_vol[7], converted_vol[6], converted_vol[5], converted_vol[4]),
                            fg="blue")
 
         # Get the current working directory
@@ -318,6 +324,7 @@ def run_procedure():
         # Check if the user selected a destination folder
         if destination_folder:
             source_path = os.path.join(current_directory, f"{name}.gcode")
+
             # Move the file to the destination folder
             destination_path = os.path.join(destination_folder, f"{name}.gcode")
             shutil.move(source_path, destination_path)
@@ -330,6 +337,11 @@ def run_procedure():
 
 # *****Add documentation*****
 def save_preference(suppress_message: bool = False):
+
+    """
+    Saves user preferences to current working directory
+    """
+
     # Fill empty cells with '0's
     for r in range(12):
         for c in range(8):
@@ -367,32 +379,145 @@ def save_preference(suppress_message: bool = False):
             messagebox.showinfo("Save", "Preferences Saved")
 
 
-###Calibration Start
-# Stores coordinates inside an XML file
+""" LOAD PREFERENCES START """
+
+
+def load_pref(filename):
+    """
+    Loads previously saved user preferences into GUI
+
+    :param filename: JSON file with user preferences
+    """
+    # filetypes = [('JSON files', '*.json'), ('All files', '*.*')]
+    # filename = filedialog.askopenfilename(title='Open Preferences .json File', initialdir="/", filetypes=filetypes)
+
+    if filename:
+        with open(filename, 'r') as file:
+            loaded_pref = json.load(file)
+        global preference
+        preference.update(loaded_pref)
+
+    # updating procedure name
+    pname.delete(0, tk.END)
+    pname.insert(0, preference.get('name', ''))
+
+    # updating dropdowns
+    global plate_var, insert_var, reservoir_var, tip_var
+    plate_var.set(preference.get('plate', 'Choose a plate size'))
+    insert_var.set(preference.get('insert', 'Choose an insert type'))
+    reservoir_var.set(preference.get('reservoir', 'Choose a reservoir type'))
+    tip_var.set(str(preference.get('tip', 'Choose a tip type')))
+
+    # updating checkboxes
+    CheckVar1.set(1 if preference.get('equip') == "TRUE" else 0)
+    CheckVar2.set(1 if preference.get('eject') == "TRUE" else 0)
+
+    # updating grid
+    grid_values = preference.get('grid', [])  # Default to an empty list if 'grid' key is not found
+    for r, row in enumerate(grid_values):
+        for c, cell_value in enumerate(row):
+            if r < 12 and c < 8:  # Ensure within grid bounds
+                entry = entries[(r, c)]
+                entry.delete(0, tk.END)
+                entry.insert(0, cell_value)
+
+
+def open_preferences():
+    """
+    Creates load preferences window
+    """
+    def select_preference():
+        """
+        Activates load_pref function on selection
+        """
+
+        # Checks if list item is selected
+        if pref_listbox.curselection():
+
+            # Get selection, load preference, close window
+            selected_preference = pref_files[pref_listbox.curselection()[0]]
+            load_pref(selected_preference + ".json")
+            preference_window.destroy()
+        else:
+            pass
+
+    # Initiate pop-up window
+    preference_window = tk.Toplevel(root)
+
+    # Title for the pop-up window
+    preference_window.title("Load Preferences")
+
+    # Pop-up window label
+    pref_label = tk.Label(preference_window, text="Load Preferences", font=("Helvetica", 18, "bold"))
+    pref_label.pack(padx=10, pady=7)
+    pref_sublabel = tk.Label(preference_window, text="Select Previously Saved Preferences", font=("Helvetica", 13, "italic"))
+    pref_sublabel.pack(padx=10)
+
+    # Create Listbox
+    pref_listbox = tk.Listbox(preference_window, selectmode=tk.SINGLE)
+    pref_listbox.pack(pady=10)
+
+    # Get contents for preferences listbox
+    pref_files = []
+
+    for file in os.listdir(os.getcwd()):
+
+        # Check if the file has the specified extension
+        if file.endswith(".json"):
+
+            # Add the file to the list
+            pref_files.append(file.rsplit(".", 1)[0])
+
+    for item in pref_files:
+        pref_listbox.insert(tk.END, item)
+
+    load_pref_button = tk.Button(preference_window, text="Load", command=select_preference)
+    load_pref_button.pack(pady=10)
+
+    # Bind the select_preference function to the listbox
+    pref_listbox.bind("<<ListboxSelect>>", select_preference())
+
+
+""" LOAD PREFERENCES END """
+
+""" CALIBRATION SETTINGS START """
+
+
 def value_to_xml():
-    root = ET.Element("CalibrationValues")
+    """
+    Stores default coordinates inside calibration XML file
+    """
+    root_ = ET.Element("CalibrationValues")
 
-    ET.SubElement(root, "plate_96", x=str(val.plate_96[0]), y=str(val.plate_96[1]), z=str(calval.dispense_height_EZ),
+    # Get and store default coordinates for each element
+    ET.SubElement(root_, "plate_96", x=str(calval.plate_96[0]), y=str(calval.plate_96[1]),
+                  z=str(calval.dispense_height_EZ),
                   z_movement=str(calval.plate96_movement_height))
-    ET.SubElement(root, "plate_6", x=str(val.plate_6[0]), y=str(val.plate_6[1]), z=str(val.dispense_height_3in1),
+    ET.SubElement(root_, "plate_6", x=str(calval.plate_6[0]), y=str(calval.plate_6[1]),
+                  z=str(calval.dispense_height_3in1),
                   z_movement=str(calval.plate6_movement_height))
-    ET.SubElement(root, "pos_reservoir_25ml", x=str(val.pos_reservoir_25ml[0]), y=str(val.pos_reservoir_25ml[1]),
-                  z=str(val.aspirate_height_25ml), z_movement=str(val.movement_height_25mL))
-    ET.SubElement(root, "tubes4tips", x=str(val.tubes4tips[0][0]), y=str(val.tubes4tips[0][1]),
-                  z=str(val.aspirate_height_1_5ml), z_movement=str(val.movement_height_1_5ml))
-    ET.SubElement(root, "eject_bowl", x=str(val.eject_bowl[0]), y=str(val.eject_bowl[1]), z=str(val.eject_height))
-    ET.SubElement(root, "tip_tray_8", x=str(val.tip_tray_8[0]), y=str(val.tip_tray_8[1]), z=str(val.equip_height))
+    ET.SubElement(root_, "pos_reservoir_25ml", x=str(calval.pos_reservoir_25ml[0]), y=str(calval.pos_reservoir_25ml[1]),
+                  z=str(calval.aspirate_height_25ml), z_movement=str(calval.movement_height_25mL))
+    ET.SubElement(root_, "tubes4tips", x=str(val.tubes4tips[0][0]), y=str(val.tubes4tips[0][1]),
+                  z=str(calval.aspirate_height_1_5ml), z_movement=str(calval.movement_height_1_5ml))
+    ET.SubElement(root_, "eject_bowl", x=str(calval.eject_bowl[0]), y=str(calval.eject_bowl[1]),
+                  z=str(calval.eject_height))
+    ET.SubElement(root_, "tip_tray_8", x=str(calval.tip_tray_8[0]), y=str(calval.tip_tray_8[1]),
+                  z=str(calval.equip_height))
 
-    tree = ET.ElementTree(root)
+    tree = ET.ElementTree(root_)
     tree.write("calibration_values.xml")
 
 
-# saves updates inside the XML
 def save_updates():
-    global entries
-    root = ET.Element("CalibrationValues")
+    """
+    Saves changes inside calibration XML file
+    """
+    global entries_
+    root_ = ET.Element("CalibrationValues")
 
-    for tag, ents in entries.items():
+    for tag, ents in entries_.items():
+
         # Start building the element with x and y, which are always present
         elem_attribs = {
             'x': ents[0].get() or "0",
@@ -404,43 +529,56 @@ def save_updates():
             elem_attribs['zmove'] = ents[3].get() or "0"
 
         # Create the XML element with the appropriate attributes
-        ET.SubElement(root, tag, **elem_attribs)
+        ET.SubElement(root_, tag, **elem_attribs)
 
-    tree = ET.ElementTree(root)
+    tree = ET.ElementTree(root_)
     tree.write("calibration_values.xml")
     toggle_entries("normal")
 
 
-# Adds Greying out of the TextBoxes
-# This is important so the user doesn't accidentally change values
 def toggle_entries(state):
+    """
+    Deactivates/Activates Calibration entry boxes on command
+
+    :param state: Activation state
+    """
     global entries, save_button
-    if state == "readonly":  # If currently readonly, switch to editable
+    # If currently readonly, switch to editable
+    if state == "readonly":
         newState = "normal"
         buttonText = "Save"
-        commandAction = save_updates  # Call save_updates when button is clicked
 
-    else:  # If currently editable (normal), switch back to readonly
+        # Call save_updates when button is clicked
+        commandAction = save_updates
+
+    # If currently editable (normal), switch back to readonly
+    else:
         newState = "readonly"
         buttonText = "Edit Coordinates"
-        commandAction = lambda: toggle_entries("readonly")  # Toggle back to readonly
+
+        # Toggle back to readonly
+        commandAction = lambda: toggle_entries("readonly")
 
     # Apply the state change to entries
-    for ents in entries.values():
-        for entry in ents:  # Iterate over each widget in the tuple
+    for ents in entries_.values():
+
+        # Iterate over each widget in the tuple
+        for entry in ents:
             entry.config(state=newState)
 
-            # Update save_button text and bind the appropriate action
+    # Update save_button text and bind the appropriate action
     save_button.config(text=buttonText, command=commandAction)
 
 
-# Toggles Calibration
 def calibration():
-    # creates calibration_values.xml if it doesn't exist
+    """
+    Create Calibration Settings Window
+    """
+    # Creates calibration_values.xml if it doesn't exist
     if not os.path.exists("calibration_values.xml"):
         value_to_xml()
 
-    global entries, save_button
+    global entries_, save_button
     cal_window = tk.Toplevel(root)
     cal_window.title("Calibration Settings")
 
@@ -448,16 +586,18 @@ def calibration():
     tree = ET.parse('calibration_values.xml')
     xml_root = tree.getroot()
 
-    entries = {}  # Dictionary to keep track of text entries for each value
+    # Dictionary to keep track of text entries for each value
+    entries_ = {}
     custom_label = {
-        "_96_well_coordinates": "96-well plate",
-        "_6_well_coordinates": "6-well plate",
+        "plate_96": "96-Well Plate",
+        "plate_6": "6-Well Plate",
         "pos_reservoir_25ml": "25ml Reservoir",
         "tubes4tips": "1.5mL Reservoir",
         "eject_bowl": "Ejection Bowl",
         "tip_tray_8": "8 Tip Tray"
     }
     row_index = 0
+
     # Loop through each calibration value in the XML
     for elem in xml_root:
         label_text = custom_label.get(elem.tag)
@@ -501,9 +641,9 @@ def calibration():
             cal_window.after(1, lambda entry=entry_zmove: entry.config(state="readonly"))
 
             # Adds these elements to entries
-            entries[elem.tag] = (entry_x, entry_y, entry_z, entry_zmove)
+            entries_[elem.tag] = (entry_x, entry_y, entry_z, entry_zmove)
         else:
-            entries[elem.tag] = (entry_x, entry_y, entry_z)
+            entries_[elem.tag] = (entry_x, entry_y, entry_z)
 
         row_index += 2
 
@@ -512,74 +652,22 @@ def calibration():
     save_button.grid(row=row_index, column=0, columnspan=9, pady=(10, 0))
 
 
-###Calibration Ends
-
-# *****Add documentation*****
-def import_csv_file():
-    # Specify the options for opening the dialog
-    filetypes = [('CSV files', '*.csv'), ('All files', '*.*')]
-    filename = filedialog.askopenfilename(title="Open a file", initialdir="/", filetypes=filetypes)
-
-    # Check if a file was selected (filename will not be empty)
-    if filename:
-        # Reads the CSV file
-        with open(filename, newline='') as csvfile:
-            reader = csv.reader(csvfile)
-            matrix = list(reader)
-
-            # Checks if the matrix exceeds 12x8 dimensions
-            if len(matrix) > 12 or any(len(row) > 8 for row in matrix):
-                messagebox.showwarning("Invalid File",
-                                       "Please submit an appropriate csv file with a 12x8 matrix or smaller.")
-                return  # Stop processing this file
-
-            # Populates the grid with the matrix values or zeros
-            for r in range(12):
-                for c in range(8):
-                    entries[(r, c)].delete(0, tk.END)
-                    if r < len(matrix) and c < len(matrix[r]):
-                        entries[(r, c)].insert(0, matrix[r][c])
-                    else:
-                        entries[(r, c)].insert(0, "0")
+""" CALIBRATION SETTINGS END """
 
 
-# def open_preferences():
-#     def select_preference():
-#         selected_preference = pref_listbox.curselection()
-#         # load_pref(selected_preference + ".json")
-#         preference_window.destroy()
-#
-#     preference_window = tk.Toplevel(root)
-#
-#     # Title and geometry for the pop-up window
-#     preference_window.title("Load Preferences")
-#     preference_window.geometry("200x100")
-#
-#     # Pop-up window label
-#     pref_label = tk.Label(preference_window, text="Load Preferences")
-#     pref_label.pack(padx=10, pady=10)
-#
-#     # Create Listbox
-#     pref_listbox = tk.Listbox(preference_window, selectmode=tk.SINGLE)
-#
-#     # Get contents for preferences listbox
-#     pref_files = []
-#
-#     for file in os.listdir(os.getcwd()):
-#         # Check if the file has the specified extension
-#         if file.endswith(".json"):
-#             # Add the file to the list
-#             pref_files.append(file.rsplit(".", 1)[0])
-#
-#     for item in pref_files:
-#         pref_listbox.insert(tk.END, item)
-#
-#     # Bind the on_select function to the listbox
-#     # pref_listbox.bind("<<ListboxSelect>>", select_preference())
-#
-#     # Pack the listbox widget
-#     pref_listbox.pack()
+def on_exit():
+    """
+    Prints preferences to console and closes window
+    """
+    print(f"Name of the Procedure: {preference['name']}")
+    print(f"Last selected plate size: {preference['plate']}")
+    print(f"Last selected insert size: {preference['insert']}")
+    print(f"Last selected reservoir size: {preference['reservoir']}")
+    print(f"Last entered grid: {preference['grid']}")
+    root.destroy()
 
+
+""" GUI START """
 
 # Create the main window
 root = tk.Tk()
@@ -770,7 +858,7 @@ import_button = tk.Button(bottom_frame, text="Import CSV File", command=import_c
 import_button.pack(side=tk.LEFT, padx=10, pady=10)  # Pack to the left side of the bottom_frame
 
 # Load Preferences button
-load_button = tk.Button(bottom_frame, text="Load Preferences", command=load_pref)
+load_button = tk.Button(bottom_frame, text="Load Preferences", command=open_preferences)
 load_button.pack(side=tk.LEFT, padx=0, pady=10)  # Pack to the left side of the bottom_frame
 
 # Calibration Button
@@ -784,3 +872,5 @@ save_button.pack(side=tk.RIGHT, padx=0, pady=0)
 """ SAVE, LOAD, GENERATE BUTTONS END """
 
 root.mainloop()
+
+""" GUI END """

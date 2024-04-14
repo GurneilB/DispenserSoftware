@@ -44,7 +44,7 @@ def commandline():
     # Aspirate and Dispense
     bp.build_procedure(name, r_vol, insert, tip_size, design, res_type)
 
-    # EJect Tips
+    # Eject Tips
     if eject:
         for i in range(2):
             mo.eject(name, i)
@@ -98,7 +98,7 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
     # Write initialization comments to file
     init.initialization(name, res_type, rnum, tip_size, tnum, plate, insert)
     mo.present(name)
-    wc.dwell(name, 60)
+    wc.pause(name, "Load Stage and Continue")
 
     # Equip Tips
     if equip:

@@ -139,6 +139,18 @@ def set_eject(name: str):
                    )
 
 
+def comment(name: str, message: str):
+    """
+    Writes comment to file
+
+    :param name: name of file to write to
+    :param message: comment to write to file
+    """
+
+    with open("%s.gcode" % name, "a") as file:
+        file.write(";%s\n" % message)
+
+
 def initialization(name: str, reservoir: float, rnum: int, tip: float, tnum: int,
                    plate: int, insert: str):
     """

@@ -21,11 +21,11 @@ def equip(name):
     """
     init.set_equip(name)
     init.set_absolute(name)
-    wc.rapid_z_pos(name, val.movement_height_25mL)
-    wc.rapid_xy_pos(name, val.tip_tray_8)
-    wc.rapid_z_pos(name, val.equip_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
+    wc.rapid_xy_pos(name, val.tip_tray_8, "Move to 8 Tip Tray")
+    wc.rapid_z_pos(name, val.equip_height, "Equip tips")
     wc.dwell(name, 2)
-    wc.rapid_z_pos(name, val.movement_height_25mL)
+    wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
 
 
 def eject(name, tool):
@@ -39,14 +39,14 @@ def eject(name, tool):
     init.set_absolute(name)
 
     # Move to Ejection Bowl
-    wc.rapid_z_pos(name, val.movement_height_25mL)
-    wc.rapid_xy_pos(name, val.eject_bowl)
-    wc.rapid_z_pos(name, val.eject_height)
+    wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
+    wc.rapid_xy_pos(name, val.eject_bowl, "Move to ejection bowl")
+    wc.rapid_z_pos(name, val.eject_height, "Ejection height")
 
     # Eject Tips
     init.set_relative(name)
     init.pick_tool(name,tool)
-    wc.rapid_e_pos(name, -3)
+    wc.rapid_e_pos(name, -3, "Eject tips")
     init.set_absolute(name)
     wc.dwell(name, 2)
 
@@ -58,5 +58,5 @@ def present(name):
     :param name: name of file to write to
     """
     init.set_absolute(name)
-    wc.rapid_z_pos(name, val.present_height)
-    wc.rapid_xy_pos(name, val.present)
+    wc.rapid_z_pos(name, val.present_height, "Present height")
+    wc.rapid_xy_pos(name, val.present, "Present")

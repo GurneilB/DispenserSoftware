@@ -29,9 +29,9 @@ def asp_4tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
     init.set_absolute(name)
 
     # Travel to XYZ pos of reservoirs
-    wc.rapid_z_pos(name, val.movement_height_25mL)
-    wc.rapid_xy_pos(name, val.pos_reservoir_25ml)
-    wc.rapid_z_pos(name, val.aspirate_height_25ml)
+    wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
+    wc.rapid_xy_pos(name, val.pos_reservoir_25ml, "Go to 25mL reservoir")
+    wc.rapid_z_pos(name, val.aspirate_height_25ml, "Aspiration height")
 
     # Run aspiration for both motors
     for i in range(2):
@@ -44,7 +44,7 @@ def asp_4tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
         # When reservoir volume is greater than remaining tip volume, fill tip to max
         if r_vol[i] >= (tip - t_vol[i]) * val.tip2:
             init.set_absolute(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip))
+            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
 
             # Update r_vol
             r_vol[i] = r_vol[i] - ((tip - t_vol[i]) * val.tip2)
@@ -58,7 +58,7 @@ def asp_4tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
             init.set_relative(name)
 
             # Aspirate Remaining Reagent
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]) / 2)
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]) / 2, "Aspirate %.1f uL" % r_vol[i]/2)
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[i] / 2
@@ -70,8 +70,8 @@ def asp_4tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
     init.set_absolute(name)
 
     # Move to dispensing position
-    wc.rapid_z_pos(name, val.movement_height_25mL)
-    wc.rapid_xy_pos(name, disp_pos)
+    wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
+    wc.rapid_xy_pos(name, disp_pos, "Move to well plate")
 
     return t_vol
 
@@ -98,9 +98,9 @@ def asp_2tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
     init.set_absolute(name)
 
     # Travel to XYZ pos of reservoirs
-    wc.rapid_z_pos(name, val.movement_height_25mL)
-    wc.rapid_xy_pos(name, val.pos_reservoir_25ml)
-    wc.rapid_z_pos(name, val.aspirate_height_25ml)
+    wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
+    wc.rapid_xy_pos(name, val.pos_reservoir_25ml, "Move to 25mL reservoir")
+    wc.rapid_z_pos(name, val.aspirate_height_25ml, "Aspiration height")
 
     # Run aspiration for both motors
     for i in range(2):
@@ -113,7 +113,7 @@ def asp_2tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
         # When reservoir volume is greater than remaining tip volume, fill tip to max
         if r_vol[i] >= (tip - t_vol[i]):
             init.set_absolute(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip))
+            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
 
             # Update r_vol
             r_vol[i] = r_vol[i] - (tip - t_vol[i])
@@ -127,7 +127,7 @@ def asp_2tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
             init.set_relative(name)
 
             # Aspirate Remaining Reagent
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]))
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]), "Aspirate %.1f uL" % r_vol[i])
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[i]
@@ -139,8 +139,8 @@ def asp_2tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
     init.set_absolute(name)
 
     # Move to dispensing position
-    wc.rapid_z_pos(name, val.movement_height_25mL)
-    wc.rapid_xy_pos(name, disp_pos)
+    wc.rapid_z_pos(name, val.movement_height_25mL, "Move height")
+    wc.rapid_xy_pos(name, disp_pos, "Move to well plate")
 
     return t_vol
 
@@ -168,15 +168,15 @@ def asp_4tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
 
     # Travel to XYZ pos of reservoirs
     if r_vol[0] != 0:
-        wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes4tips[0])
-        wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
+        wc.rapid_z_pos(name, val.movement_height_1_5ml, "Move height")
+        wc.rapid_xy_pos(name, val.tubes4tips[0], "Move to back row 1.5mL reservoirs")
+        wc.rapid_z_pos(name, val.aspirate_height_1_5ml, "Aspiration height")
         k = 0
 
     else:
-        wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes4tips[1])
-        wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
+        wc.rapid_z_pos(name, val.movement_height_1_5ml, "Move height")
+        wc.rapid_xy_pos(name, val.tubes4tips[1], "Move to front row 1.5mL reservoirs")
+        wc.rapid_z_pos(name, val.aspirate_height_1_5ml, "Aspiration height")
         k = 4
 
     # Run aspiration for both motors
@@ -190,7 +190,7 @@ def asp_4tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         # When reservoir volume is greater than remaining tip volume, fill tip to max
         if r_vol[k + (i * 2)] >= (tip - t_vol[i]):
             init.set_absolute(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip))
+            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
 
             # Update r_vol
             r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - (tip - t_vol[i])
@@ -202,7 +202,7 @@ def asp_4tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             init.set_relative(name)
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]))
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]), "Aspirate %.1f uL" % r_vol[k + (i * 2)])
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[k + (i * 2)]
@@ -215,8 +215,8 @@ def asp_4tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
     init.set_absolute(name)
 
     # Move to dispensing position
-    wc.rapid_z_pos(name, val.movement_height_1_5ml)
-    wc.rapid_xy_pos(name, disp_pos)
+    wc.rapid_z_pos(name, val.movement_height_1_5ml, "Move height")
+    wc.rapid_xy_pos(name, disp_pos, "More to well plate")
 
     return t_vol
 
@@ -244,15 +244,15 @@ def asp_2tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
 
     # Travel to XYZ pos of reservoirs
     if r_vol[1] != 0:
-        wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes4tips[0])
-        wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
+        wc.rapid_z_pos(name, val.movement_height_1_5ml, "Move height")
+        wc.rapid_xy_pos(name, val.tubes4tips[0], "Move to back row 1.5mL reservoirs")
+        wc.rapid_z_pos(name, val.aspirate_height_1_5ml, "Aspiration height")
         k = 1
 
     else:
-        wc.rapid_z_pos(name, val.movement_height_1_5ml)
-        wc.rapid_xy_pos(name, val.tubes4tips[1])
-        wc.rapid_z_pos(name, val.aspirate_height_1_5ml)
+        wc.rapid_z_pos(name, val.movement_height_1_5ml, "Move height")
+        wc.rapid_xy_pos(name, val.tubes4tips[1], "Move to front row 1.5mL reservoirs")
+        wc.rapid_z_pos(name, val.aspirate_height_1_5ml, "Aspiration height")
         k = 5
 
     # Run aspiration for both motors
@@ -266,7 +266,7 @@ def asp_2tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         # When reservoir volume is greater than remaining tip volume, fill tip to max
         if r_vol[k + (i * 2)] >= tip - t_vol[i]:
             init.set_absolute(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip))
+            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
 
             # Update r_vol
             r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - tip - t_vol[i]
@@ -277,7 +277,7 @@ def asp_2tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             init.set_relative(name)
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]))
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]), "Aspirate %.1f uL" % r_vol[k + (i * 2)])
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[k + (i * 2)]
@@ -289,8 +289,8 @@ def asp_2tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
     init.set_absolute(name)
 
     # Move to dispensing position
-    wc.rapid_z_pos(name, val.movement_height_1_5ml)
-    wc.rapid_xy_pos(name, disp_pos)
+    wc.rapid_z_pos(name, val.movement_height_1_5ml, "Move height")
+    wc.rapid_xy_pos(name, disp_pos, "Move to well plate")
 
     return t_vol
 
