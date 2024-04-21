@@ -580,7 +580,7 @@ def calibration():
 
     global entries_, save_button
     cal_window = tk.Toplevel(root)
-    cal_window.title("Calibration Settings")
+    cal_window.title("Positional Calibration Settings")
 
     # Parse the XML and get its root element
     tree = ET.parse('calibration_values.xml')

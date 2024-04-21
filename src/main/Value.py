@@ -94,6 +94,10 @@ if os.path.exists("calibration_values.xml"):
     tip_tray_8 = [int(root.find("tip_tray_8").attrib['x']), int(root.find("tip_tray_8").attrib['y'])]
     equip_height = int(root.find("tip_tray_8").attrib['z'])
 
+    # Calibration Coordinates
+    cal_tubes_new = calval.cal_tubes_new
+    model_factor = calval.model_factor
+
 else:
     # 96 Well Plate Coordinates
     _96_well_coordinates = calval.plate_96
@@ -126,19 +130,19 @@ else:
     tip_tray_8 = calval.tip_tray_8
     equip_height = calval.equip_height
 
+    # Calibration Coordinates
+    cal_tubes_new = calval.cal_tubes_new
+    model_factor = calval.model_factor
+
 
 # Presenting Coordinates
 present = [65, 0]
 present_height = 0
 
+""" OLD CALIBRATION VALUES"""
 # New Calibration Coordinates
 cal_25_pos_new = [0, 116]
-cal_tubes_new = [[11, 101], [2, 114]]
 
-# Calibration model dispensing factor
-model_factor = 0.163
-
-""" OLD CALIBRATION VALUES"""
 # Calibration and Testing Coordinates
 beaker = [23.5, 61]
 beaker_asp_height = 55

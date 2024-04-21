@@ -29,5 +29,8 @@ eject_height = 66
 tip_tray_8 = [65, 0]  # Not Calibrated
 equip_height = 60  # Not Calibrated
 
-cal_tubes8 = [[9, 104], [27, 104], [45, 104], [72, 104],
-              [0, 117], [18, 117], [36, 117], [54, 117]]  # Coordinates for 1-Tip dispensing
+# Calibration Coordinates
+cal_tubes_new = [[11, 101], [2, 114]]
+
+# Calibration model dispensing factor
+model_factor = 0.163
