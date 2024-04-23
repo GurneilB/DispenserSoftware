@@ -1,16 +1,14 @@
 # Apricell Cell and Hydrogel Dispensing Software
 
-## Windows
-To run the program FluidCAM on windows, download VS Code.
+## Installing Software For Windows and MAC Users
+Running FluidCAM is the same for both MAC and Windows users.
 
-Download this repository to your system, and run src/main/GUI.py
+First, download Microsoft Visual Studio Code to your computer [Here] (https://code.visualstudio.com/download)
 
-This takes you to the main FluidCAM window.
+Open Visual Studio, then open the "Extensions" menu in the left side bar (last icon from the top)
 
-## Mac
-To run the program FluidCAM on mac, you can use the terminal.
+Search for the "Python" extension, and click install.
 
-Download this repository to your system, and run DispenserSoftware/src/main/GUI.py in the terminal
-
-This takes you to the main FluidCAM window.
+Next, open the "Source Control" menu in the left side bar (middle icon).
+Select "Clone Repository", then paste this URL into the entry box: https://github.com/Victoro7/DispenserSoftware
 
