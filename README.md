@@ -32,3 +32,4 @@ The FluidCAM window should open. You can now use the program.
 After installation, to use FluidCAM:
 
 Open VS Code on your computer, open the project **DispenserSoftware**, navigate to **GUI.py** and run the program.
+![GUI Image](Images/Program.png)
