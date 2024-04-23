@@ -51,12 +51,12 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
 
         # Run 3-in-1 2 Tip Dispensing
         if insert == val.three_in_one:
-            # WRITE CODE HERE
+            """WRITE CODE HERE"""
             pass
 
         # Run General 6-Well 2 Tip Dispensing
         else:
-            # WRITE CODE HERE
+            """WRITE CODE HERE"""
             pass
 
     # Run 3-in-1 1 Tip Dispensing
@@ -64,10 +64,10 @@ def build_procedure(name: str, r_vol: list, insert: str, tip: int, vol_array, re
 
         # Run 3-in-1 1 Tip Dispensing
         if insert == val.three_in_one:
-            # WRITE CODE HERE
+            """WRITE CODE HERE"""
             pass
 
         # Run General 6-Well 1 Tip Dispensing
         else:
-            # WRITE CODE HERE
+            """WRITE CODE HERE"""
             pass

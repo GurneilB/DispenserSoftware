@@ -355,3 +355,7 @@ def n_ez_2tip_dispense(name: str, r_vol: list, tip: int, vol_array: np.array, t_
             wc.rapid_z_pos(name, val._96_well_movement_height, "Move height")
             wc.rapid_xy_pos(name, [val._96_well_coordinates[val.x] + (1 * 9), val._96_well_coordinates[val.y] + ((-min(k, m) + 47) * 9)],
                             "Move to next well")
+
+
+"""WRITE CODE HERE FOR n_three_in_one_2tip_dispense, three_in_one_2tip_dispense, n_three_in_one_1tip_dispense, 
+three_in_one_1tip_dispense, (Or however it makes sense to write logarithm)"""
