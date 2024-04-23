@@ -58,7 +58,7 @@ def asp_4tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
             init.set_relative(name)
 
             # Aspirate Remaining Reagent
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]) / 2, "Aspirate %.1f uL" % r_vol[i]/2)
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]) / 2, "Aspirate %.1f uL" % float(r_vol[i]/2))
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[i] / 2
@@ -127,7 +127,7 @@ def asp_2tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
             init.set_relative(name)
 
             # Aspirate Remaining Reagent
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]), "Aspirate %.1f uL" % r_vol[i])
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]), "Aspirate %.1f uL" % float(r_vol[i]))
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[i]
@@ -202,7 +202,7 @@ def asp_4tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             init.set_relative(name)
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]), "Aspirate %.1f uL" % r_vol[k + (i * 2)])
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]), "Aspirate %.1f uL" % float(r_vol[k + (i * 2)]))
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[k + (i * 2)]
@@ -277,7 +277,7 @@ def asp_2tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         # When reservoir volume is less than remaining tip volume, aspirate remaining reagent
         else:
             init.set_relative(name)
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]), "Aspirate %.1f uL" % r_vol[k + (i * 2)])
+            wc.rapid_e_pos(name, calc.convert_vol(r_vol[k + (i * 2)]), "Aspirate %.1f uL" % float(r_vol[k + (i * 2)]))
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[k + (i * 2)]
