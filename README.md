@@ -1,5 +1,7 @@
 # Apricell Cell and Hydrogel Dispensing Software
 
+NOTE: READ THE ENTIRETY OF THE INSTRUCTIONS
+
 ## Pre-Installing Softwares For Windows and MAC Users
 Running FluidCAM is the same for both MAC and Windows users.
 
