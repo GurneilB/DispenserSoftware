@@ -45,7 +45,8 @@ def asp_4tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
         if r_vol[i] >= (tip - t_vol[i]) * val.tip2:
             init.set_absolute(name)
             init.set_newPosition(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
+            currentTipVol = tip - t_vol[i]
+            wc.rapid_e_pos(name, calc.convert_vol(currentTipVol), "Aspirate %.1f uL" % currentTipVol)
 
             # Update r_vol
             r_vol[i] = r_vol[i] - ((tip - t_vol[i]) * val.tip2)
@@ -60,7 +61,10 @@ def asp_4tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
             init.set_newPosition(name)
 
             # Aspirate Remaining Reagent
-            wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]) / 2, "Aspirate %.1f uL" % float(r_vol[i]/2))
+            if i == 0:
+                wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]) / 2, " Aspirate %.1f uL" % float(r_vol[i]/2))
+            else:
+                wc.rapid_e_pos(name, calc.convert_vol(r_vol[i]), " Aspirate %.1f uL" % float(r_vol[i]))
 
             # Update t_vol
             t_vol[i] = t_vol[i] + r_vol[i] / 2
@@ -116,7 +120,8 @@ def asp_2tip_25ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos=
         if r_vol[i] >= (tip - t_vol[i]):
             init.set_absolute(name)
             init.set_newPosition(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
+            currentTipVol = tip - t_vol[i]
+            wc.rapid_e_pos(name, calc.convert_vol(currentTipVol), "Aspirate %.1f uL" % currentTipVol)
 
             # Update r_vol
             r_vol[i] = r_vol[i] - (tip - t_vol[i])
@@ -195,7 +200,8 @@ def asp_4tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         if r_vol[k + (i * 2)] >= (tip - t_vol[i]):
             init.set_absolute(name)
             init.set_newPosition(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
+            currentTipVol = tip - t_vol[i]
+            wc.rapid_e_pos(name, calc.convert_vol(currentTipVol), "Aspirate %.1f uL" % tip)
 
             # Update r_vol
             r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - (tip - t_vol[i])
@@ -273,7 +279,8 @@ def asp_2tip_1_5ml(name: str, r_vol, insert: str, tip: int, t_vol=None, disp_pos
         if r_vol[k + (i * 2)] >= tip - t_vol[i]:
             init.set_absolute(name)
             init.set_newPosition(name)
-            wc.rapid_e_pos(name, calc.convert_vol(tip), "Aspirate %.1f uL" % tip)
+            currentTipVol = tip - t_vol[i]
+            wc.rapid_e_pos(name, calc.convert_vol(currentTipVol), "Aspirate %.1f uL" % tip)
 
             # Update r_vol
             r_vol[k + (i * 2)] = r_vol[k + (i * 2)] - tip - t_vol[i]
