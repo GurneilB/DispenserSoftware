@@ -19,6 +19,7 @@ Select "Clone Repository", then paste this URL into the entry box: https://githu
 ![Clone Repository](Images/Repo.png)
 
 ##Open FluidCAM software
+
 Switch the interpreter to anaconda. Open the Command Palette (Ctrl+Shift+P) and type the command **Python: Select Interpreter**
 ![Python Interpreter](Images/Interpreter_command.png)
 
