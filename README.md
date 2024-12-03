@@ -7,7 +7,7 @@ First, download Microsoft Visual Studio Code to your computer [Here](https://cod
 
 Then, download the Python Anaconda Distribution to your computer [Here](https://www.anaconda.com/download) 
 
-##Setting up Visual Studio
+## Setting up Visual Studio
 Open Visual Studio, then open the "Extensions" menu in the left sidebar (last icon from the top)
 ![Extension Menu](Images/Extensions.png)
 
@@ -18,7 +18,7 @@ Next, open the "Source Control" menu in the left side bar (middle icon).
 Select "Clone Repository", then paste this URL into the entry box: https://github.com/Victoro7/DispenserSoftware
 ![Clone Repository](Images/Repo.png)
 
-##Open FluidCAM software
+## Opening FluidCAM software
 
 Switch the interpreter to anaconda. Open the Command Palette (Ctrl+Shift+P) and type the command **Python: Select Interpreter**
 ![Python Interpreter](Images/Interpreter_command.png)
