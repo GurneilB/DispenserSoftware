@@ -58,41 +58,41 @@ if os.path.exists("calibration_values.xml"):
     root = tree.getroot()
 
     # 96 Well Plate Coordinates
-    _96_well_coordinates = [int(root.find("plate_96").attrib['x']), int(root.find("plate_96").attrib['y'])]
-    _96_well_movement_height = int(root.find("plate_96").attrib['z_movement'])
-    ez_dispense_height = int(root.find("plate_96").attrib['z']) - 2
-    _96_well_dispense_height = int(root.find("plate_96").attrib['z'])
+    _96_well_coordinates = [float(root.find("plate_96").attrib['x']), float(root.find("plate_96").attrib['y'])]
+    _96_well_movement_height = float(root.find("plate_96").attrib['z_movement'])
+    ez_dispense_height = float(root.find("plate_96").attrib['z']) - 2
+    _96_well_dispense_height = float(root.find("plate_96").attrib['z'])
 
     # 6 Well Plate Coordinates
-    _6_well_coordinates = [int(root.find("plate_6").attrib['x']), int(root.find("plate_6").attrib['y'])]
-    _6_well_movement_height = int(root.find("plate_6").attrib['z_movement'])
-    dispense_height_3in1 = int(root.find("plate_6").attrib['z']) - 3
-    dispense_height_6 = int(root.find("plate_6").attrib['z'])
+    _6_well_coordinates = [float(root.find("plate_6").attrib['x']), float(root.find("plate_6").attrib['y'])]
+    _6_well_movement_height = float(root.find("plate_6").attrib['z_movement'])
+    dispense_height_3in1 = float(root.find("plate_6").attrib['z']) - 3
+    dispense_height_6 = float(root.find("plate_6").attrib['z'])
 
     # 25 mL Reservoir Coordinates
-    pos_reservoir_25ml = [int(root.find("pos_reservoir_25ml").attrib['x']),
-                          int(root.find("pos_reservoir_25ml").attrib['y'])]
-    aspirate_height_25ml = int(root.find("pos_reservoir_25ml").attrib['z'])
-    movement_height_25mL = int(root.find("pos_reservoir_25ml").attrib['z_movement'])
+    pos_reservoir_25ml = [float(root.find("pos_reservoir_25ml").attrib['x']),
+                          float(root.find("pos_reservoir_25ml").attrib['y'])]
+    aspirate_height_25ml = float(root.find("pos_reservoir_25ml").attrib['z'])
+    movement_height_25mL = float(root.find("pos_reservoir_25ml").attrib['z_movement'])
 
     # 1.5 mL Reservoir Coordinates
-    tubes4tips = [[int(root.find("tubes4tips").attrib['x']), int(root.find("tubes4tips").attrib['y'])],
-                  [int(root.find("tubes4tips").attrib['x']) - 9,
-                   int(root.find("tubes4tips").attrib['y']) + 13]]  # Not calibrated
-    tubes2tips = [[int(root.find("tubes4tips").attrib['x']), int(root.find("tubes4tips").attrib['y'])],
-                  [int(root.find("tubes4tips").attrib['x']) + 36, int(root.find("tubes4tips").attrib['y'])],
-                  [int(root.find("tubes4tips").attrib['x']) - 9, int(root.find("tubes4tips").attrib['y']) + 13],
-                  [int(root.find("tubes4tips").attrib['x']) + 27, int(root.find("tubes4tips").attrib['y']) + 13]]
-    aspirate_height_1_5ml = int(root.find("tubes4tips").attrib['z'])
-    movement_height_1_5ml = int(root.find("tubes4tips").attrib['z_movement'])
+    tubes4tips = [[float(root.find("tubes4tips").attrib['x']), float(root.find("tubes4tips").attrib['y'])],
+                  [float(root.find("tubes4tips").attrib['x']) - 9,
+                   float(root.find("tubes4tips").attrib['y']) + 13]]  # Not calibrated
+    tubes2tips = [[float(root.find("tubes4tips").attrib['x']), float(root.find("tubes4tips").attrib['y'])],
+                  [float(root.find("tubes4tips").attrib['x']) + 36, float(root.find("tubes4tips").attrib['y'])],
+                  [float(root.find("tubes4tips").attrib['x']) - 9, float(root.find("tubes4tips").attrib['y']) + 13],
+                  [float(root.find("tubes4tips").attrib['x']) + 27, float(root.find("tubes4tips").attrib['y']) + 13]]
+    aspirate_height_1_5ml = float(root.find("tubes4tips").attrib['z'])
+    movement_height_1_5ml = float(root.find("tubes4tips").attrib['z_movement'])
 
     # Ejection Coordinates
-    eject_bowl = [int(root.find("eject_bowl").attrib['x']), int(root.find("eject_bowl").attrib['y'])]
-    eject_height = int(root.find("eject_bowl").attrib['z'])
+    eject_bowl = [float(root.find("eject_bowl").attrib['x']), int(root.find("eject_bowl").attrib['y'])]
+    eject_height = float(root.find("eject_bowl").attrib['z'])
 
     # Equipping Coordinates
-    tip_tray_8 = [int(root.find("tip_tray_8").attrib['x']), int(root.find("tip_tray_8").attrib['y'])]
-    equip_height = int(root.find("tip_tray_8").attrib['z'])
+    tip_tray_8 = [float(root.find("tip_tray_8").attrib['x']), float(root.find("tip_tray_8").attrib['y'])]
+    equip_height = float(root.find("tip_tray_8").attrib['z'])
 
     # Calibration Coordinates
     cal_tubes_new = calval.cal_tubes_new

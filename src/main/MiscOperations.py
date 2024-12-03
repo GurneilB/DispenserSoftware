@@ -59,3 +59,31 @@ def present(name):
     init.set_absolute(name)
     wc.rapid_z_pos(name, val.present_height, "Present height")
     wc.rapid_xy_pos(name, val.present, "Present")
+
+def homeExtruders(name: str):
+
+    """
+    Writes the homing command for both extruders
+
+    :param name: name of file to write to 
+    """
+
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G204 P0 S0\n")
+        file.write("G204 P1 S0\n")        
+        file.write("G204 P0 S1\n")
+        file.write("G205 P0\n")
+        file.write("T0\n")
+        file.write("G92 E0\n")
+        file.write("G1 E17\n")
+        file.write("G92 E0\n")
+        file.write("G204 P0 S0\n")
+        file.write("G204 P1 S0\n")
+        file.write("G204 P1 S1\n")
+        file.write("G205 P1\n")
+        file.write("T1\n")
+        file.write("G92 E0\n")
+        file.write("G1 E17\n")
+        file.write("G92 E0\n")
+        file.write("G204 P0 S0\n")
+        file.write("G204 P1 S0\n")

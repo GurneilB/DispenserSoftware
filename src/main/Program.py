@@ -95,9 +95,11 @@ def gui(name: str, plate_inp, insert, restype_inp, tip_size, design, equip, ejec
     r_vol = calc.vol_per_res(design, res_type)
     res_vol = copy.deepcopy(r_vol)
 
-    # Write initialization comments to file
+    # Write initialization comments to file 
+    # edit: addition of homeExtruders before pause (located in misc operations) - Gurneil Brar 11/20/2024
     init.initialization(name, res_type, rnum, tip_size, tnum, plate, insert)
     mo.present(name)
+    mo.homeExtruders(name)
     wc.pause(name, "Load Stage and Continue")
 
     # Equip Tips
