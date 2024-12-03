@@ -82,6 +82,16 @@ def set_relative(name: str):
         file.write("G91 ;sets relative positioning\n"
                    )
 
+def set_newPosition(name: str):
+    """
+    Writes command to reset position
+
+    :param name: name of file
+    """
+
+    with open("%s.gcode" % name, "a") as file:
+        file.write("G92 E0 ;Reset Position\n"
+                   )
 
 def set_mm(name: str):
     """
