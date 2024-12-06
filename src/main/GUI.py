@@ -352,9 +352,23 @@ def save_preference(suppress_message: bool = False):
     # Temporarily capture the state of the grid to check validity
     grid = [[entries[(r, c)].get() for c in range(8)] for r in range(12)]
 
-    # Check the matrix for a string or a number above 1000 in any of the cells
-    if any(True for row in grid for cell in row if not cell.isdigit() or int(cell) > 200):
-        messagebox.showwarning("Volume Error", "Please ensure all volumes are between 20 and 200uL, or 0.")
+
+    # Checks column pairs to see if 
+    # Define column pairs to check
+    column_pairs = [(0, 2), (4, 6), (1, 3), (5, 7)]
+
+    for row_index, row in enumerate(grid):
+        for col1, col2 in column_pairs:
+            # Compare values in the specified columns
+            message = (f"Please ensure that the columns: {chr(col1+65)} & {chr(col2+65)}, have the same value in row: {row_index+1}")
+            if row[col1] != row[col2]:
+                messagebox.showwarning("Pair Error", message)
+                return False
+            
+
+    # Check the matrix for a string or a number above 200 in any of the cells
+    if any(True for row in grid for cell in row if not cell.isdigit() or (int(cell) >= 200 or (int(cell) <= 20 and int(cell) != 0))):
+        messagebox.showwarning("Volume Error", "Please ensure ALL volumes are between 20 and 200uL, or 0.")
         return False
     else:
         # updates the 'grid' in preference otherwise
