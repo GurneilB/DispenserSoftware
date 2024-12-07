@@ -39,12 +39,16 @@ Select "Clone Repository", then paste this URL into the entry box:
 
 Note: If this is your first time cloning a repository, you may have to download GIT onto your computer.
 
-![Clone Repository](Images/Repo.png)
+![Clone Repository](Images/Clone_Repo.png)
 
 The user will then be prompted to save the file onto their computer. Save the folder in a location that will be **EASILY ACCESSIBLE** for future logins
 
+![Clone Repository](Images/Clone_Folder.png)
+
 ### Subsequent Setups
 Select "Open Folder" and locate the Dispenser Software Folder in you files. 
+
+![Clone Repository](Images/Open_Folder.png)
 
 To switch the interpreter to Anaconda, open the Command Palette (Ctrl+Shift+P) and type the command: **>Python: Select Interpreter**
 
