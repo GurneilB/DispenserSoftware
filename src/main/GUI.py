@@ -360,7 +360,7 @@ def save_preference(suppress_message: bool = False):
     for row_index, row in enumerate(grid):
         for col1, col2 in column_pairs:
             # Compare values in the specified columns
-            message = (f"Please ensure that the columns: {chr(col1+65)} & {chr(col2+65)}, have the same value in row: {row_index+1}")
+            message = (f"Please ensure that the columns: {chr(72 - col1)} & {chr(72 - col2)}, have the same value in row: {row_index+1}")
             if row[col1] != row[col2]:
                 messagebox.showwarning("Pair Error", message)
                 return False
@@ -730,7 +730,7 @@ for c in range(8):
     chk.grid(row=0, column=c + 2)
 
     # Add a label below each column checkbox
-    letter = chr(65 + c % 8)
+    letter = chr(72 - c)
     label = tk.Label(grid_frame, text=f"{letter}")
     label.grid(row=1, column=c + 2)
 
