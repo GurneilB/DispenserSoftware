@@ -75,14 +75,22 @@ if os.path.exists("calibration_values.xml"):
     aspirate_height_25ml = float(root.find("pos_reservoir_25ml").attrib['z'])
     movement_height_25mL = float(root.find("pos_reservoir_25ml").attrib['z_movement'])
 
+    # Make sure the adjusted X value is always greater than 0
+    x_value = float(root.find("tubes4tips").attrib['x'])
+    adjusted_x = max(x_value - 6, 0)
+
     # 1.5 mL Reservoir Coordinates
-    tubes4tips = [[float(root.find("tubes4tips").attrib['x']), float(root.find("tubes4tips").attrib['y'])],
-                  [float(root.find("tubes4tips").attrib['x']) - 9,
-                   float(root.find("tubes4tips").attrib['y']) + 13]]  # Not calibrated
-    tubes2tips = [[float(root.find("tubes4tips").attrib['x']), float(root.find("tubes4tips").attrib['y'])],
-                  [float(root.find("tubes4tips").attrib['x']) + 36, float(root.find("tubes4tips").attrib['y'])],
-                  [float(root.find("tubes4tips").attrib['x']) - 9, float(root.find("tubes4tips").attrib['y']) + 13],
-                  [float(root.find("tubes4tips").attrib['x']) + 27, float(root.find("tubes4tips").attrib['y']) + 13]]
+    tubes4tips = [[float(root.find("tubes4tips").attrib['x']), 
+                   float(root.find("tubes4tips").attrib['y'])],
+                  [adjusted_x, float(root.find("tubes4tips").attrib['y']) + 13]]  # Not calibrated
+    tubes2tips = [[float(root.find("tubes4tips").attrib['x']), 
+                   float(root.find("tubes4tips").attrib['y'])],
+                  [float(root.find("tubes4tips").attrib['x']) + 36, 
+                   float(root.find("tubes4tips").attrib['y'])],
+                  [float(root.find("tubes4tips").attrib['x']) - 9, 
+                   float(root.find("tubes4tips").attrib['y']) + 13],
+                  [float(root.find("tubes4tips").attrib['x']) + 27, 
+                   float(root.find("tubes4tips").attrib['y']) + 13]]
     aspirate_height_1_5ml = float(root.find("tubes4tips").attrib['z'])
     movement_height_1_5ml = float(root.find("tubes4tips").attrib['z_movement'])
 
