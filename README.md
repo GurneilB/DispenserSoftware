@@ -50,22 +50,25 @@ Select "Open Folder" and locate the Dispenser Software Folder in you files.
 
 ![Clone Repository](Images/Open_Folder.png)
 
+Open up GUI.py in the explorer menu (first icon in left sidebar) [DispenserSoftware > src > main > GUI.py] 
+
+![Clone Repository](Images/GUI.png)
+
 To switch the interpreter to Anaconda, open the Command Palette (Ctrl+Shift+P) and type the command: **>Python: Select Interpreter**
 
 ![Python Interpreter](Images/Interpreter_command.png)
 
-Select Python bundled by Anaconda. If not visible, read troubleshoot below image.
+Select Enter Interpreter Path...
 
-![Anaconda](Images/Conda.png)
-_________________________________________________________________________________________________________________________________
-### Troubleshoot Question: Conda Bundle not Visible?
+![Clone Repository](Images/InterpreterPath.png)
 
-If Python bundled by Anaconda is not visible, you will need to copy the path to the python executable from wherever anaconda3 is stored on your computer. First, right click the python file **ONCE IT IS ALREADY HIGHLIGHTED**, then select **Copy as path**
+Select Find...
 
-![Anaconda](Images/Copy_As_Path.png)
-_________________________________________________________________________________________________________________________________
+![Clone Repository](Images/Find.png)
 
-Open up GUI.py in the explorer menu (first icon in left sidebar) [DispenserSoftware > src > main > GUI.py] 
+Select the Python executable located in the Anaconda3 folder
+
+![Clone Repository](Images/PythonSelect.png)
 
 Click on the **RUN** icon in the top left to start the FluidCAM software. If not opening, read troubleshoot below image.
 
