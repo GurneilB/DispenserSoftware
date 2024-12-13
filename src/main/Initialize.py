@@ -173,7 +173,7 @@ def initialization(name: str, reservoir: float, rnum: int, tip: float, tnum: int
     :param tip: Type of tip
     :param tnum: # of tips
     :param plate: Type of culture plate
-    :param insert: Type of custom insert (EZ-Seed or 3-in-1)
+    :param insert: Type of custom insert (HT-Sphere or 3-in-1)
     """
 
     write_preference(name, reservoir, rnum, tip, tnum, plate, insert)

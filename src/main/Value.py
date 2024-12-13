@@ -14,7 +14,7 @@ pos_eject_bowl = "Ejection Bowl"
 cal_1_5_tubes = "1.5 mL Reservoirs (Testing)"
 
 # Insert Types
-ez_seed = "EZ-SEED"
+ez_seed = "HT-Sphere"
 three_in_one = "3-IN-1"
 
 # Protocol Identifiers
